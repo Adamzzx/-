@@ -22,3 +22,5 @@ python wordpress/tests/http-smoke.py
 The local credentials above are exclusively for the loopback test environment. Do not use them in production. Assertions create test articles and a subscriber in this dedicated WordPress instance. ZIP installation is validated separately with source mounts removed, using `compose.packages.yaml`. No local previews are published. The packaged installation and functional checks passed on WordPress 7.1.3 / PHP 8.3.35.
 
 After ZIP installation, `python wordpress/tests/admin-smoke.py` verifies the actual CMS login, setup form, CSRF protection and existing homepage preservation.
+
+Phase 1 / 1.1.0: non-destructive navigation setup, shared topic taxonomy, primary topic and related exchanges. Run `wp eval-file - < wordpress/tests/navigation.php` in the local CLI container, then `python wordpress/tests/navigation-http.py`. A published test guide is created only in the isolated test database. Desktop dropdown and mobile collapse use a small standalone script; no-JavaScript navigation stays visible. Homepage composition is reserved for Phase 2.

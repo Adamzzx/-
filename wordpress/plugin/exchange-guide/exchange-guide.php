@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 交易所指南 · 内容与推荐管理
  * Description: 中文交易所资料、比较、评测、指南和集中推荐入口。启用后请打开「交易所指南」完成初始化。
- * Version: 1.0.0
+ * Version: 1.1.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -10,6 +10,7 @@
  * Text Domain: exchange-guide
  */
 if (!defined('ABSPATH')) { exit; }
+require_once __DIR__ . '/navigation.php';
 
 function cg_definitions() {
     return array(
@@ -93,7 +94,7 @@ add_action('template_redirect', 'cg_redirect', 1);
 function cg_meta_boxes() {
     if (!current_user_can('manage_options')) { return; }
     add_meta_box('cg-data', '资料核验与推荐链接（管理员）', 'cg_meta_box', 'cg_exchange', 'normal', 'high');
-    foreach (array('cg_review','cg_compare','cg_ranking','cg_guide') as $type) {
+    foreach (array('post','cg_review','cg_compare','cg_ranking','cg_guide') as $type) {
         add_meta_box('cg-editorial', '编辑信息与商业披露', 'cg_editorial_box', $type, 'normal');
     }
 }
@@ -125,13 +126,19 @@ function cg_editorial_box($post) {
     cg_input($post->ID, 'reviewed', '核验日期', 'date');
     cg_input($post->ID, 'source', '主要资料来源', 'url');
     cg_input($post->ID, 'sponsored', '这是赞助内容', 'checkbox');
+    echo '<p><label for="cg_primary_topic">主要主题（同时加入文章主题）</label>';
+    wp_dropdown_categories(array('taxonomy'=>'cg_topic','hide_empty'=>false,'hierarchical'=>true,'name'=>'cg_primary_topic','id'=>'cg_primary_topic','selected'=>(int)get_post_meta($post->ID,'_cg_primary_topic',true),'show_option_none'=>'未选择','option_none_value'=>0)); echo '</p>';
+    echo '<p><label for="cg_related_exchanges">关联交易所（可多选）</label><br><select id="cg_related_exchanges" name="cg_related_exchanges[]" multiple>';
+    $related=(array)get_post_meta($post->ID,'_cg_related_exchanges',true);
+    foreach(get_posts(array('post_type'=>'cg_exchange','post_status'=>'publish','numberposts'=>100)) as $exchange){echo '<option value="'.absint($exchange->ID).'" '.selected(in_array($exchange->ID,$related,true),true,false).'>'.esc_html($exchange->post_title).'</option>';}
+    echo '</select></p>';
     echo '<p>更多来源请在正文列出。推荐按钮使用短代码 <code>[cg_affiliate exchange="binance"]</code>，不要把推荐链接直接写入文章。</p>';
 }
 function cg_save_meta($id) {
     if (wp_is_post_revision($id) || wp_is_post_autosave($id) || !current_user_can('manage_options') || !current_user_can('edit_post', $id)) { return; }
     if (!isset($_POST['cg_meta_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cg_meta_nonce'])), 'cg_save_meta')) { return; }
     $type = get_post_type($id);
-    if (!in_array($type, array('cg_exchange','cg_review','cg_compare','cg_ranking','cg_guide'), true)) { return; }
+    if (!in_array($type, array('post','cg_exchange','cg_review','cg_compare','cg_ranking','cg_guide'), true)) { return; }
     foreach (array('reviewed','source','sponsored') as $key) {
         $value = isset($_POST['cg_' . $key]) ? wp_unslash($_POST['cg_' . $key]) : '';
         if ($key === 'source') { $value = esc_url_raw($value, array('https')); }
@@ -139,7 +146,12 @@ function cg_save_meta($id) {
         else { $value = preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) ? $value : ''; }
         update_post_meta($id, '_cg_' . $key, $value);
     }
-    if ($type !== 'cg_exchange') { return; }
+    if ($type !== 'cg_exchange') {
+        $primary=absint($_POST['cg_primary_topic'] ?? 0);
+        if($primary && term_exists($primary,'cg_topic')){wp_set_object_terms($id,array($primary),'cg_topic',true);update_post_meta($id,'_cg_primary_topic',$primary);}else{delete_post_meta($id,'_cg_primary_topic');}
+        $related=array();foreach((array)($_POST['cg_related_exchanges'] ?? array()) as $related_id){$related_id=absint($related_id);if(get_post_type($related_id)==='cg_exchange'){$related[]=$related_id;}}
+        update_post_meta($id,'_cg_related_exchanges',array_values(array_unique($related))); return;
+    }
     foreach (array('fees','regions','terms') as $key) { update_post_meta($id, '_cg_' . $key, sanitize_textarea_field(wp_unslash($_POST['cg_' . $key] ?? ''))); }
     update_post_meta($id, '_cg_verified', isset($_POST['cg_verified']) ? '1' : '');
     $url = trim(wp_unslash($_POST['cg_destination'] ?? ''));
@@ -245,6 +257,9 @@ function cg_admin_page() {
     <p><label>站点展示名称 <input name="cg_brand" value="<?php echo esc_attr(get_option('cg_brand', '交易所指南')); ?>" maxlength="40"></label></p>
     <p><label><input type="checkbox" name="cg_set_home" value="1"> 将新建的「首页」设为网站首页（仅对你当前这个网站生效）</label></p>
     <?php submit_button('创建基础页面并保存名称'); ?></form>
+    <h2>综合数字金融导航 · Phase 1</h2><p>创建三个一级导航和主题分类。交易所顺序为 Binance / OKX / Bitget / Bybit / 交易所对比。MEXC、Gate 数据与推荐配置保留。没有文章的主题显示为不可点击标签，不发布空分类页。</p><p>应用后会将本插件管理的新菜单指定为主导航，旧菜单保留；自定义品牌名称保留。重复应用只替换本功能创建的菜单项。</p>
+    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>"><?php wp_nonce_field('cg_navigation'); ?><input type="hidden" name="action" value="cg_navigation"><?php submit_button('应用已确认的导航与定位'); ?></form>
+    <?php if(isset($_GET['cg_navigation_done'])){ ?><p>导航配置已处理，请检查上方错误提示及「外观 → 菜单」。</p><?php } ?>
     <h2>接下来在哪里编辑</h2><ol><li>交易所资料：编辑费用、资格、资料来源和推荐链接。</li><li>交易所评测、比较分析、推荐榜单、实用指南：新建内容，草稿完成核验后再发布。</li><li>推荐按钮：在文章添加短代码块，输入 <code>[cg_affiliate exchange="binance"]</code>。</li></ol>
     <p>LiteSpeed Cache 或其他缓存插件请排除 <code>/go/</code> 与比较页。测试活动时清除旧缓存。当前插件只记录累计推荐点击，不代表注册量。</p>
     <p>正式上线前，请填写真实资料、设置正式域名，完善隐私与联系页面，再关闭 WordPress 的「建议搜索引擎不索引本站」。不要公开未核实的费用或优惠。</p>

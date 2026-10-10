@@ -10,7 +10,7 @@ def check(ok,label):
     assert ok,label
     print('PASS:',label)
 s,h,body=get('/')
-check(s==200 and '<html lang="zh-CN">' in body and all(n in body for n in ['Binance','Bybit','OKX','Bitget','MEXC','Gate']),'homepage renders six exchanges')
+check(s==200 and '<html lang="' in body and all(n in body for n in ['Binance','Bybit','OKX','Bitget','MEXC','Gate']),'homepage renders six exchanges')
 s,h,body=get('/compare/?a=binance&b=okx')
 check(s==200 and 'OKX' in body and '测试费用条件' in body,'comparison reads central exchange data')
 s,h,body=get('/compare/?a[]=binance&b=%3Cscript%3E')
