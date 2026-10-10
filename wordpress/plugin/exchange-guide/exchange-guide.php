@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 交易所指南 · 内容与推荐管理
  * Description: 中文交易所资料、比较、评测、指南和集中推荐入口。启用后请打开「交易所指南」完成初始化。
- * Version: 1.2.0
+ * Version: 1.4.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -55,7 +55,7 @@ function cg_register() {
 }
 add_action('init', 'cg_register');
 add_filter('query_vars', function ($vars) { $vars[] = 'cg_go'; return $vars; });
-register_activation_hook(__FILE__, function () { cg_register(); flush_rewrite_rules(); });
+register_activation_hook(__FILE__, function () { cg_register(); cg_register_registration_routes(); flush_rewrite_rules(); });
 register_deactivation_hook(__FILE__, function () { foreach (array('cg_exchange','cg_review','cg_compare','cg_ranking','cg_guide') as $type) { unregister_post_type($type); } flush_rewrite_rules(); });
 
 function cg_exchange($slug) {
