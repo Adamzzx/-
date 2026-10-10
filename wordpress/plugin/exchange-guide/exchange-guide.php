@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: 交易所指南 · 内容与推荐管理
- * Description: 中文交易所资料、比较、评测、指南和集中推荐入口。启用后请打开「交易所指南」完成初始化。
- * Version: 1.4.0
+ * Plugin Name: 数字金融指南 · 内容与推荐管理
+ * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
+ * Version: 1.5.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -12,6 +12,7 @@
 if (!defined('ABSPATH')) { exit; }
 require_once __DIR__ . '/navigation.php';
 require_once __DIR__ . '/registration.php';
+require_once __DIR__ . '/admin-content.php';
 
 function cg_definitions() {
     return array(
@@ -36,14 +37,15 @@ function cg_register() {
     $types = array(
         'cg_exchange' => array('交易所资料', '交易所', 'exchanges', true),
         'cg_review' => array('交易所评测', '评测', 'reviews', true),
-        'cg_compare' => array('比较分析', '比较分析', 'compare', false),
+        'cg_compare' => array('交易所对比', '交易所对比', 'compare', false),
         'cg_ranking' => array('推荐榜单', '榜单', 'best', false),
-        'cg_guide' => array('实用指南', '指南', 'guides', false),
+        'cg_guide' => array('专题与指南', '指南', 'guides', false),
     );
     foreach ($types as $type => $values) {
         register_post_type($type, array(
-            'labels' => array('name' => $values[0], 'singular_name' => $values[1], 'add_new_item' => '添加' . $values[1], 'edit_item' => '编辑' . $values[1]),
+            'labels' => array('menu_name'=>$type==='cg_exchange'?'交易所管理':$values[0],'all_items'=>$values[0],'name' => $values[0], 'singular_name' => $values[1], 'add_new_item' => '添加' . $values[1], 'edit_item' => '编辑' . $values[1]),
             'public' => true, 'show_in_rest' => true,
+            'show_in_menu' => in_array($type,array('cg_review','cg_compare','cg_ranking'),true)?'edit.php?post_type=cg_exchange':true,
             'has_archive' => $values[3] ? $values[2] : false,
             'rewrite' => array('slug' => $values[2], 'with_front' => false),
             'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'author'),
@@ -254,19 +256,19 @@ function cg_setup_pages($set_home = false) {
     }
     flush_rewrite_rules(); return $messages;
 }
-add_action('admin_menu', function () { add_menu_page('交易所指南', '交易所指南', 'manage_options', 'cg-setup', 'cg_admin_page', 'dashicons-admin-site-alt3', 3); });
+add_action('admin_menu', function () { add_menu_page('网站管理', '网站管理', 'manage_options', 'cg-setup', 'cg_admin_page', 'dashicons-admin-site-alt3', 3); });
 function cg_admin_page() {
     if (!current_user_can('manage_options')) { return; }
-    ?><div class="wrap"><h1>交易所指南 · 网站初始化</h1><p>配合「交易所指南」主题使用。创建六家交易所和目录页面；重复运行不覆盖已有资料、文章或推荐链接。</p>
+    ?><div class="wrap"><h1>网站管理 · 初始化与导航</h1><p>管理综合数字金融网站的基础页面、平台资料和导航。初始化会创建六家平台记录，前台导航仅显示已确认的四家；重复运行不覆盖已有资料、文章或推荐链接。</p>
     <?php if (isset($_GET['cg_done'])) { ?><div class="notice notice-success"><p>初始化已完成。打开「交易所资料」填写信息，或访问网站查看结果。</p></div><?php } ?>
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>"><?php wp_nonce_field('cg_setup'); ?><input type="hidden" name="action" value="cg_setup">
     <p><label>站点展示名称 <input name="cg_brand" value="<?php echo esc_attr(get_option('cg_brand', '交易所指南')); ?>" maxlength="40"></label></p>
     <p><label><input type="checkbox" name="cg_set_home" value="1"> 将新建的「首页」设为网站首页（仅对你当前这个网站生效）</label></p>
     <?php submit_button('创建基础页面并保存名称'); ?></form>
-    <h2>综合数字金融导航 · Phase 1</h2><p>创建三个一级导航和主题分类。交易所顺序为 Binance / OKX / Bitget / Bybit / 交易所对比。MEXC、Gate 数据与推荐配置保留。没有文章的主题显示为不可点击标签，不发布空分类页。</p><p>应用后会将本插件管理的新菜单指定为主导航，旧菜单保留；自定义品牌名称保留。重复应用只替换本功能创建的菜单项。</p>
+    <h2>导航与内容分类</h2><p>创建三个一级导航和主题分类。交易所顺序为 Binance / OKX / Bitget / Bybit / 交易所对比。MEXC、Gate 数据与推荐配置保留。没有文章的主题显示为不可点击标签，不发布空分类页。</p><p>应用后会将本插件管理的新菜单指定为主导航，旧菜单保留；自定义品牌名称保留。重复应用只替换本功能创建的菜单项。</p>
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>"><?php wp_nonce_field('cg_navigation'); ?><input type="hidden" name="action" value="cg_navigation"><?php submit_button('应用已确认的导航与定位'); ?></form>
     <?php if(isset($_GET['cg_navigation_done'])){ ?><p>导航配置已处理，请检查上方错误提示及「外观 → 菜单」。</p><?php } ?>
-    <h2>接下来在哪里编辑</h2><ol><li>交易所资料：编辑费用、资格、资料来源和推荐链接。</li><li>交易所评测、比较分析、推荐榜单、实用指南：新建内容，草稿完成核验后再发布。</li><li>推荐按钮：在文章添加短代码块，输入 <code>[cg_affiliate exchange="binance"]</code>。</li></ol>
+    <h2>接下来在哪里编辑</h2><ol><li>交易所资料：编辑费用、资格、资料来源和推荐链接。</li><li>交易所管理：维护评测、对比与榜单。美股代币、加密货币：按主题管理文章；专题与指南：维护已有指南。核验后再发布。</li><li>推荐按钮：在文章添加短代码块，输入 <code>[cg_affiliate exchange="binance"]</code>。</li></ol>
     <p>LiteSpeed Cache 或其他缓存插件请排除 <code>/go/</code> 与比较页。测试活动时清除旧缓存。当前插件只记录累计推荐点击，不代表注册量。</p>
     <p>正式上线前，请填写真实资料、设置正式域名，完善隐私与联系页面，再关闭 WordPress 的「建议搜索引擎不索引本站」。不要公开未核实的费用或优惠。</p>
     <p>停用不会删除你的内容；不要删除数据库或进行一键重置。</p></div><?php
