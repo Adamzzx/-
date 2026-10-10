@@ -1,0 +1,1 @@
+<?php get_header(); ?><section class="cg-page"><p class="cg-eyebrow">404</p><h1>这个页面暂时不存在</h1><p>内容可能尚未发布，或网址已经变更。</p><a class="cg-button" href="<?php echo esc_url(home_url('/')); ?>">返回首页</a></section><?php get_footer(); ?>

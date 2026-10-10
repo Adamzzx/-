@@ -1,0 +1,43 @@
+name: exchange-guide-wp-test
+services:
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: local-test-only
+    volumes:
+      - db:/var/lib/mysql
+  wordpress:
+    image: wordpress:php8.3-apache
+    ports:
+      - '127.0.0.1:8088:80'
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: local-test-only
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp:/var/www/html
+      - ../plugin/exchange-guide:/var/www/html/wp-content/plugins/exchange-guide:ro
+      - ../theme/exchange-guide:/var/www/html/wp-content/themes/exchange-guide:ro
+    depends_on:
+      - db
+  cli:
+    image: wordpress:cli-php8.3
+    user: '33:33'
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: local-test-only
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp:/var/www/html
+      - ../plugin/exchange-guide:/var/www/html/wp-content/plugins/exchange-guide:ro
+      - ../theme/exchange-guide:/var/www/html/wp-content/themes/exchange-guide:ro
+    depends_on:
+      - wordpress
+volumes:
+  wp:
+  db:
