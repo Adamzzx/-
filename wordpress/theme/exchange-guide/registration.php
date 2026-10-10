@@ -1,0 +1,4 @@
+<?php if(!defined('ABSPATH')){exit;} $exchange=function_exists('cg_exchange')?cg_exchange(get_query_var('cg_registration')):null;if(!$exchange){status_header(404);get_template_part('404');return;} get_header(); ?>
+<article class="cg-page cg-narrow"><p class="cg-eyebrow">注册说明 · 官方入口</p><h1><?php echo esc_html($exchange->post_title); ?> 注册指南</h1><p class="cg-notice">推荐披露：通过本站推荐入口注册，我们可能获得佣金。优惠、身份验证和服务资格以交易所最新官方条款为准。</p>
+<div class="cg-panel"><h2>注册前确认</h2><ul><li>核实所在地、年龄、身份验证及拟使用产品的资格要求。</li><li>确认访问官方域名，不向本站提供交易所密码、验证码或助记词。</li><li>阅读费用与活动条件，不因奖励或收益宣传跳过风险判断。</li></ul><p><?php echo nl2br(esc_html(get_post_meta($exchange->ID,'_cg_regions',true)?:'地区与产品资格尚待核验，请以官方条款为准。')); ?></p><h2>活动与注册入口</h2><?php echo cg_affiliate(array('exchange'=>$exchange->post_name)); ?><p>加密资产可能损失全部本金。本站不提供投资建议，也不代办交易所账户。</p></div><a href="<?php echo esc_url(get_permalink($exchange)); ?>">查看 <?php echo esc_html($exchange->post_title); ?> 完整资料 →</a></article>
+<?php get_footer(); ?>

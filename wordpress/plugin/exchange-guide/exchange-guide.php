@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 交易所指南 · 内容与推荐管理
  * Description: 中文交易所资料、比较、评测、指南和集中推荐入口。启用后请打开「交易所指南」完成初始化。
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -11,6 +11,7 @@
  */
 if (!defined('ABSPATH')) { exit; }
 require_once __DIR__ . '/navigation.php';
+require_once __DIR__ . '/registration.php';
 
 function cg_definitions() {
     return array(
@@ -117,6 +118,10 @@ function cg_meta_box($post) {
     cg_input($post->ID, 'regions', '地区与产品资格', 'textarea');
     cg_input($post->ID, 'destination', '你的完整推荐链接', 'url', '仅允许对应交易所登记的 HTTPS 官方域名；如被拒绝，请核实真实域名后联系开发人员。');
     cg_input($post->ID, 'terms', '推荐活动条款', 'textarea');
+    $banner=(int)get_post_meta($post->ID,'_cg_banner_attachment',true);
+    echo '<p><strong>注册横幅图片（选填）</strong><br>只上传自己制作或有权使用的图片，建议宽高比约 4:1。留空使用主题的独立文字卡片。</p><input type="hidden" name="cg_banner_attachment" id="cg_banner_attachment" value="'.absint($banner).'">';
+    echo '<img id="cg-banner-preview" alt="横幅预览" style="max-width:100%;width:360px;'.($banner?'':'display:none;').'" src="'.esc_url($banner?wp_get_attachment_image_url($banner,'medium_large'):'').'">';
+    echo '<p><button type="button" class="button" id="cg-banner-select">选择横幅图片</button> <button type="button" class="button" id="cg-banner-clear">使用默认文字卡片</button></p>';
     cg_input($post->ID, 'expiry', '入口停用日期（UTC）', 'date', '到所选日期 00:00 UTC 即失效；没有期限可留空。');
     cg_input($post->ID, 'enabled', '推荐链接已核实并启用', 'checkbox');
     echo '<p>累计推荐点击：<strong>' . absint(get_post_meta($post->ID, '_cg_clicks', true)) . '</strong>（不代表注册转化）</p>';
@@ -154,6 +159,7 @@ function cg_save_meta($id) {
     }
     foreach (array('fees','regions','terms') as $key) { update_post_meta($id, '_cg_' . $key, sanitize_textarea_field(wp_unslash($_POST['cg_' . $key] ?? ''))); }
     update_post_meta($id, '_cg_verified', isset($_POST['cg_verified']) ? '1' : '');
+    if(isset($_POST['cg_banner_attachment'])){$banner=absint($_POST['cg_banner_attachment']);if(!$banner||in_array(get_post_mime_type($banner),array('image/jpeg','image/png','image/webp','image/avif'),true)){update_post_meta($id,'_cg_banner_attachment',$banner);}}
     $url = trim(wp_unslash($_POST['cg_destination'] ?? ''));
     $slug = get_post_field('post_name', $id);
     if ($url && !cg_safe_destination($slug, $url)) {
