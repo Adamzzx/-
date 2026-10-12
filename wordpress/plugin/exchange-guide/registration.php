@@ -10,18 +10,18 @@ add_filter('template_include',function($template){
     $slug=get_query_var('cg_registration');if(is_string($slug)&&isset(cg_definitions()[$slug])){status_header(200);$file=get_theme_file_path('registration.php');if(file_exists($file)){return $file;}}
     return $template;
 });
-add_filter('document_title_parts',function($parts){$slug=get_query_var('cg_registration');if(is_string($slug)&&isset(cg_definitions()[$slug])){$parts['title']=cg_definitions()[$slug]['name'].' 注册说明与官方入口';}return $parts;});
+add_filter('document_title_parts',function($parts){$slug=get_query_var('cg_registration');if(is_string($slug)&&isset(cg_definitions()[$slug])){$parts['title']=cg_definitions()[$slug]['name'].' 注册入口与官方入口';}return $parts;});
 add_filter('wp_robots',function($robots){if(get_query_var('cg_registration')){$robots['noindex']=true;unset($robots['index']);}return $robots;});
 function cg_registration_cards(){
     $html='<div class="cg-registration-cards">';
     foreach(array('binance','okx','bitget','bybit') as $slug){
         $post=cg_exchange($slug);$label=cg_definitions()[$slug]['name'];
         $image=$post?(int)get_post_meta($post->ID,'_cg_banner_attachment',true):0;
-        $html.='<a class="cg-registration-card" href="'.esc_url(cg_registration_url($slug)).'">';
+        $html.='<a class="cg-registration-card" href="'.esc_url(cg_go_url($slug)).'" target="_blank" rel="'.esc_attr(cg_registration_rel($slug)).'">';
         if($image && in_array(get_post_mime_type($image),array('image/jpeg','image/png','image/webp','image/avif'),true)){
-            $html.=wp_get_attachment_image($image,'medium_large',false,array('alt'=>$label.' 注册说明','loading'=>'lazy','decoding'=>'async'));
+            $html.=wp_get_attachment_image($image,'medium_large',false,array('alt'=>$label.' 注册入口','loading'=>'lazy','decoding'=>'async'));
         }else{
-            $html.='<span class="cg-registration-label">'.esc_html($label).'</span><strong>了解注册条件与入口</strong><span class="cg-registration-action">查看注册说明 ↗</span>';
+            $html.='<span class="cg-registration-label">'.esc_html($label).'</span><strong>开户注册 · '.(cg_active_offer($post)?'推荐入口':'官方入口').'</strong><span class="cg-registration-action">前往注册 ↗</span>';
         }
         $html.='</a>';
     }
@@ -40,4 +40,25 @@ function cg_registration_url($slug){
     if(!isset(cg_definitions()[$slug])){return '';}
     $rules=(array)get_option('rewrite_rules',array());
     return isset($rules['^register/([a-z0-9-]+)/?$'])?home_url('/register/'.$slug.'/'):add_query_arg('cg_registration',$slug,home_url('/'));
+}
+
+function cg_official_registration_urls(){
+    return array('binance'=>'https://www.binance.com/en/register','okx'=>'https://www.okx.com/join','bitget'=>'https://www.bitget.com/register','bybit'=>'https://www.bybit.com/en/register');
+}
+function cg_registration_destination($slug){
+    if(!is_string($slug)||!isset(cg_definitions()[$slug])){return '';}
+    $post=cg_exchange($slug);
+    if(cg_active_offer($post)){return get_post_meta($post->ID,'_cg_destination',true);}
+    $urls=cg_official_registration_urls();$url=$urls[$slug]??'';
+    return $url&&cg_safe_destination($slug,$url)?$url:'';
+}
+function cg_go_url($slug){
+    if(!isset(cg_definitions()[$slug])){return '';}
+    $rules=(array)get_option('rewrite_rules',array());
+    return isset($rules['^go/([a-z0-9-]+)/?$'])?home_url('/go/'.$slug.'/'):add_query_arg('cg_go',$slug,home_url('/'));
+}
+function cg_registration_rel($slug){return cg_active_offer(cg_exchange($slug))?'noopener noreferrer sponsored':'noopener noreferrer';}
+function cg_registration_disclosure(){
+    foreach(array_keys(cg_official_registration_urls()) as $slug){if(cg_active_offer(cg_exchange($slug))){return '部分入口为推荐链接，我们可能获得佣金。未配置推荐链接的平台使用官方注册入口；费用、优惠和地区资格以平台条款为准。';}}
+    return '当前使用官方注册入口，不含本站推荐码。费用、产品与地区资格以平台官方条款为准。';
 }

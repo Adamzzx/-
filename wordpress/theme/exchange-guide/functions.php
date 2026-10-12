@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
 add_action('after_setup_theme', function () { add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('responsive-embeds'); add_theme_support('html5', array('search-form','comment-form','comment-list','gallery','caption','style','script')); register_nav_menus(array('primary'=>'主导航')); });
-add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.4.0'); });
+add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.6.0'); });
 function cg_theme_brand() { return get_option('cg_brand', '加密资产投资与数字金融指南'); }
 function cg_theme_cards($type, $count = 6) {
     if (function_exists('cg_cards')) { echo cg_cards($type, $count); }
@@ -33,7 +33,7 @@ function cg_theme_default_navigation(){
     }
     echo '</ul>';
 }
-add_action('wp_enqueue_scripts',function(){wp_enqueue_script('cg-navigation',get_template_directory_uri().'/navigation.js',array(),'1.4.0',true);});
+add_action('wp_enqueue_scripts',function(){wp_enqueue_script('cg-navigation',get_template_directory_uri().'/navigation.js',array(),'1.6.0',true);});
 
 // Home modules read published editorial content; no generated placeholder articles.
 function cg_media_section($title,$args,$label='编辑内容',$heading=true){
@@ -75,14 +75,18 @@ function cg_theme_registration_cards(){
     foreach(array('binance'=>'Binance','okx'=>'OKX','bitget'=>'Bitget','bybit'=>'Bybit') as $slug=>$label){
         $exchange=function_exists('cg_exchange')?cg_exchange($slug):null;
         $image=$exchange?(int)get_post_meta($exchange->ID,'_cg_banner_attachment',true):0;
-        $url=function_exists('cg_registration_url')?cg_registration_url($slug):($exchange?home_url('/register/'.$slug.'/'):home_url('/#cg-registration-conditions'));
-        $html.='<a class="cg-registration-card cg-banner-'.$slug.'" href="'.esc_url($url).'">';
+        $direct=function_exists('cg_go_url');
+        $url=$direct?cg_go_url($slug):home_url('/#cg-registration-conditions');
+        $recommended=$direct&&cg_active_offer($exchange);
+        $html.='<a class="cg-registration-card cg-banner-'.$slug.'" href="'.esc_url($url).'"'.($direct?' target="_blank" rel="'.esc_attr(cg_registration_rel($slug)).'"':'').'>';
         if($image&&in_array(get_post_mime_type($image),array('image/jpeg','image/png','image/webp','image/avif'),true)){
-            $html.=wp_get_attachment_image($image,'medium_large',false,array('alt'=>$label.' 注册说明','loading'=>'lazy','decoding'=>'async'));
+            $html.=wp_get_attachment_image($image,'medium_large',false,array('alt'=>$label.' 注册入口（新标签页）','loading'=>'lazy','decoding'=>'async'));
         }else{
-            $html.='<span class="cg-registration-label">'.esc_html($label).'</span><strong>开户注册 · 条件与指南</strong><span class="cg-registration-action">查看注册说明 <span aria-hidden="true">↗</span></span>';
+            $html.='<span class="cg-registration-label">'.esc_html($label).'</span><strong>开户注册 · '.($direct?($recommended?'推荐入口':'官方入口'):'入口待配置').'</strong><span class="cg-registration-action">'.($direct?'前往注册（新标签页）':'查看注册前说明').' <span aria-hidden="true">↗</span></span>';
         }
         $html.='</a>';
     }
     return $html.'</div>';
 }
+
+function cg_theme_registration_disclosure(){return function_exists('cg_registration_disclosure')?cg_registration_disclosure():'注册跳转尚待配置，请启用新版内容管理插件。地区资格与条款以官方说明为准。';}

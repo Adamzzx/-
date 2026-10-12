@@ -11,5 +11,7 @@ status,headers,body=get('/register/unknown/')
 check(status==404,'unknown registration page returns 404')
 status,headers,body=get('/reviews/smoke-published-review/')
 sidebar=body.split('class="cg-registration-cards"')[1].split('</aside>')[0]
-positions=[sidebar.index('/register/'+slug+'/') for slug in ['binance','okx','bitget','bybit']]
-check(positions==sorted(positions) and '/register/mexc/' not in sidebar and '/register/gate/' not in sidebar,'article sidebar uses confirmed four-exchange order')
+positions=[sidebar.index('/go/'+slug+'/') for slug in ['binance','okx','bitget','bybit']]
+check(positions==sorted(positions) and '/go/mexc/' not in sidebar and '/go/gate/' not in sidebar,'article sidebar uses confirmed four-exchange order')
+
+check(sidebar.count('target="_blank"')==4 and sidebar.count('noopener')==4,'sidebar opens four registrations in new tabs safely')

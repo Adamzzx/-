@@ -4,7 +4,7 @@
 <a class="cg-core-topic" href="#tokenized-assets"><span>02 / TOKENIZED ASSETS</span><h2>美股代币</h2><p>理解代币化资产、交易流程与资产权利的差异。</p><strong>探索专题 ↓</strong></a>
 <a class="cg-core-topic" href="#crypto-investing"><span>03 / CRYPTO INVESTING</span><h2>加密投资</h2><p>从主流资产、钱包安全到配置与风险管理。</p><strong>阅读指南 ↓</strong></a>
 </section></section>
-<aside class="cg-home-registration" aria-label="交易所开户注册入口"><h2>交易所开户注册</h2><p class="cg-meta">注册前了解地区资格、费用与平台条款。</p><?php echo cg_theme_registration_cards(); ?><p class="cg-banner-disclosure">推荐披露：通过推荐链接注册，我们可能获得佣金。优惠以官方条款为准。</p></aside></div>
+<aside class="cg-home-registration" aria-label="交易所开户注册入口"><h2>交易所开户注册</h2><p class="cg-meta">注册前了解地区资格、费用与平台条款。</p><?php echo cg_theme_registration_cards(); ?><p class="cg-banner-disclosure"><?php echo esc_html(cg_theme_registration_disclosure()); ?></p></aside></div>
 
 
 <?php

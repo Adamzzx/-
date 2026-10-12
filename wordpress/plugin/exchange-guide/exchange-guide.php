@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.5.0
+ * Version: 1.6.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -83,8 +83,13 @@ function cg_redirect() {
     do_action('litespeed_control_set_nocache', 'Affiliate redirects must not be cached');
     nocache_headers(); header('X-Robots-Tag: noindex, nofollow', true);
     $post = cg_exchange($slug);
-    if (!$post || !isset(cg_definitions()[$slug])) { status_header(404); wp_die('未知交易所。', '入口不存在', array('response' => 404)); }
-    if (!cg_active_offer($post)) { wp_safe_redirect(get_permalink($post), 302, 'Exchange Guide'); exit; }
+    if (!is_string($slug) || !isset(cg_definitions()[$slug])) { status_header(404); wp_die('未知交易所。', '入口不存在', array('response' => 404)); }
+    if (!cg_active_offer($post)) {
+        $official=cg_registration_destination($slug);
+        if($official){wp_redirect($official,302,'Exchange Guide');exit;}
+        if($post){wp_safe_redirect(get_permalink($post),302,'Exchange Guide');exit;}
+        status_header(404);wp_die('注册入口尚未配置。','入口不存在',array('response'=>404));
+    }
     global $wpdb;
     // Aggregate count only; do not record visitor identities or request parameters.
     add_post_meta($post->ID, '_cg_clicks', '0', true);
@@ -118,7 +123,7 @@ function cg_meta_box($post) {
     cg_input($post->ID, 'source', '官方资料来源', 'url');
     cg_input($post->ID, 'fees', '费用与适用条件', 'textarea');
     cg_input($post->ID, 'regions', '地区与产品资格', 'textarea');
-    cg_input($post->ID, 'destination', '你的完整推荐链接', 'url', '仅允许对应交易所登记的 HTTPS 官方域名；如被拒绝，请核实真实域名后联系开发人员。');
+    cg_input($post->ID, 'destination', '注册或推荐链接（选填）', 'url', '留空、未启用或过期时，四家首页平台默认使用官方注册链接。以后填写自己的推荐链接并勾选启用，即可统一替换横幅跳转。仅允许对应平台的 HTTPS 官方域名。');
     cg_input($post->ID, 'terms', '推荐活动条款', 'textarea');
     $banner=(int)get_post_meta($post->ID,'_cg_banner_attachment',true);
     echo '<p><strong>注册横幅图片（选填）</strong><br>只上传自己制作或有权使用的图片，建议宽高比约 4:1。留空使用主题的独立文字卡片。</p><input type="hidden" name="cg_banner_attachment" id="cg_banner_attachment" value="'.absint($banner).'">';
@@ -126,6 +131,7 @@ function cg_meta_box($post) {
     echo '<p><button type="button" class="button" id="cg-banner-select">选择横幅图片</button> <button type="button" class="button" id="cg-banner-clear">使用默认文字卡片</button></p>';
     cg_input($post->ID, 'expiry', '入口停用日期（UTC）', 'date', '到所选日期 00:00 UTC 即失效；没有期限可留空。');
     cg_input($post->ID, 'enabled', '推荐链接已核实并启用', 'checkbox');
+    $officials=cg_official_registration_urls();if(isset($officials[$post->post_name])){echo '<p>默认官方注册链接：<a href="'.esc_url($officials[$post->post_name]).'" target="_blank" rel="noopener noreferrer">'.esc_html($officials[$post->post_name]).'</a></p>';}
     echo '<p>累计推荐点击：<strong>' . absint(get_post_meta($post->ID, '_cg_clicks', true)) . '</strong>（不代表注册转化）</p>';
 }
 function cg_editorial_box($post) {
