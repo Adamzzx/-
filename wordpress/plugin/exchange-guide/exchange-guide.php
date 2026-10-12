@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.7.0
+ * Version: 1.8.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -14,6 +14,9 @@ require_once __DIR__ . '/navigation.php';
 require_once __DIR__ . '/registration.php';
 require_once __DIR__ . '/admin-content.php';
 require_once __DIR__ . '/exchange-content.php';
+require_once __DIR__ . '/review-editor.php';
+require_once __DIR__ . '/review-affiliate.php';
+require_once __DIR__ . '/review-seo.php';
 
 function cg_definitions() {
     return array(
@@ -58,7 +61,7 @@ function cg_register() {
 }
 add_action('init', 'cg_register');
 add_filter('query_vars', function ($vars) { $vars[] = 'cg_go'; return $vars; });
-register_activation_hook(__FILE__, function () { cg_register(); cg_register_registration_routes(); flush_rewrite_rules(); });
+register_activation_hook(__FILE__, function () { cg_register(); cg_register_registration_routes(); cg_review_routes(); flush_rewrite_rules(); });
 register_deactivation_hook(__FILE__, function () { foreach (array('cg_exchange','cg_review','cg_compare','cg_ranking','cg_guide') as $type) { unregister_post_type($type); } flush_rewrite_rules(); });
 
 function cg_exchange($slug) {
@@ -101,8 +104,7 @@ function cg_redirect() {
 add_action('template_redirect', 'cg_redirect', 1);
 
 function cg_meta_boxes() {
-    if (!current_user_can('manage_options')) { return; }
-    add_meta_box('cg-data', '资料核验与推荐链接（管理员）', 'cg_meta_box', 'cg_exchange', 'normal', 'high');
+    if (current_user_can('manage_options')) { add_meta_box('cg-data', '资料核验与推荐链接（管理员）', 'cg_meta_box', 'cg_exchange', 'normal', 'high'); }
     foreach (array('post','cg_review','cg_compare','cg_ranking','cg_guide') as $type) {
         add_meta_box('cg-editorial', '编辑信息与商业披露', 'cg_editorial_box', $type, 'normal');
     }
@@ -149,9 +151,10 @@ function cg_editorial_box($post) {
     echo '<p>更多来源请在正文列出。推荐按钮使用短代码 <code>[cg_affiliate exchange="binance"]</code>，不要把推荐链接直接写入文章。</p>';
 }
 function cg_save_meta($id) {
-    if (wp_is_post_revision($id) || wp_is_post_autosave($id) || !current_user_can('manage_options') || !current_user_can('edit_post', $id)) { return; }
+    if (wp_is_post_revision($id) || wp_is_post_autosave($id) || !current_user_can('edit_post', $id)) { return; }
     if (!isset($_POST['cg_meta_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cg_meta_nonce'])), 'cg_save_meta')) { return; }
     $type = get_post_type($id);
+    if($type==='cg_exchange'&&!current_user_can('manage_options')){return;}
     if (!in_array($type, array('post','cg_exchange','cg_review','cg_compare','cg_ranking','cg_guide'), true)) { return; }
     foreach (array('reviewed','source','sponsored') as $key) {
         $value = isset($_POST['cg_' . $key]) ? wp_unslash($_POST['cg_' . $key]) : '';
@@ -205,6 +208,7 @@ function cg_cards($type = 'cg_exchange', $limit = 6) {
     return $html . '</div>';
 }
 function cg_affiliate($attributes) {
+    if(function_exists('cg_is_review')&&cg_is_review(get_the_ID())){return '<p class="cg-meta">本评测的推荐入口需通过下方地区与条款确认。</p>';}
     $attributes = shortcode_atts(array('exchange' => ''), $attributes);
     $slug = sanitize_title($attributes['exchange']); $post = cg_exchange($slug);
     if (!$post) { return ''; }

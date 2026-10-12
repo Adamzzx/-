@@ -1,7 +1,7 @@
 /*
 Theme Name: 交易所指南
 Description: 独立设计的中文加密资产与数字金融媒体主题，配合「交易所指南 · 内容与推荐管理」插件使用。
-Version: 1.7.1
+Version: 1.8.0
 Requires at least: 6.6
 Requires PHP: 8.1
 Author: Exchange Guide
@@ -27,3 +27,5 @@ Text Domain: exchange-guide
 .cg-exchange-articles{border-top:2px solid var(--accent);padding-top:20px}.cg-sponsored-label{font-size:11px;padding:2px 7px;background:#fff0d7;color:#795317;border-radius:3px;margin-left:10px}.cg-story-topics{font-size:12px!important}.cg-exchange-articles .cg-empty{padding:20px;background:white;border:1px solid var(--line)}
 
 .cg-exchange-intro{padding-bottom:28px}.cg-exchange-intro .cg-content{font-size:17px;color:var(--muted)}
+
+.cg-review-header{max-width:940px}.cg-review-header h1{font-size:clamp(28px,4vw,44px);line-height:1.4}.cg-breadcrumb{font-size:13px;overflow-wrap:anywhere}.cg-review-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:36px}.cg-review-body{min-width:0}.cg-review-cover{margin:24px 0}.cg-review-cover img{width:100%;height:auto;border-radius:6px}.cg-review-cover figcaption,.cg-content figcaption{font-size:13px;color:var(--muted)}.cg-toc{background:white;border:1px solid var(--line);padding:18px;border-radius:8px}.cg-toc summary{font-weight:700;cursor:pointer}.cg-toc ol{padding-left:20px}.cg-toc li{font-size:13px;margin:8px 0}.cg-toc-level-3{margin-left:12px!important}.cg-review-aside{padding-top:16px}.cg-review .cg-content h2,.cg-review .cg-content h3{scroll-margin-top:30px}.cg-review .cg-table{min-width:650px}.cg-review .cg-table-wrap table{display:table;overflow:visible}.cg-review .cg-content figure.wp-block-table{overflow-x:auto}.cg-review-eligibility,.cg-review-sources,.cg-review-related{border-top:1px solid var(--line);margin-top:30px;padding-top:20px}.cg-review-eligibility-form label{display:block;margin:16px 0}.cg-review-eligibility-form input[name=country]{padding:10px;width:90px}.cg-review-related .cg-media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:850px){.cg-review-layout{display:flex;flex-direction:column}.cg-review-aside{order:-1}.cg-review-related .cg-media-grid{grid-template-columns:1fr}.cg-review-header .cg-meta{line-height:2}.cg-review .cg-content{font-size:16px}}
