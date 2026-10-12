@@ -16,7 +16,7 @@ check(s==200 and 'OKX' in body and '测试费用条件' in body,'comparison read
 s,h,body=get('/compare/?a[]=binance&b=%3Cscript%3E')
 check(s==200 and '<script>alert' not in body,'malformed filter input handled')
 s,h,body=get('/exchanges/binance/')
-check(s==200 and '测试费用条件' in body and '/go/binance/' in body,'exchange detail with managed referral CTA')
+check(s==200 and 'Binance（币安）' in body and 'Binance 相关文章' in body and '费用与条件</h2>' not in body and '核验日期：' not in body,'exchange hub has an introduction and related articles')
 s,h,body=get('/go/binance/?url=https://evil.invalid/')
 check(s==302 and h.get('Location')=='https://www.binance.com/en/register?ref=smoke','safe central redirect ignores injected destination')
 check('noindex' in h.get('X-Robots-Tag','') and 'no-store' in h.get('Cache-Control',''),'redirect excludes indexing and caching')

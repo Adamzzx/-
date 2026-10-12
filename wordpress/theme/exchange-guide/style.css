@@ -1,7 +1,7 @@
 /*
 Theme Name: 交易所指南
 Description: 独立设计的中文加密资产与数字金融媒体主题，配合「交易所指南 · 内容与推荐管理」插件使用。
-Version: 1.7.0
+Version: 1.7.1
 Requires at least: 6.6
 Requires PHP: 8.1
 Author: Exchange Guide
@@ -25,3 +25,5 @@ Text Domain: exchange-guide
 .cg-home-top .cg-core-topics{margin-top:26px;margin-bottom:0;gap:12px}.cg-home-top .cg-core-topic{padding:16px}.cg-home-top .cg-core-topic h2{font-size:21px}.cg-navigation-ready .cg-menu .cg-submenu-closed>.sub-menu{display:none}
 
 .cg-exchange-articles{border-top:2px solid var(--accent);padding-top:20px}.cg-sponsored-label{font-size:11px;padding:2px 7px;background:#fff0d7;color:#795317;border-radius:3px;margin-left:10px}.cg-story-topics{font-size:12px!important}.cg-exchange-articles .cg-empty{padding:20px;background:white;border:1px solid var(--line)}
+
+.cg-exchange-intro{padding-bottom:28px}.cg-exchange-intro .cg-content{font-size:17px;color:var(--muted)}

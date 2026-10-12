@@ -1,5 +1,11 @@
-<?php get_header(); while (have_posts()) { the_post(); $id=get_the_ID(); ?>
-<article class="cg-page cg-narrow"><a href="<?php echo esc_url(home_url('/exchanges/')); ?>">交易所资料 /</a><h1><?php the_title(); ?></h1><span class="cg-badge"><?php echo get_post_meta($id,'_cg_verified',true)?'已核验':'待核验'; ?></span><?php if (has_excerpt()) { ?><p class="cg-lead"><?php echo esc_html(get_the_excerpt()); ?></p><?php } ?>
-<div class="cg-panel"><h2>地区与产品资格</h2><p><?php echo nl2br(esc_html(get_post_meta($id,'_cg_regions',true)?:'尚待核验，请在官方网站确认所在地及产品资格。')); ?></p><h2>费用与条件</h2><p><?php echo nl2br(esc_html(get_post_meta($id,'_cg_fees',true)?:'尚待核验。费用可能取决于产品、账户等级和优惠条件。')); ?></p><?php $source=get_post_meta($id,'_cg_source',true); $date=get_post_meta($id,'_cg_reviewed',true); if($date){ ?><p class="cg-meta">核验日期：<?php echo esc_html($date); ?></p><?php } if($source){ ?><a href="<?php echo esc_url($source,array('https')); ?>" rel="noopener noreferrer">查看官方资料来源 ↗</a><?php } ?></div>
-<div class="cg-content"><?php the_content(); ?></div><h2>注册与推荐入口</h2><p>注册前核实所在地、年龄及产品资格。本站不会索取交易所密码、验证码或助记词。</p><?php if(function_exists('cg_affiliate')){ echo cg_affiliate(array('exchange'=>get_post_field('post_name',$id))); } ?></article>
+<?php get_header(); while(have_posts()){the_post();$id=get_the_ID(); ?>
+<article class="cg-page cg-narrow cg-exchange-intro"><a href="<?php echo esc_url(home_url('/exchanges/')); ?>">交易所专题 /</a><h1><?php the_title(); ?></h1>
+<div class="cg-content"><?php
+if(trim(get_the_content())){the_content();}
+elseif(has_excerpt()){echo '<p>'.esc_html(get_the_excerpt()).'</p>';}
+else{
+    $name=get_the_title();if(get_post_field('post_name',$id)==='binance'){$name.='（币安）';}
+    echo '<p>'.esc_html($name).' 是加密资产交易平台。本专题用于汇总平台评测、交易所对比、费用说明、注册与出入金教程及资产安全指南，方便你按主题查找相关文章。</p>';
+}
+?></div></article>
 <?php cg_theme_exchange_articles($id); } get_footer(); ?>

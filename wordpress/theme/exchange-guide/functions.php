@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
 add_action('after_setup_theme', function () { add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('responsive-embeds'); add_theme_support('html5', array('search-form','comment-form','comment-list','gallery','caption','style','script')); register_nav_menus(array('primary'=>'主导航')); });
-add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.7.0'); });
+add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.7.1'); });
 function cg_theme_brand() { return get_option('cg_brand', '加密资产投资与数字金融指南'); }
 function cg_theme_cards($type, $count = 6) {
     if (function_exists('cg_cards')) { echo cg_cards($type, $count); }
@@ -33,7 +33,7 @@ function cg_theme_default_navigation(){
     }
     echo '</ul>';
 }
-add_action('wp_enqueue_scripts',function(){wp_enqueue_script('cg-navigation',get_template_directory_uri().'/navigation.js',array(),'1.7.0',true);});
+add_action('wp_enqueue_scripts',function(){wp_enqueue_script('cg-navigation',get_template_directory_uri().'/navigation.js',array(),'1.7.1',true);});
 
 // Home modules read published editorial content; no generated placeholder articles.
 function cg_media_section($title,$args,$label='编辑内容',$heading=true){
