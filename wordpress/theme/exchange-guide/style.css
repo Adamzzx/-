@@ -1,7 +1,7 @@
 /*
 Theme Name: 交易所指南
 Description: 独立设计的中文加密资产与数字金融媒体主题，配合「交易所指南 · 内容与推荐管理」插件使用。
-Version: 1.6.0
+Version: 1.7.0
 Requires at least: 6.6
 Requires PHP: 8.1
 Author: Exchange Guide
@@ -23,3 +23,5 @@ Text Domain: exchange-guide
 .cg-chevron{display:block;transition:transform .15s}.cg-submenu-open>.cg-submenu-toggle .cg-chevron{transform:rotate(180deg)}.cg-submenu-toggle{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}.cg-nav-label{color:var(--ink);font-weight:600}.cg-home-top{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:42px;padding:32px 0}.cg-home-top .cg-media-intro{padding:8px 0}.cg-home-top .cg-media-intro h1{font-size:clamp(30px,3.1vw,42px)}.cg-home-top .cg-home-registration{border-top:3px solid var(--accent);padding-top:10px}.cg-home-top .cg-home-registration h2{font-size:21px;margin:0 0 5px}.cg-home-top .cg-home-registration>.cg-meta{margin:0 0 12px}.cg-home-top .cg-registration-cards{grid-template-columns:1fr;gap:10px}.cg-registration-card{position:relative;overflow:hidden}.cg-registration-card:not(:has(img)):after{content:"";position:absolute;right:-24px;top:-28px;width:120px;height:120px;border:1px solid #ffffff24;border-radius:50%;box-shadow:0 0 0 20px #ffffff08;pointer-events:none}.cg-home-top .cg-registration-card{min-height:106px;padding:14px 20px;gap:4px;border-radius:5px}.cg-home-top .cg-registration-label{font-size:24px}.cg-home-top .cg-registration-card:has(img){padding:0;min-height:0}.cg-banner-okx{background:linear-gradient(115deg,#142a3a,#253e51)}.cg-banner-bitget{background:linear-gradient(115deg,#153e48,#186c70)}.cg-banner-bybit{background:linear-gradient(115deg,#1d3049,#365466)}.cg-banner-disclosure{font-size:11px;line-height:1.6;color:var(--muted);margin:10px 0 0}.cg-registration-conditions{border-top:1px solid var(--line);padding-top:16px}.cg-registration-conditions h2{font-size:22px}.cg-registration-conditions p{font-size:14px;color:var(--muted)}@media(max-width:850px){.cg-home-top{grid-template-columns:1fr;gap:18px;padding:24px 0}.cg-home-top .cg-registration-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.cg-home-top .cg-media-intro{padding:0}}@media(max-width:480px){.cg-home-top .cg-registration-cards{grid-template-columns:1fr}}
 
 .cg-home-top .cg-core-topics{margin-top:26px;margin-bottom:0;gap:12px}.cg-home-top .cg-core-topic{padding:16px}.cg-home-top .cg-core-topic h2{font-size:21px}.cg-navigation-ready .cg-menu .cg-submenu-closed>.sub-menu{display:none}
+
+.cg-exchange-articles{border-top:2px solid var(--accent);padding-top:20px}.cg-sponsored-label{font-size:11px;padding:2px 7px;background:#fff0d7;color:#795317;border-radius:3px;margin-left:10px}.cg-story-topics{font-size:12px!important}.cg-exchange-articles .cg-empty{padding:20px;background:white;border:1px solid var(--line)}

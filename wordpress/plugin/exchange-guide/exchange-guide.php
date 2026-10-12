@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.6.0
+ * Version: 1.7.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -13,6 +13,7 @@ if (!defined('ABSPATH')) { exit; }
 require_once __DIR__ . '/navigation.php';
 require_once __DIR__ . '/registration.php';
 require_once __DIR__ . '/admin-content.php';
+require_once __DIR__ . '/exchange-content.php';
 
 function cg_definitions() {
     return array(
@@ -141,10 +142,10 @@ function cg_editorial_box($post) {
     cg_input($post->ID, 'sponsored', '这是赞助内容', 'checkbox');
     echo '<p><label for="cg_primary_topic">主要主题（同时加入文章主题）</label>';
     wp_dropdown_categories(array('taxonomy'=>'cg_topic','hide_empty'=>false,'hierarchical'=>true,'name'=>'cg_primary_topic','id'=>'cg_primary_topic','selected'=>(int)get_post_meta($post->ID,'_cg_primary_topic',true),'show_option_none'=>'未选择','option_none_value'=>0)); echo '</p>';
-    echo '<p><label for="cg_related_exchanges">关联交易所（可多选）</label><br><select id="cg_related_exchanges" name="cg_related_exchanges[]" multiple>';
-    $related=(array)get_post_meta($post->ID,'_cg_related_exchanges',true);
-    foreach(get_posts(array('post_type'=>'cg_exchange','post_status'=>'publish','numberposts'=>100)) as $exchange){echo '<option value="'.absint($exchange->ID).'" '.selected(in_array($exchange->ID,$related,true),true,false).'>'.esc_html($exchange->post_title).'</option>';}
-    echo '</select></p>';
+    echo '<fieldset><legend><strong>关联交易所（可多选）</strong></legend><input type="hidden" name="cg_related_exchanges_present" value="1"><p>勾选后，已发布文章会自动出现在对应平台资料页下方。对比文章可同时勾选两家；草稿及密码保护文章不会公开展示。</p>';
+    $related=array_map('absint',(array)get_post_meta($post->ID,'_cg_related_exchanges',true));
+    foreach(get_posts(array('post_type'=>'cg_exchange','post_status'=>'publish','numberposts'=>100)) as $exchange){echo '<label style="display:inline-block;margin:0 18px 12px 0"><input type="checkbox" name="cg_related_exchanges[]" value="'.absint($exchange->ID).'" '.checked(in_array($exchange->ID,$related,true),true,false).'> '.esc_html($exchange->post_title).'</label>';}
+    echo '</fieldset>';
     echo '<p>更多来源请在正文列出。推荐按钮使用短代码 <code>[cg_affiliate exchange="binance"]</code>，不要把推荐链接直接写入文章。</p>';
 }
 function cg_save_meta($id) {
@@ -162,8 +163,13 @@ function cg_save_meta($id) {
     if ($type !== 'cg_exchange') {
         $primary=absint($_POST['cg_primary_topic'] ?? 0);
         if($primary && term_exists($primary,'cg_topic')){wp_set_object_terms($id,array($primary),'cg_topic',true);update_post_meta($id,'_cg_primary_topic',$primary);}else{delete_post_meta($id,'_cg_primary_topic');}
-        $related=array();foreach((array)($_POST['cg_related_exchanges'] ?? array()) as $related_id){$related_id=absint($related_id);if(get_post_type($related_id)==='cg_exchange'){$related[]=$related_id;}}
-        update_post_meta($id,'_cg_related_exchanges',array_values(array_unique($related))); return;
+        if(isset($_POST['cg_related_exchanges_present'])||isset($_POST['cg_related_exchanges'])){
+            $old=(array)get_post_meta($id,'_cg_related_exchanges',true);$related=array();
+            foreach((array)($_POST['cg_related_exchanges']??array()) as $related_id){if(!is_scalar($related_id)){continue;}$related_id=absint($related_id);if(get_post_type($related_id)==='cg_exchange'){$related[]=$related_id;}}
+            $related=array_values(array_unique($related));update_post_meta($id,'_cg_related_exchanges',$related);
+            cg_purge_exchange_hubs(array_merge($old,$related));
+        }
+        return;
     }
     foreach (array('fees','regions','terms') as $key) { update_post_meta($id, '_cg_' . $key, sanitize_textarea_field(wp_unslash($_POST['cg_' . $key] ?? ''))); }
     update_post_meta($id, '_cg_verified', isset($_POST['cg_verified']) ? '1' : '');

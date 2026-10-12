@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
 add_action('after_setup_theme', function () { add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('responsive-embeds'); add_theme_support('html5', array('search-form','comment-form','comment-list','gallery','caption','style','script')); register_nav_menus(array('primary'=>'主导航')); });
-add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.6.0'); });
+add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.7.0'); });
 function cg_theme_brand() { return get_option('cg_brand', '加密资产投资与数字金融指南'); }
 function cg_theme_cards($type, $count = 6) {
     if (function_exists('cg_cards')) { echo cg_cards($type, $count); }
@@ -33,7 +33,7 @@ function cg_theme_default_navigation(){
     }
     echo '</ul>';
 }
-add_action('wp_enqueue_scripts',function(){wp_enqueue_script('cg-navigation',get_template_directory_uri().'/navigation.js',array(),'1.6.0',true);});
+add_action('wp_enqueue_scripts',function(){wp_enqueue_script('cg-navigation',get_template_directory_uri().'/navigation.js',array(),'1.7.0',true);});
 
 // Home modules read published editorial content; no generated placeholder articles.
 function cg_media_section($title,$args,$label='编辑内容',$heading=true){
@@ -90,3 +90,29 @@ function cg_theme_registration_cards(){
 }
 
 function cg_theme_registration_disclosure(){return function_exists('cg_registration_disclosure')?cg_registration_disclosure():'注册跳转尚待配置，请启用新版内容管理插件。地区资格与条款以官方说明为准。';}
+
+function cg_theme_exchange_articles($exchange_id){
+    if(!function_exists('cg_exchange_articles')){return;}
+    $raw=$_GET['cg_articles_page']??1;$page=is_scalar($raw)?max(1,absint($raw)):1;
+    $query=cg_exchange_articles($exchange_id,$page);$label=get_the_title($exchange_id);
+    echo '<section id="exchange-articles" class="cg-section cg-exchange-articles"><div class="cg-section-head"><h2>'.esc_html($label).' 相关文章</h2></div><p class="cg-meta">评测、平台对比、出入金教程与使用指南。</p>';
+    if(!$query->posts){echo '<p class="cg-empty">'.($page>1?'此页没有相关文章。':'相关文章尚未发布。内容核验完成后会在这里展示。').'</p>';}
+    else{
+        echo '<div class="cg-media-grid">';
+        foreach($query->posts as $entry){
+            $type=get_post_type_object($entry->post_type);$terms=wp_get_object_terms($entry->ID,'cg_topic',array('fields'=>'names'));
+            echo '<article class="cg-story"><a class="cg-story-link" href="'.esc_url(get_permalink($entry)).'">';
+            if(has_post_thumbnail($entry)){echo get_the_post_thumbnail($entry,'medium_large',array('class'=>'cg-story-image','loading'=>'lazy'));}
+            echo '<div class="cg-story-body"><span class="cg-story-label">'.esc_html($entry->post_type==='post'?'文章':$type->labels->name).'</span>';
+            if(get_post_meta($entry->ID,'_cg_sponsored',true)){echo '<span class="cg-sponsored-label">赞助内容</span>';}
+            echo '<h3>'.esc_html($entry->post_title).'</h3>';
+            $excerpt=wp_trim_words(wp_strip_all_tags(strip_shortcodes($entry->post_excerpt?:$entry->post_content)),30,'…');
+            if($excerpt){echo '<p>'.esc_html($excerpt).'</p>';}
+            if(!is_wp_error($terms)&&$terms){echo '<p class="cg-story-topics">'.esc_html(implode(' / ',$terms)).'</p>';}
+            echo '<span class="cg-meta">'.esc_html(get_the_author_meta('display_name',$entry->post_author)).' · '.esc_html(get_the_modified_date('Y-m-d',$entry)).'</span></div></a></article>';
+        }
+        echo '</div>';
+    }
+    if($query->max_num_pages>1){echo '<nav class="cg-pagination" aria-label="相关文章分页">'.wp_kses_post(paginate_links(array('base'=>add_query_arg('cg_articles_page','%#%',get_permalink($exchange_id)).'#exchange-articles','format'=>'','current'=>$page,'total'=>$query->max_num_pages,'prev_text'=>'上一页','next_text'=>'下一页'))).'</nav>';}
+    echo '</section>';
+}
