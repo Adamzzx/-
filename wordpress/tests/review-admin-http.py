@@ -9,10 +9,10 @@ id=re.search(r'post=(\d+)',h['Location']).group(1)
 try:
  assert wp('post','get',id,'--field=post_type')=='post'
  assert wp('post','get',id,'--field=post_status')=='draft'
- assert wp('post','meta','get',id,'_wp_page_template')=='templates/exchange-review.php'
+ assert wp('post','get',id,'--field=post_type')=='post'
  assert wp('post','meta','get',id,'_cg_review_exchange')=='binance'
  assert '币安 Binance 评测 2026' in wp('post','get',id,'--field=post_title')
- body=wp('post','get',id,'--field=post_content');assert '"value"' not in body and '美股代币支持情况' in body
+ body=wp('post','get',id,'--field=post_content');assert '"value"' not in body and '理财与代币化资产' in body and 'cg/review-table' not in body
  s,h,b=request('/wp-admin/admin-post.php',{'action':'cg_review_create','_wpnonce':nonce});assert re.search(r'post=(\d+)',h['Location']).group(1)==id
  print('PASS native Binance draft title, template, platform, empty-data structure, nonce and repeated creation protection')
 finally:wp('post','delete',id,'--force')

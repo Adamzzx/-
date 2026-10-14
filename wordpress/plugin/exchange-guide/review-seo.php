@@ -1,13 +1,16 @@
 <?php
 if(!defined('ABSPATH')){exit;}
 function cg_review_breadcrumbs($id){
-    $items=array(array('name'=>'首页','url'=>home_url('/')),array('name'=>'交易所','url'=>get_post_type_archive_link('cg_exchange')));$platform=cg_exchange(get_post_meta($id,'_cg_review_exchange',true));
-    if($platform){$items[]=array('name'=>$platform->post_title,'url'=>get_permalink($platform));}$items[]=array('name'=>get_the_title($id),'url'=>get_permalink($id));return $items;
+    $items=array(array('name'=>'首页','url'=>home_url('/')));$platform=cg_article_exchange($id);
+    if($platform){$items[]=array('name'=>'交易所','url'=>get_post_type_archive_link('cg_exchange'));$items[]=array('name'=>$platform->post_title,'url'=>get_permalink($platform));}
+    else{$terms=wp_get_object_terms($id,'cg_topic');if(!is_wp_error($terms)){foreach($terms as $term){if(cg_topic_has_content($term->term_id)){$items[]=array('name'=>$term->name,'url'=>get_term_link($term));break;}}}}
+    $items[]=array('name'=>get_the_title($id),'url'=>get_permalink($id));return $items;
+
 }
 function cg_review_description($id){$custom=get_post_meta($id,'_cg_review_description',true);$post=get_post($id);return wp_strip_all_tags($custom?:($post->post_excerpt?:wp_trim_words(strip_shortcodes($post->post_content),40,'…')));}
 function cg_review_external_seo(){return defined('WPSEO_VERSION')||defined('RANK_MATH_VERSION')||defined('AIOSEO_VERSION');}
 add_action('wp_head',function(){
-    $id=get_queried_object_id();if(!is_singular()||!cg_is_review($id)||post_password_required($id)||get_post_status($id)!=='publish'){return;}
+    $id=get_queried_object_id();if(!is_singular()||!cg_uses_article_layout($id)||get_post_field('post_password',$id)||get_post_status($id)!=='publish'){return;}
     // Keep WordPress canonical output; yield custom graph/meta to known SEO plugins.
     if(cg_review_external_seo()||!apply_filters('cg_review_builtin_seo',true,$id)){return;}
     $post=get_post($id);$description=cg_review_description($id);$url=get_permalink($id);$image=get_the_post_thumbnail_url($id,'full');$title=get_the_title($id);

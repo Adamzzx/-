@@ -3,8 +3,8 @@ if(!defined('ABSPATH')){exit;}
 function cg_review_routes(){add_rewrite_rule('^go/review/([0-9]+)/?$','index.php?cg_review_go=$matches[1]','top');}
 add_action('init','cg_review_routes');add_filter('query_vars',function($vars){$vars[]='cg_review_go';return $vars;});
 function cg_review_policy($id,$country){
-    if(!cg_is_review($id)||get_post_status($id)!=='publish'||post_password_required($id)){return false;}
-    $policy=get_post_meta($id,'_cg_review_policy',true);$slug=get_post_meta($id,'_cg_review_exchange',true);
+    if(!cg_uses_article_layout($id)||get_post_status($id)!=='publish'||post_password_required($id)){return false;}
+    $policy=get_post_meta($id,'_cg_review_policy',true);$platform=cg_article_exchange($id);$slug=$platform?$platform->post_name:'';
     if(!is_array($policy)||empty($policy['enabled'])||!cg_review_date_valid($policy['verified']??'')||!cg_safe_destination($slug,$policy['terms']??'')||empty($policy['product'])||cg_expiry_timestamp($policy['expiry']??'')===false||cg_expiry_timestamp($policy['expiry'])<=time()){return false;}
     if(!preg_match('/^[A-Z]{2}$/',$country)||!in_array($country,(array)($policy['countries']??array()),true)){return false;}
     // Only a verified, enabled recommendation is allowed here; no official fallback.
@@ -40,5 +40,5 @@ add_action('save_post',function($id){
     $p['countries']=array_values(array_unique(array_filter(array_map('trim',explode(',',strtoupper(sanitize_text_field(wp_unslash($_POST['cg_review_policy_countries']??''))))),fn($c)=>preg_match('/^[A-Z]{2}$/',$c))));update_post_meta($id,'_cg_review_policy',$p);do_action('litespeed_purge_post',$id);
 },25);
 // Suppress existing registration banners/shortcodes anywhere inside a review.
-add_filter('do_shortcode_tag',function($output,$tag){if(cg_is_review(get_the_ID())&&in_array($tag,array('cg_affiliate','cg_registration_cards'),true)){return '<p class="cg-meta">推荐入口需在评测末尾确认地区与条款后查看。</p>';}return $output;},10,2);
+add_filter('do_shortcode_tag',function($output,$tag){if(!get_query_var('cg_registration')&&cg_uses_article_layout(get_the_ID())&&in_array($tag,array('cg_affiliate','cg_registration_cards'),true)){return '<p class="cg-meta">推荐入口需在文末确认地区与条款后查看。</p>';}return $output;},10,2);
 add_filter('rest_post_dispatch',function($response,$server,$request){if($request->get_route()==='/cg/v1/review-eligibility'){$response=rest_ensure_response($response);if($response instanceof WP_HTTP_Response){$response->header('Cache-Control','no-store');$response->header('X-Robots-Tag','noindex');}}return $response;},10,3);

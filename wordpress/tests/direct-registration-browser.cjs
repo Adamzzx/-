@@ -16,9 +16,7 @@ const {chromium}=require('playwright');const assert=require('node:assert/strict'
  }
  console.log('PASS four homepage banners open centralized redirects in new tabs; original page remains unchanged');
  await page.goto('http://localhost:8088/reviews/smoke-published-review/');
- assert.equal(await page.locator('.cg-registration-sidebar a[target="_blank"][href*="/go/"]').count(),4);
- const popupEvent=context.waitForEvent('page');await page.locator('.cg-registration-sidebar .cg-registration-card').nth(1).click();const popup=await popupEvent;
- await popup.waitForURL(urls[1],{waitUntil:'domcontentloaded'});assert(page.url().includes('/reviews/'));await popup.close();
- console.log('PASS article sidebar also opens official registration in a new tab');
+ assert.equal(await page.locator('.cg-registration-sidebar').count(),0);
+ console.log('PASS ordinary article does not automatically expose registration banners');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});
