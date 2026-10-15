@@ -36,10 +36,10 @@ add_action('init',function(){
 add_action('add_meta_boxes',function(){foreach(array('post','cg_review') as $type){add_meta_box('cg-review-settings','文章补充设置（可选）','cg_review_settings',$type,'normal','high');}});
 function cg_review_settings($post){
     wp_nonce_field('cg_review_save','cg_review_nonce');
-    echo '<p>普通文章自动使用简洁排版，无需选择模板。来源和核验日期可以直接写在正文中。以下设置均为补充选项；关联交易所和文章摘要可继续使用原有方式。</p><label>主要评测平台 <select name="cg_review_exchange"><option value="">未选择</option>';
+    echo '<p>普通文章自动使用简洁排版，无需选择模板。正文大章节用 H2，子章节用 H3，自动生成两级目录；章节名称和顺序由作者决定。截图放在对应步骤旁，来源和核验日期放在对应数据旁，无需另建章节。以下设置均为补充选项；关联交易所和文章摘要可继续使用原有方式。</p><label>主要评测平台 <select name="cg_review_exchange"><option value="">未选择</option>';
     foreach(cg_definitions() as $slug=>$definition){echo '<option value="'.esc_attr($slug).'" '.selected(get_post_meta($post->ID,'_cg_review_exchange',true),$slug,false).'>'.esc_html($definition['name']).'</option>';}
     echo '</select></label><p>选择后自动归入对应平台专题。</p>';
-    foreach(array('description'=>'SEO 描述（留空使用文章摘要）','sources'=>'资料来源清单（每行一个名称和 HTTPS 链接；表格须另填逐项来源）') as $key=>$label){echo '<p><label>'.esc_html($label).'<textarea class="widefat" rows="3" name="cg_review_'.$key.'">'.esc_textarea(get_post_meta($post->ID,'_cg_review_'.$key,true)).'</textarea></label></p>';}
+    foreach(array('description'=>'SEO 描述（留空使用文章摘要）','sources'=>'文末来源清单（可选；来源和核验日期已写在对应数据旁时可留空）') as $key=>$label){echo '<p><label>'.esc_html($label).'<textarea class="widefat" rows="3" name="cg_review_'.$key.'">'.esc_textarea(get_post_meta($post->ID,'_cg_review_'.$key,true)).'</textarea></label></p>';}
 }
 add_action('save_post',function($id){
     if(wp_is_post_revision($id)||wp_is_post_autosave($id)||!current_user_can('edit_post',$id)||empty($_POST['cg_review_nonce'])||!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cg_review_nonce'])),'cg_review_save')){return;}
@@ -71,6 +71,6 @@ add_action('admin_post_cg_review_create',function(){
 });
 
 function cg_simple_article_pattern(){
-    $content='';foreach(array('核心结论','平台概况','交易体验与产品功能','手续费与适用条件','账户安全与出入金','理财与代币化资产','使用截图','风险提示与资料来源') as $heading){$content.='<!-- wp:heading --><h2 class="wp-block-heading">'.$heading.'</h2><!-- /wp:heading --><!-- wp:paragraph --><p></p><!-- /wp:paragraph -->';}return $content;
+    $content='';foreach(array('核心结论','支持的地区','注册与 KYC','出入金','手续费','理财产品','美股支持情况','风险提示') as $heading){$content.='<!-- wp:heading --><h2 class="wp-block-heading">'.$heading.'</h2><!-- /wp:heading --><!-- wp:paragraph --><p></p><!-- /wp:paragraph -->';}return $content;
 }
-add_action('init',function(){register_block_pattern('cg/simple-finance-article',array('title'=>'金融文章 · 简洁结构（普通区块）','categories'=>array('text'),'content'=>cg_simple_article_pattern(),'description'=>'可选章节，不含参数表单、交易所数据或实测结论。'));});
+add_action('init',function(){register_block_pattern('cg/simple-finance-article',array('title'=>'交易所评测 · 可选章节示例（普通区块）','categories'=>array('text'),'content'=>cg_simple_article_pattern(),'description'=>'手动插入的章节示例，可任意增删、改名和调整顺序；H3 可细分目录，来源和截图随正文，不含交易所数据或实测结论。'));});

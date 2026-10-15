@@ -12,7 +12,7 @@ try:
  assert wp('post','get',id,'--field=post_type')=='post'
  assert wp('post','meta','get',id,'_cg_review_exchange')=='binance'
  assert '币安 Binance 评测 2026' in wp('post','get',id,'--field=post_title')
- body=wp('post','get',id,'--field=post_content');assert '"value"' not in body and '理财与代币化资产' in body and 'cg/review-table' not in body
+ body=wp('post','get',id,'--field=post_content');assert '"value"' not in body and all('<h2 class="wp-block-heading">'+title+'</h2>' in body for title in ['支持的地区','注册与 KYC','出入金','手续费','理财产品','美股支持情况']) and '使用截图' not in body and '资料来源</h2>' not in body and 'cg/review-table' not in body
  s,h,b=request('/wp-admin/admin-post.php',{'action':'cg_review_create','_wpnonce':nonce});assert re.search(r'post=(\d+)',h['Location']).group(1)==id
  print('PASS native Binance draft title, template, platform, empty-data structure, nonce and repeated creation protection')
 finally:wp('post','delete',id,'--force')

@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
 add_action('after_setup_theme', function () { add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('responsive-embeds'); add_theme_support('html5', array('search-form','comment-form','comment-list','gallery','caption','style','script')); register_nav_menus(array('primary'=>'主导航')); });
-add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.9.0'); });
+add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.9.1'); });
 function cg_theme_brand() { return get_option('cg_brand', '加密资产投资与数字金融指南'); }
 function cg_theme_cards($type, $count = 6) {
     if (function_exists('cg_cards')) { echo cg_cards($type, $count); }
@@ -33,7 +33,7 @@ function cg_theme_default_navigation(){
     }
     echo '</ul>';
 }
-add_action('wp_enqueue_scripts',function(){wp_enqueue_script('cg-navigation',get_template_directory_uri().'/navigation.js',array(),'1.9.0',true);});
+add_action('wp_enqueue_scripts',function(){wp_enqueue_script('cg-navigation',get_template_directory_uri().'/navigation.js',array(),'1.9.1',true);});
 
 // Home modules read published editorial content; no generated placeholder articles.
 function cg_media_section($title,$args,$label='编辑内容',$heading=true){
@@ -123,7 +123,7 @@ function cg_review_related_cards($id){
     if(!is_wp_error($terms)&&$terms){usort($items,function($a,$b)use($terms){$aa=wp_get_object_terms($a->ID,'cg_topic',array('fields'=>'ids'));$bb=wp_get_object_terms($b->ID,'cg_topic',array('fields'=>'ids'));return count(array_intersect($terms,is_wp_error($bb)?array():$bb))<=>count(array_intersect($terms,is_wp_error($aa)?array():$aa));});}
     if(!$items){return;}echo '<section class="cg-review-related"><h2>相关文章</h2><div class="cg-media-grid">';foreach(array_slice($items,0,3) as $entry){echo '<article class="cg-story"><a class="cg-story-link" href="'.esc_url(get_permalink($entry)).'"><div class="cg-story-body"><h3>'.esc_html($entry->post_title).'</h3><span class="cg-meta">'.esc_html(get_the_modified_date('Y-m-d',$entry)).'</span></div></a></article>';}echo '</div></section>';
 }
-add_action('wp_enqueue_scripts',function(){if(function_exists('cg_uses_article_layout')&&cg_uses_article_layout(get_queried_object_id())){wp_enqueue_script('cg-review',get_template_directory_uri().'/assets-review.js',array(),'1.9.0',true);}});
+add_action('wp_enqueue_scripts',function(){if(function_exists('cg_uses_article_layout')&&cg_uses_article_layout(get_queried_object_id())){wp_enqueue_script('cg-review',get_template_directory_uri().'/assets-review.js',array(),'1.9.1',true);}});
 
 function cg_theme_article_platform($id){
     if(function_exists('cg_article_exchange')){return cg_article_exchange($id);}
@@ -138,4 +138,30 @@ function cg_theme_article_breadcrumbs($id){
 function cg_theme_article_date_valid($date){
     if(function_exists('cg_review_date_valid')){return cg_review_date_valid($date);}
     if(!is_string($date)){return false;}$parsed=DateTimeImmutable::createFromFormat('!Y-m-d',$date);return $parsed&&$parsed->format('Y-m-d')===$date&&$date<=wp_date('Y-m-d');
+}
+
+// Reflect the author's H2/H3 hierarchy without prescribing article sections.
+function cg_theme_article_toc($headings){
+    $sections=array();$parent=null;
+    foreach($headings as $heading){
+        if($heading['level']===3&&$parent!==null){$sections[$parent]['children'][]=$heading;}
+        else{
+            $sections[]=array('heading'=>$heading,'children'=>array());
+            $parent=$heading['level']===2?count($sections)-1:null;
+        }
+    }
+    if(!$sections){return '';}
+    $link=function($heading,$number){return '<a href="#'.esc_attr($heading['id']).'"><span class="cg-toc-number">'.esc_html($number).'</span><span>'.esc_html($heading['text']).'</span></a>';};
+    $html='<ol>';
+    foreach($sections as $index=>$section){
+        $number=(string)($index+1);$heading=$section['heading'];
+        $html.='<li class="cg-toc-level-'.(int)$heading['level'].'">'.$link($heading,$number);
+        if($section['children']){
+            $html.='<ol>';
+            foreach($section['children'] as $child_index=>$child){$html.='<li class="cg-toc-level-3">'.$link($child,$number.'.'.($child_index+1)).'</li>';}
+            $html.='</ol>';
+        }
+        $html.='</li>';
+    }
+    return $html.'</ol>';
 }
