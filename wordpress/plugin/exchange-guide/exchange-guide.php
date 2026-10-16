@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.9.1
+ * Version: 1.9.2
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -14,6 +14,7 @@ require_once __DIR__ . '/navigation.php';
 require_once __DIR__ . '/registration.php';
 require_once __DIR__ . '/admin-content.php';
 require_once __DIR__ . '/exchange-content.php';
+require_once __DIR__ . '/comparison-content.php';
 require_once __DIR__ . '/review-editor.php';
 require_once __DIR__ . '/review-affiliate.php';
 require_once __DIR__ . '/review-seo.php';
@@ -144,6 +145,7 @@ function cg_editorial_box($post) {
     cg_input($post->ID, 'sponsored', '这是赞助内容', 'checkbox');
     echo '<p><label for="cg_primary_topic">主要主题（同时加入文章主题）</label>';
     wp_dropdown_categories(array('taxonomy'=>'cg_topic','hide_empty'=>false,'hierarchical'=>true,'name'=>'cg_primary_topic','id'=>'cg_primary_topic','selected'=>(int)get_post_meta($post->ID,'_cg_primary_topic',true),'show_option_none'=>'未选择','option_none_value'=>0)); echo '</p>';
+    cg_comparison_field($post);
     echo '<fieldset><legend><strong>关联交易所（可多选）</strong></legend><input type="hidden" name="cg_related_exchanges_present" value="1"><p>勾选后，已发布文章会自动出现在对应平台资料页下方。对比文章可同时勾选两家；草稿及密码保护文章不会公开展示。</p>';
     $related=array_map('absint',(array)get_post_meta($post->ID,'_cg_related_exchanges',true));
     foreach(get_posts(array('post_type'=>'cg_exchange','post_status'=>'publish','numberposts'=>100)) as $exchange){echo '<label style="display:inline-block;margin:0 18px 12px 0"><input type="checkbox" name="cg_related_exchanges[]" value="'.absint($exchange->ID).'" '.checked(in_array($exchange->ID,$related,true),true,false).'> '.esc_html($exchange->post_title).'</label>';}
@@ -164,6 +166,7 @@ function cg_save_meta($id) {
         update_post_meta($id, '_cg_' . $key, $value);
     }
     if ($type !== 'cg_exchange') {
+        cg_save_comparison_field($id);
         $primary=absint($_POST['cg_primary_topic'] ?? 0);
         if($primary && term_exists($primary,'cg_topic')){wp_set_object_terms($id,array($primary),'cg_topic',true);update_post_meta($id,'_cg_primary_topic',$primary);}else{delete_post_meta($id,'_cg_primary_topic');}
         if(isset($_POST['cg_related_exchanges_present'])||isset($_POST['cg_related_exchanges'])){
@@ -198,7 +201,11 @@ add_action('admin_notices', function () {
 });
 
 function cg_cards($type = 'cg_exchange', $limit = 6) {
+    if($type==='cg_compare'){return cg_comparison_cards(1,$limit);}
     $posts = get_posts(array('post_type' => $type, 'post_status' => 'publish', 'numberposts' => $limit, 'orderby' => $type === 'cg_exchange' ? 'menu_order title' : 'date', 'order' => $type === 'cg_exchange' ? 'ASC' : 'DESC'));
+    return cg_cards_markup($posts,$type);
+}
+function cg_cards_markup($posts,$type){
     if (!$posts) { return '<p class="cg-empty">内容正在准备中，核验完成后发布。</p>'; }
     $html = '<div class="cg-grid">';
     foreach ($posts as $post) {
@@ -236,7 +243,7 @@ function cg_compare_shortcode() {
     <div class="cg-table-wrap" role="region" aria-label="交易所比较表" tabindex="0"><table class="cg-table"><caption><?php echo esc_html($definitions[$a]['name'] . ' 与 ' . $definitions[$b]['name']); ?></caption><thead><tr><th scope="col">比较项目</th><th scope="col"><?php echo esc_html($definitions[$a]['name']); ?></th><th scope="col"><?php echo esc_html($definitions[$b]['name']); ?></th></tr></thead><tbody>
     <?php foreach (array('verified' => '资料状态', 'fees' => '费用与条件', 'regions' => '地区与资格') as $key => $title) { ?><tr><th scope="row"><?php echo esc_html($title); ?></th><?php foreach ($posts as $post) { $value = $post ? get_post_meta($post->ID, '_cg_' . $key, true) : ''; if ($key === 'verified') { $value = $value ? '已核验' : '待核验'; } ?><td><?php echo esc_html($value ?: '待核验'); ?></td><?php } ?></tr><?php } ?>
     <tr><th scope="row">进一步了解</th><?php foreach ($posts as $post) { ?><td><?php if ($post) { ?><a href="<?php echo esc_url(get_permalink($post)); ?>">查看完整资料 →</a><?php } else { echo '资料尚未创建'; } ?></td><?php } ?></tr></tbody></table></div>
-    <h2>比较分析</h2><?php echo cg_cards('cg_compare', 6); ?>
+    <section id="comparison-articles"><h2>比较分析</h2><?php $raw=$_GET['cg_compare_page']??1;$page=is_scalar($raw)?max(1,absint($raw)):1;echo cg_comparison_cards($page,9,true); ?></section>
     <?php return ob_get_clean();
 }
 add_shortcode('cg_compare', 'cg_compare_shortcode');
