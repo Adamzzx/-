@@ -1,22 +1,33 @@
-<?php $crypto_url=cg_theme_crypto_archive_url();get_header(); ?>
-<div class="cg-home-top"><section class="cg-media-intro"><p class="cg-eyebrow">CRYPTO INVESTING & DIGITAL FINANCE</p><h1>理解加密资产，<br>做出更有依据的投资决策</h1><p class="cg-lead">提供交易所评测、加密资产研究、美股代币与投资实践指南，帮助读者理解费用、产品、风险和操作流程。</p><section class="cg-core-topics" aria-label="核心内容入口">
-<a class="cg-core-topic" href="<?php echo esc_url(home_url('/reviews/')); ?>"><span>01 / EXCHANGES</span><h2>交易所评测</h2><p>从费用、产品、地区资格和使用体验了解平台。</p><strong>查看评测 →</strong></a>
-<a class="cg-core-topic" href="#tokenized-assets"><span>02 / TOKENIZED ASSETS</span><h2>美股代币</h2><p>理解代币化资产、交易流程与资产权利的差异。</p><strong>探索专题 ↓</strong></a>
-<a class="cg-core-topic" href="<?php echo esc_url($crypto_url?:'#crypto-investing'); ?>"><span>03 / CRYPTO INVESTING</span><h2>加密投资</h2><p>从主流资产、钱包安全到配置与风险管理。</p><strong>阅读指南 <?php echo $crypto_url?'→':'↓'; ?></strong></a>
-</section></section>
-<aside class="cg-home-registration" aria-label="交易所开户注册入口"><h2>交易所开户注册</h2><p class="cg-meta">注册前了解地区资格、费用与平台条款。</p><?php echo cg_theme_registration_cards(); ?><p class="cg-banner-disclosure"><?php echo esc_html(cg_theme_registration_disclosure()); ?></p></aside></div>
-
-
 <?php
-$editorial=array('post','cg_review','cg_compare','cg_ranking','cg_guide');
-$featured=get_option('sticky_posts',array());
-if($featured){cg_media_section('编辑精选',array('post_type'=>'post','post__in'=>$featured,'posts_per_page'=>4),'精选阅读');}
+if(!defined('ABSPATH')){exit;}
+$raw_page=$_GET['cg_home_page']??1;
+$page=function_exists('cg_home_page_number')?cg_home_page_number():(is_scalar($raw_page)?(filter_var($raw_page,FILTER_VALIDATE_INT,array('options'=>array('min_range'=>1,'max_range'=>1000000)))?:1):1);
+$articles=function_exists('cg_home_articles')?cg_home_articles($page,8):new WP_Query(array(
+    'post_type'=>'post','post_status'=>'publish','has_password'=>false,
+    'posts_per_page'=>8,'paged'=>$page,'ignore_sticky_posts'=>true,
+    'orderby'=>array('date'=>'DESC','ID'=>'DESC'),
+));
+get_header();
 ?>
-<section class="cg-section cg-exchange-desk"><div class="cg-section-head"><div><p class="cg-eyebrow">PLATFORMS & COMPARISONS</p><h2>交易所比较与评测</h2></div><a href="<?php echo esc_url(home_url('/compare/')); ?>">交易所对比 →</a></div><p class="cg-meta">评估平台时，请同时核实费用条件、产品可用性与所在地资格。</p><div class="cg-platform-links"><?php foreach(array('binance'=>'Binance','okx'=>'OKX','bitget'=>'Bitget','bybit'=>'Bybit') as $slug=>$label){$exchange=function_exists('cg_exchange')?cg_exchange($slug):null;if($exchange){?><a href="<?php echo esc_url(get_permalink($exchange)); ?>"><?php echo esc_html($label); ?> <span>平台资料 ↗</span></a><?php }} ?></div><?php cg_media_section('深入了解平台',array('post_type'=>array('cg_review','cg_compare','cg_ranking'),'posts_per_page'=>3),'平台研究',false); ?></section>
-<section id="tokenized-assets" class="cg-section cg-topic-desk"><div class="cg-topic-heading"><p class="cg-eyebrow">TOKENIZED STOCKS & RWA</p><h2>美股代币与代币化资产</h2><p>理解美股代币与真实股票的区别，关注股东权利、发行结构、地区限制及交易风险。</p></div><?php cg_media_topic('tokenized-stocks'); ?></section>
-<section id="crypto-investing" class="cg-section cg-topic-desk"><div class="cg-topic-heading"><p class="cg-eyebrow">ASSETS & ALLOCATION</p><div class="cg-section-head"><h2>加密货币与资产配置</h2><?php if($crypto_url){ ?><a href="<?php echo esc_url($crypto_url); ?>">查看全部文章 →</a><?php } ?></div><p>认识比特币、以太坊和稳定币，理解资产配置、理财产品及风险管理。加密资产投资并不适合所有人。</p></div><?php cg_media_topic('crypto'); ?></section>
-<?php cg_media_section('新手入门与钱包安全',array('post_type'=>$editorial,'posts_per_page'=>3,'tax_query'=>array(array('taxonomy'=>'cg_topic','field'=>'slug','terms'=>array('beginners','wallets-security')))),'投资基础'); ?>
-<?php cg_media_section('最新发布',array('post_type'=>$editorial,'posts_per_page'=>6),'最新内容'); ?>
-<section id="cg-registration-conditions" class="cg-registration-conditions"><h2>开户注册前确认</h2><p>请核实所在地和身份验证资格，确认官方域名，并阅读费用与产品条款。本站不代办账户，不收集交易所密码、验证码或助记词。</p><?php if(!function_exists('cg_registration_url')){ ?><p class="cg-meta">注册说明和推荐入口尚未配置，配置完成后开放。本站不会展示未经核验的奖励或返佣承诺。</p><?php } ?></section>
-<section class="cg-editorial-note"><h2>让信息有依据，让风险看得见</h2><p>关注资料来源、核验日期和适用条件。商业推荐明确披露，缺少依据的数据保留待核验状态。</p><a href="<?php echo esc_url(home_url('/methodology/')); ?>">了解我们的比较方法 →</a></section>
-<?php if(have_posts()){the_post();if(trim(get_the_content())){ ?><section class="cg-content cg-section"><?php the_content(); ?></section><?php }} get_footer(); ?>
+<section id="home-articles" class="cg-home-feed cg-feed-page">
+    <h1 class="screen-reader-text">加密资产文章与指南</h1>
+    <div class="cg-feed-mobile-search"><?php get_search_form(); ?></div>
+    <div class="cg-home-layout">
+        <div class="cg-feed-main">
+            <?php if($articles->posts){cg_theme_article_feed($articles->posts);}else{ ?>
+                <p class="cg-feed-empty"><?php echo $page>1?'这一页暂时没有文章。':'内容正在准备中，文章发布后会在这里显示。'; ?><?php if($page>1){ ?> <a href="<?php echo esc_url(home_url('/')); ?>">返回首页</a><?php } ?></p>
+            <?php } ?>
+            <?php if($articles->max_num_pages>1){ ?>
+                <nav class="cg-pagination cg-feed-pagination" aria-label="首页文章分页"><?php echo wp_kses_post(paginate_links(array(
+                    'base'=>add_query_arg('cg_home_page','%#%',home_url('/')).'#home-articles',
+                    'format'=>'','current'=>$page,'total'=>$articles->max_num_pages,
+                    'prev_text'=>'上一页','next_text'=>'下一页',
+                    'before_page_number'=>'<span class="screen-reader-text">第 </span>',
+                    'after_page_number'=>'<span class="screen-reader-text"> 页</span>',
+                ))); ?></nav>
+            <?php } ?>
+        </div>
+        <?php get_sidebar('feed'); ?>
+    </div>
+</section>
+<?php get_footer(); ?>

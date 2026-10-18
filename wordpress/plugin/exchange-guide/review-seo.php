@@ -15,7 +15,8 @@ function cg_review_breadcrumbs($id){
 
 }
 function cg_review_description($id){$custom=get_post_meta($id,'_cg_review_description',true);$post=get_post($id);return wp_strip_all_tags($custom?:($post->post_excerpt?:wp_trim_words(strip_shortcodes($post->post_content),40,'…')));}
-function cg_review_external_seo(){return defined('WPSEO_VERSION')||defined('RANK_MATH_VERSION')||defined('AIOSEO_VERSION');}
+// Rank Math may be installed before its setup wizard enables the frontend output.
+function cg_review_external_seo(){return defined('WPSEO_VERSION')||defined('AIOSEO_VERSION')||(defined('RANK_MATH_VERSION')&&has_action('rank_math/head'));}
 add_action('wp_head',function(){
     $id=get_queried_object_id();if(!is_singular()||!cg_uses_article_layout($id)||get_post_field('post_password',$id)||get_post_status($id)!=='publish'){return;}
     // Keep WordPress canonical output; yield custom graph/meta to known SEO plugins.

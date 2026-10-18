@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.10.0
+ * Version: 1.11.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -20,6 +20,7 @@ require_once __DIR__ . '/review-editor.php';
 require_once __DIR__ . '/review-affiliate.php';
 require_once __DIR__ . '/review-seo.php';
 require_once __DIR__ . '/topic-archives.php';
+require_once __DIR__ . '/home-content.php';
 
 function cg_definitions() {
     return array(

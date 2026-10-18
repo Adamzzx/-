@@ -1,4 +1,4 @@
-import urllib.request,urllib.error,urllib.parse,http.cookiejar,re
+import urllib.request,urllib.error,urllib.parse,http.cookiejar,re,subprocess
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):return None
 cookies=http.cookiejar.CookieJar()
@@ -17,5 +17,7 @@ s,h,b=request('/wp-admin/admin-post.php',{'action':'cg_setup','_wpnonce':nonce,'
 assert s==302 and 'cg_done=1' in h.get('Location',''),'Setup form did not complete'
 s,h,b=request('/wp-admin/admin-post.php',{'action':'cg_setup','cg_brand':'未授权变更'})
 assert s==403,'Missing setup nonce accepted'
-s,h,b=request('/');assert s==200 and '自定义首页内容不会被覆盖' in b
-print('PASS: packaged CMS login, initialization form, nonce protection and existing homepage preservation')
+s,h,b=request('/');assert s==200 and '自定义首页内容不会被覆盖' not in b
+stored=subprocess.check_output(['docker','compose','-f','wordpress/tests/compose.packages.yaml','run','--rm','-T','cli','wp','eval',"$home=get_page_by_path('home');echo $home->post_content;"],text=True)
+assert '自定义首页内容不会被覆盖' in stored,'Homepage redesign must not delete the saved page body'
+print('PASS: packaged CMS login, initialization form, nonce protection; saved homepage body is preserved without appending it to the article feed')
