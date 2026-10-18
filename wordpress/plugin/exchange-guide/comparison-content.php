@@ -34,7 +34,7 @@ add_filter('posts_where',function($where,$query){
 },10,2);
 
 function cg_comparison_cards($page=1,$limit=9,$pagination=false){
-    $query=cg_comparison_articles($page,$limit);$html=cg_cards_markup($query->posts,'cg_compare');
+    $query=cg_comparison_articles($page,$limit);$html=$query->posts?cg_article_cards_markup($query->posts):'<p class="cg-empty">内容正在准备中，核验完成后发布。</p>';
     if($pagination&&$query->max_num_pages>1){
         $base=get_permalink(get_queried_object_id());$compare=get_page_by_path('compare');
         if(!$base&&$compare){$base=get_permalink($compare);}
