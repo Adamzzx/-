@@ -14,7 +14,7 @@ add_action('init', function () {
     ));
 });
 function cg_topic_has_content($term_id) {
-    return (bool)get_posts(array('post_type'=>array('post','cg_review','cg_compare','cg_ranking','cg_guide'),'post_status'=>'publish','numberposts'=>1,'fields'=>'ids','tax_query'=>array(array('taxonomy'=>'cg_topic','field'=>'term_id','terms'=>(int)$term_id,'include_children'=>true))));
+    return (bool)get_posts(array('post_type'=>array('post','cg_review','cg_compare','cg_ranking','cg_guide'),'post_status'=>'publish','has_password'=>false,'numberposts'=>1,'fields'=>'ids','tax_query'=>array(array('taxonomy'=>'cg_topic','field'=>'term_id','terms'=>(int)$term_id,'include_children'=>true))));
 }
 function cg_find_topic($slug, $parent = 0) {
     $terms=get_terms(array('taxonomy'=>'cg_topic','hide_empty'=>false,'slug'=>$slug,'parent'=>$parent));
@@ -93,5 +93,5 @@ add_action('admin_post_cg_navigation',function(){
     wp_safe_redirect(admin_url('admin.php?page=cg-setup&cg_navigation_done=1'));exit;
 });
 add_action('template_redirect',function(){
-    if(is_tax('cg_topic')){$term=get_queried_object();if($term instanceof WP_Term && !cg_topic_has_content($term->term_id)){global $wp_query;$wp_query->set_404();status_header(404);nocache_headers();}}
+    if(is_tax('cg_topic')){$term=get_queried_object();if($term instanceof WP_Term && !cg_topic_is_open($term)){global $wp_query;$wp_query->set_404();status_header(404);nocache_headers();}}
 });

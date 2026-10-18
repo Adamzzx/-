@@ -2,8 +2,15 @@
 if(!defined('ABSPATH')){exit;}
 function cg_review_breadcrumbs($id){
     $items=array(array('name'=>'首页','url'=>home_url('/')));$platform=cg_article_exchange($id);
+    $primary=get_term((int)get_post_meta($id,'_cg_primary_topic',true),'cg_topic');
+    if(cg_is_crypto_topic($primary)&&has_term($primary->term_id,'cg_topic',$id)){$items=cg_crypto_breadcrumbs($primary);$items[]=array('name'=>get_the_title($id),'url'=>get_permalink($id));return $items;}
     if($platform){$items[]=array('name'=>'交易所','url'=>get_post_type_archive_link('cg_exchange'));$items[]=array('name'=>$platform->post_title,'url'=>get_permalink($platform));}
-    else{$terms=wp_get_object_terms($id,'cg_topic');if(!is_wp_error($terms)){foreach($terms as $term){if(cg_topic_has_content($term->term_id)){$items[]=array('name'=>$term->name,'url'=>get_term_link($term));break;}}}}
+    else{$terms=wp_get_object_terms($id,'cg_topic');if(!is_wp_error($terms)){
+        $crypto=array_values(array_filter($terms,'cg_is_crypto_topic'));
+        usort($crypto,fn($a,$b)=>count(get_ancestors($b->term_id,'cg_topic','taxonomy'))<=>count(get_ancestors($a->term_id,'cg_topic','taxonomy')));
+        if($crypto){$items=cg_crypto_breadcrumbs($crypto[0]);}
+        else{foreach($terms as $term){if(cg_topic_has_content($term->term_id)){$items[]=array('name'=>$term->name,'url'=>get_term_link($term));break;}}}
+    }}
     $items[]=array('name'=>get_the_title($id),'url'=>get_permalink($id));return $items;
 
 }

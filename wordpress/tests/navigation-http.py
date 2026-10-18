@@ -17,7 +17,8 @@ assert '工具与资源' not in nav and '投资指南' not in nav
 assert 'aria-controls="cg-primary-nav"' in body and 'cg-submenu-toggle' in nav
 assert 'Crypto Investing &amp; Digital Finance' in body
 s,h,body=request('/topics/crypto/wallets-security/')
-assert s==404,'Empty archive should not be published'
+assert s==200 and 'cg-crypto-archive' in body,'Configured empty crypto archive remains accessible'
+assert 'noindex' in re.search(r'<meta name=[\'"]robots[\'"].*?>',body).group(0),'Empty crypto archive should not be indexed'
 s,h,body=request('/topics/crypto/beginners/')
 assert s==200 and '导航分类测试' in body
 print('PASS: navigation setup action/nonce, confirmed order, removed links, responsive controls and populated/empty category routing')
