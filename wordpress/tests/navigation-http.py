@@ -15,7 +15,7 @@ assert [nav.index('>'+x+'<') for x in labels]==sorted(nav.index('>'+x+'<') for x
 assert 'MEXC' not in nav and 'Gate' not in nav
 assert '工具与资源' not in nav and '投资指南' not in nav
 assert 'aria-controls="cg-primary-nav"' in body and 'cg-submenu-toggle' in nav
-assert 'Crypto Investing &amp; Digital Finance' in body
+assert 'class="cg-brand dd-brand"' in body and 'DegenDeer' in body and '鹿研社' in body and '加密货币与美股入门、交易所评测与资产安全' in body
 s,h,body=request('/topics/crypto/wallets-security/')
 assert s==200 and 'cg-crypto-archive' in body,'Configured empty crypto archive remains accessible'
 assert 'noindex' in re.search(r'<meta name=[\'"]robots[\'"].*?>',body).group(0),'Empty crypto archive should not be indexed'

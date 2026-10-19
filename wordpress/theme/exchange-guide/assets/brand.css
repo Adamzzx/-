@@ -1,0 +1,91 @@
+/* Only the existing cg-brand anchor and its descendants are styled. */
+.cg-header .cg-brand.dd-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 10px 0;
+  color: #163543;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-decoration: none;
+  font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+.cg-header .dd-brand .dd-brand__mark {
+  display: block;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 54px;
+}
+.cg-header .dd-brand .dd-brand__copy { display: block; min-width: 0; }
+.cg-header .dd-brand .dd-brand__names {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  row-gap: 3px;
+}
+.cg-header .dd-brand .dd-brand__en {
+  display: inline-block;
+  color: #163543;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.9px;
+  white-space: nowrap;
+}
+.cg-header .dd-brand .dd-brand__divider {
+  display: inline-block;
+  width: 1px;
+  height: 20px;
+  flex: 0 0 1px;
+  background: #CDDADB;
+}
+.cg-header .dd-brand .dd-brand__zh {
+  display: inline-block;
+  color: #157B78;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+.cg-header .dd-brand .dd-brand__tagline {
+  display: block;
+  margin-top: 5px;
+  color: #566A75;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.cg-header .cg-brand.dd-brand:focus-visible {
+  outline: 2px solid #157B78;
+  outline-offset: 6px;
+  border-radius: 3px;
+}
+@media (max-width: 850px) {
+  .cg-header .cg-brand.dd-brand { gap: 11px; padding: 0; }
+  .cg-header .dd-brand .dd-brand__mark { width: 44px; height: 46px; flex-basis: 44px; }
+  .cg-header .dd-brand .dd-brand__names { gap: 9px; row-gap: 3px; }
+  .cg-header .dd-brand .dd-brand__en { font-size: 25px; letter-spacing: -0.65px; }
+  .cg-header .dd-brand .dd-brand__zh { font-size: 18px; letter-spacing: 1px; }
+  .cg-header .dd-brand .dd-brand__divider { height: 17px; }
+  .cg-header .dd-brand .dd-brand__tagline { font-size: 12px; line-height: 1.6; }
+}
+@media (max-width: 720px) {
+  /* The existing narrow header removes wrapper padding; keep breathing room inside the brand only. */
+  .cg-header .cg-brand.dd-brand { padding: 12px 0; }
+}
+@media (max-width: 380px) {
+  .cg-header .cg-brand.dd-brand { gap: 9px; }
+  .cg-header .dd-brand .dd-brand__mark { width: 35px; height: 37px; flex-basis: 35px; }
+  .cg-header .dd-brand .dd-brand__names { gap: 6px; row-gap: 2px; }
+  .cg-header .dd-brand .dd-brand__en { font-size: 20px; letter-spacing: -0.6px; }
+  .cg-header .dd-brand .dd-brand__zh { font-size: 15px; letter-spacing: 0.7px; }
+  .cg-header .dd-brand .dd-brand__divider { height: 15px; }
+  .cg-header .dd-brand .dd-brand__tagline { font-size: 12px; line-height: 1.6; }
+}
