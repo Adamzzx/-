@@ -2,7 +2,7 @@
 if (!defined('ABSPATH')) { exit; }
 require_once __DIR__.'/inc/article-feed.php';
 add_action('after_setup_theme', function () { add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('responsive-embeds'); add_theme_support('html5', array('search-form','comment-form','comment-list','gallery','caption','style','script')); register_nav_menus(array('primary'=>'主导航')); });
-add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.12.0'); wp_enqueue_style('cg-brand', get_template_directory_uri().'/assets/brand.css', array('cg-theme'), '1.11.1'); });
+add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.13.0'); wp_enqueue_style('cg-brand', get_template_directory_uri().'/assets/brand.css', array('cg-theme'), '1.11.1'); });
 function cg_theme_brand() { return get_option('cg_brand', '加密资产投资与数字金融指南'); }
 function cg_theme_cards($type, $count = 6) {
     if (function_exists('cg_cards')) { echo cg_cards($type, $count); }
@@ -26,11 +26,13 @@ function cg_theme_default_navigation(){
     echo '<ul class="cg-menu">';
     foreach(cg_theme_navigation_groups() as $group){
         $pending=!empty($group['term'])&&!cg_theme_topic_is_open($group['term']);
-        echo '<li class="cg-nav-item cg-has-children">';
+        $has_children=!empty($group['children']);
+        echo '<li class="cg-nav-item'.($has_children?' cg-has-children':'').'">';
         echo $group['url']&&!$pending?'<a href="'.esc_url($group['url']).'">'.esc_html($group['title']).'</a>':'<span class="cg-nav-label">'.esc_html($group['title']).'</span>';
-        echo '<button class="cg-submenu-toggle" aria-expanded="false" aria-label="展开'.esc_attr($group['title']).'菜单"><svg class="cg-chevron" width="16" height="16" viewBox="0 0 20 20" aria-hidden="true"><path d="m4 7 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><ul class="sub-menu">';
+        if($has_children){echo '<button class="cg-submenu-toggle" aria-expanded="false" aria-label="展开'.esc_attr($group['title']).'菜单"><svg class="cg-chevron" width="16" height="16" viewBox="0 0 20 20" aria-hidden="true"><path d="m4 7 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><ul class="sub-menu">';
         foreach($group['children'] as $child){$pending=!empty($child['term'])&&!cg_theme_topic_is_open($child['term']);echo '<li>';echo $child['url']&&!$pending?'<a href="'.esc_url($child['url']).'">'.esc_html($child['title']).'</a>':'<span class="cg-nav-label" title="有已发布内容后开放">'.esc_html($child['title']).'</span>';echo '</li>';}
-        echo '</ul></li>';
+        echo '</ul>';}
+        echo '</li>';
     }
     echo '</ul>';
 }
@@ -81,8 +83,8 @@ function cg_theme_navigation_groups(){
     foreach(array('Binance','OKX','Bitget','Bybit','交易所对比') as $label){$exchanges[]=array('title'=>$label,'url'=>'');}
     return array(
         array('title'=>'交易所','url'=>'','children'=>$exchanges),
-        array('title'=>'美股代币','url'=>home_url('/#tokenized-assets'),'children'=>array(array('title'=>'交易指南','url'=>''),array('title'=>'出入金指南','url'=>''))),
-        array('title'=>'加密货币','url'=>home_url('/#crypto-investing'),'children'=>array(array('title'=>'新手入门','url'=>''),array('title'=>'钱包与资产安全','url'=>''),array('title'=>'出入金','url'=>''),array('title'=>'加密货币理财','url'=>''))),
+        array('title'=>'美股','url'=>home_url('/tokenized-stocks/'),'children'=>array()),
+        array('title'=>'加密货币','url'=>home_url('/#crypto-investing'),'children'=>array(array('title'=>'新手入门','url'=>''),array('title'=>'钱包与资产安全','url'=>''),array('title'=>'加密货币理财','url'=>''))),
     );
 }
 function cg_theme_registration_cards(){

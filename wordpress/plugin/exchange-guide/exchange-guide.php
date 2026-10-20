@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.12.0
+ * Version: 1.13.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -20,8 +20,10 @@ require_once __DIR__ . '/review-editor.php';
 require_once __DIR__ . '/review-affiliate.php';
 require_once __DIR__ . '/review-seo.php';
 require_once __DIR__ . '/topic-archives.php';
+require_once __DIR__ . '/stocks-archive.php';
 require_once __DIR__ . '/home-content.php';
 require_once __DIR__ . '/exchange-archive.php';
+require_once __DIR__ . '/comparison-metrics.php';
 
 function cg_definitions() {
     return array(
@@ -233,27 +235,11 @@ add_shortcode('cg_content', function ($atts) {
     $types = array('guides' => 'cg_guide', 'rankings' => 'cg_ranking', 'comparisons' => 'cg_compare');
     return isset($types[$atts['type']]) ? cg_cards($types[$atts['type']], 30) : '';
 });
-function cg_compare_shortcode() {
-    $definitions = cg_definitions();
-    $a = isset($_GET['a']) && is_string($_GET['a']) ? sanitize_title(wp_unslash($_GET['a'])) : 'binance'; $b = isset($_GET['b']) && is_string($_GET['b']) ? sanitize_title(wp_unslash($_GET['b'])) : 'bybit';
-    if (!isset($definitions[$a])) { $a = 'binance'; } if (!isset($definitions[$b])) { $b = 'bybit'; }
-    $posts = array(cg_exchange($a), cg_exchange($b));
-    ob_start(); ?>
-    <p class="cg-lead">从费用和地区资格出发，并排了解差异。缺少资料表示待核验，不代表不支持。</p>
-    <form class="cg-selectors" method="get" action="<?php echo esc_url(home_url('/compare/')); ?>">
-    <?php foreach (array('a' => $a, 'b' => $b) as $key => $selected) { ?>
-    <label><?php echo $key === 'a' ? '第一家交易所' : '第二家交易所'; ?><select name="<?php echo esc_attr($key); ?>"><?php foreach ($definitions as $slug => $def) { ?><option value="<?php echo esc_attr($slug); ?>" <?php selected($selected, $slug); ?>><?php echo esc_html($def['name']); ?></option><?php } ?></select></label>
-    <?php } ?><button class="cg-button" type="submit">开始比较</button></form>
-    <div class="cg-table-wrap" role="region" aria-label="交易所比较表" tabindex="0"><table class="cg-table"><caption><?php echo esc_html($definitions[$a]['name'] . ' 与 ' . $definitions[$b]['name']); ?></caption><thead><tr><th scope="col">比较项目</th><th scope="col"><?php echo esc_html($definitions[$a]['name']); ?></th><th scope="col"><?php echo esc_html($definitions[$b]['name']); ?></th></tr></thead><tbody>
-    <?php foreach (array('verified' => '资料状态', 'fees' => '费用与条件', 'regions' => '地区与资格') as $key => $title) { ?><tr><th scope="row"><?php echo esc_html($title); ?></th><?php foreach ($posts as $post) { $value = $post ? get_post_meta($post->ID, '_cg_' . $key, true) : ''; if ($key === 'verified') { $value = $value ? '已核验' : '待核验'; } ?><td><?php echo esc_html($value ?: '待核验'); ?></td><?php } ?></tr><?php } ?>
-    <tr><th scope="row">进一步了解</th><?php foreach ($posts as $post) { ?><td><?php if ($post) { ?><a href="<?php echo esc_url(get_permalink($post)); ?>">查看完整资料 →</a><?php } else { echo '资料尚未创建'; } ?></td><?php } ?></tr></tbody></table></div>
-    <section id="comparison-articles"><h2>比较分析</h2><?php $raw=$_GET['cg_compare_page']??1;$page=is_scalar($raw)?max(1,absint($raw)):1;echo cg_comparison_cards($page,9,true); ?></section>
-    <?php return ob_get_clean();
-}
+function cg_compare_shortcode() { return cg_comparison_table_shortcode(); }
 add_shortcode('cg_compare', 'cg_compare_shortcode');
 add_filter('wp_robots', function ($robots) { if (is_page('compare') && (isset($_GET['a']) || isset($_GET['b']))) { $robots['noindex'] = true; unset($robots['index']); } return $robots; });
 add_filter('robots_txt', function ($output) { return $output . "\nDisallow: /go/\n"; });
-add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-components', plugins_url('assets/components.css', __FILE__), array(), '1.0.0'); });
+add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-components', plugins_url('assets/components.css', __FILE__), array(), '1.13.0'); });
 
 function cg_setup_pages($set_home = false) {
     $messages = array();
@@ -292,10 +278,10 @@ function cg_admin_page() {
     <p><label>站点展示名称 <input name="cg_brand" value="<?php echo esc_attr(get_option('cg_brand', '交易所指南')); ?>" maxlength="40"></label></p>
     <p><label><input type="checkbox" name="cg_set_home" value="1"> 将新建的「首页」设为网站首页（仅对你当前这个网站生效）</label></p>
     <?php submit_button('创建基础页面并保存名称'); ?></form>
-    <h2>导航与内容分类</h2><p>创建三个一级导航和主题分类。交易所顺序为 Binance / OKX / Bitget / Bybit / 交易所对比。MEXC、Gate 数据与推荐配置保留。没有文章的主题显示为不可点击标签，不发布空分类页。</p><p>应用后会将本插件管理的新菜单指定为主导航，旧菜单保留；自定义品牌名称保留。重复应用只替换本功能创建的菜单项。</p>
+    <h2>导航与内容分类</h2><p>创建三个一级导航和主题分类。交易所顺序为 Binance / OKX / Bitget / Bybit / 交易所对比。MEXC、Gate 数据与推荐配置保留。美股直接进入文章列表；加密货币下设新手入门、钱包与资产安全、加密货币理财。没有文章时显示简洁说明。</p><p>应用后会将本插件管理的新菜单指定为主导航，旧菜单保留；自定义品牌名称保留。重复应用只替换本功能创建的菜单项。</p>
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>"><?php wp_nonce_field('cg_navigation'); ?><input type="hidden" name="action" value="cg_navigation"><?php submit_button('应用已确认的导航与定位'); ?></form>
     <?php if(isset($_GET['cg_navigation_done'])){ ?><p>导航配置已处理，请检查上方错误提示及「外观 → 菜单」。</p><?php } ?>
-    <h2>接下来在哪里编辑</h2><ol><li>交易所资料：编辑费用、资格、资料来源和推荐链接。</li><li>交易所管理：维护评测、对比与榜单。美股代币、加密货币：按主题管理文章；专题与指南：维护已有指南。核验后再发布。</li><li>推荐按钮：在文章添加短代码块，输入 <code>[cg_affiliate exchange="binance"]</code>。</li></ol>
+    <h2>接下来在哪里编辑</h2><ol><li>交易所管理 → 比较表数据：填写三项比较信息及来源、核验日期；平台资料保留其他说明与推荐链接。</li><li>交易所管理：维护评测、对比与榜单。美股、加密货币：按主题管理文章；专题与指南：维护已有指南。核验后再发布。</li><li>推荐按钮：在文章添加短代码块，输入 <code>[cg_affiliate exchange="binance"]</code>。</li></ol>
     <p>LiteSpeed Cache 或其他缓存插件请排除 <code>/go/</code> 与比较页。测试活动时清除旧缓存。当前插件只记录累计推荐点击，不代表注册量。</p>
     <p>正式上线前，请填写真实资料、设置正式域名，完善隐私与联系页面，再关闭 WordPress 的「建议搜索引擎不索引本站」。不要公开未核实的费用或优惠。</p>
     <p>停用不会删除你的内容；不要删除数据库或进行一键重置。</p></div><?php

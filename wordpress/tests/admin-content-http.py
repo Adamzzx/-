@@ -5,12 +5,12 @@ def wp(*args):
 s,h,b=request('/wp-admin/admin.php?page=cg-content-crypto')
 assert s==200 and '加密货币 · 内容管理' in b and '导航分类测试' in b
 sidebar=re.search(r'<ul id="adminmenu".*?</ul>\s*</div>',b,re.S).group(0)
-for title in ['网站管理','交易所管理','美股代币','加密货币','专题与指南']:assert title in sidebar,title
+for title in ['网站管理','交易所管理','美股','加密货币','专题与指南']:assert title in sidebar,title
 exchange=re.search(r'<li[^>]+id="menu-posts-cg_exchange".*?</ul>',sidebar,re.S).group(0)
 for title in ['交易所资料','交易所评测','交易所对比','推荐榜单']:assert title in exchange,title
 for post_type in ['cg_review','cg_compare','cg_ranking']:assert 'id="menu-posts-'+post_type+'"' not in sidebar
 s,h,tokenized=request('/wp-admin/admin.php?page=cg-content-tokenized-stocks')
-assert s==200 and '美股代币 · 内容管理' in tokenized and '还没有可编辑的主题内容' in tokenized
+assert s==200 and '美股 · 内容管理' in tokenized and '还没有可编辑的主题内容' in tokenized
 form=next(f for f in re.findall(r'<form\b.*?</form>',b,re.S) if 'value="cg_topic_draft"' in f)
 nonce=re.search(r'name="_wpnonce" value="([^"]+)"',form).group(1)
 term=re.search(r'<option value="(\d+)"',form).group(1)

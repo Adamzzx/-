@@ -10,7 +10,7 @@ $ids=function($q){return array_map(fn($p)=>(int)$p->ID,$q->posts);};
 try{
     crypto_check(cg_is_crypto_topic($root)&&cg_is_crypto_topic($beginners)&&!cg_is_crypto_topic($tokenized),'crypto scope includes root and descendants only');
     crypto_check(cg_topic_is_open($root)&&cg_topic_is_open($wallets),'crypto navigation opens even without published articles');
-    $sections=cg_crypto_sections();crypto_check(array_map(fn($t)=>$t->slug,$sections)===array('beginners','wallets-security','deposits-withdrawals','yield-products'),'four category filters use confirmed order');
+    $sections=cg_crypto_sections();crypto_check(array_map(fn($t)=>$t->slug,$sections)===array('beginners','wallets-security','yield-products'),'three category filters use confirmed order');
     foreach(array_merge(array($root),$sections) as $term){crypto_check(trim(wp_strip_all_tags(cg_crypto_topic_intro($term)))!=='','default introduction exists for '.$term->slug);}
     wp_update_term($beginners->term_id,'cg_topic',array('description'=>'<p>Owner edited archive introduction.</p>'));crypto_check(str_contains(cg_crypto_topic_intro(get_term($beginners->term_id,'cg_topic')),'Owner edited archive introduction.'),'native term description overrides default introduction');
     $unsafe=clone $beginners;$unsafe->description='<p>Safe introduction <a href="javascript:alert(1)">unsafe URL</a></p><script>alert(1)</script>';crypto_check(!str_contains(cg_crypto_topic_intro($unsafe),'<script')&&!str_contains(cg_crypto_topic_intro($unsafe),'javascript:'),'archive introduction strips unsafe HTML and URL protocols');

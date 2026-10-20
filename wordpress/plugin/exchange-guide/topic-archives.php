@@ -10,7 +10,7 @@ function cg_is_crypto_topic($term=null){
 }
 function cg_topic_is_open($term){
     if(is_numeric($term)){$term=get_term(absint($term),'cg_topic');}
-    return $term instanceof WP_Term&&(cg_is_crypto_topic($term)||cg_topic_has_content($term->term_id));
+    return $term instanceof WP_Term&&(cg_is_crypto_topic($term)||($term->slug==='tokenized-stocks'&&!(int)$term->parent)||cg_topic_has_content($term->term_id));
 }
 function cg_crypto_sections(){
     $root=cg_find_topic('crypto');if(!$root){return array();}
@@ -22,7 +22,7 @@ function cg_crypto_sections(){
         $rank=($aa===false?count($order):$aa)<=>($bb===false?count($order):$bb);
         return $rank?:strcmp($a->name,$b->name);
     });
-    return $terms;
+    return array_values(array_filter($terms,fn($term)=>$term->slug!=='deposits-withdrawals'));
 }
 function cg_crypto_topic_intro($term){
     if(!cg_is_crypto_topic($term)){return '';}

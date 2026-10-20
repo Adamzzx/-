@@ -2,8 +2,8 @@
 if (!defined('ABSPATH')) { exit; }
 function cg_topic_tree() {
     return array(
-        'tokenized-stocks' => array('美股代币', array('trading'=>'交易指南','funding'=>'出入金指南')),
-        'crypto' => array('加密货币', array('beginners'=>'新手入门','wallets-security'=>'钱包与资产安全','deposits-withdrawals'=>'出入金','yield-products'=>'加密货币理财')),
+        'tokenized-stocks' => array('美股', array()),
+        'crypto' => array('加密货币', array('beginners'=>'新手入门','wallets-security'=>'钱包与资产安全','yield-products'=>'加密货币理财')),
     );
 }
 add_action('init', function () {
@@ -43,13 +43,14 @@ function cg_navigation_item($menu_id,$key,$args,$old_ids) {
     foreach($old_ids as $id){
         if((int)get_post_meta($id,'_cg_owned_navigation',true)!==$menu_id){continue;}
         $old_key=get_post_meta($id,'_cg_nav_key',true);
-        if($old_key===$key || (!$old_key && get_the_title($id)===$args['menu-item-title'])){$existing=$id;break;}
+        if($old_key===$key || ($key==='group-美股'&&($old_key==='group-美股代币'||(!$old_key&&get_the_title($id)==='美股代币'))) || (!$old_key && get_the_title($id)===$args['menu-item-title'])){$existing=$id;break;}
     }
     $result=wp_update_nav_menu_item($menu_id,$existing,$args);
     if(!is_wp_error($result)){update_post_meta($result,'_cg_owned_navigation',$menu_id);update_post_meta($result,'_cg_nav_key',$key);}
     return $result;
 }
 function cg_apply_navigation() {
+    cg_ensure_stocks_topic_name();
     foreach(cg_topic_tree() as $slug=>$definition){
         $parent=cg_find_topic($slug);
         if(!$parent){$result=wp_insert_term($definition[0],'cg_topic',array('slug'=>$slug));if(is_wp_error($result)){return $result;}$parent=get_term($result['term_id'],'cg_topic');}
@@ -70,13 +71,14 @@ function cg_apply_navigation() {
     foreach(cg_navigation_groups() as $group){
         $parent=cg_navigation_item($menu_id,'group-'.$group['title'],array('menu-item-position'=>count($ids)+1,'menu-item-title'=>$group['title'],'menu-item-url'=>is_string($group['url'])?$group['url']:'','menu-item-type'=>'custom','menu-item-status'=>'publish'),$old_ids);
         if(is_wp_error($parent)){return $parent;}$ids[]=$parent;update_post_meta($parent,'_cg_owned_navigation',$menu_id);
-        if(!empty($group['term'])){update_post_meta($parent,'_cg_topic_id',$group['term']->term_id);}
+        if(!empty($group['term'])){update_post_meta($parent,'_cg_topic_id',$group['term']->term_id);}else{delete_post_meta($parent,'_cg_topic_id');}
         foreach($group['children'] as $child){
             $item=cg_navigation_item($menu_id,'child-'.$group['title'].'-'.$child['title'],array('menu-item-position'=>count($ids)+1,'menu-item-title'=>$child['title'],'menu-item-url'=>is_string($child['url'])?$child['url']:'','menu-item-type'=>'custom','menu-item-parent-id'=>$parent,'menu-item-status'=>'publish'),$old_ids);
             if(is_wp_error($item)){return $item;}$ids[]=$item;update_post_meta($item,'_cg_owned_navigation',$menu_id);
             if(!empty($child['term'])){update_post_meta($item,'_cg_topic_id',$child['term']->term_id);}
         }
     }
+    cg_remove_retired_navigation_items($menu_id);
     update_option('cg_navigation_item_ids',$ids);
     $locations=get_theme_mod('nav_menu_locations',array());
     if(isset($locations['primary']) && $locations['primary']!==$menu_id){update_option('cg_previous_primary_menu',$locations['primary']);}
@@ -94,4 +96,58 @@ add_action('admin_post_cg_navigation',function(){
 });
 add_action('template_redirect',function(){
     if(is_tax('cg_topic')){$term=get_queried_object();if($term instanceof WP_Term && !cg_topic_is_open($term)){global $wp_query;$wp_query->set_404();status_header(404);nocache_headers();}}
+});
+
+// A narrow menu upgrade: preserve IDs, owner links, locations and brand settings.
+function cg_ensure_stocks_topic_name(){
+    $root=cg_find_topic('tokenized-stocks');
+    if(!$root){return wp_insert_term('美股','cg_topic',array('slug'=>'tokenized-stocks'));}
+    if(in_array($root->name,array('美股代币','代币化股票'),true)){return wp_update_term($root->term_id,'cg_topic',array('name'=>'美股'));}
+    return $root->term_id;
+}
+function cg_remove_retired_navigation_items($menu_id){
+    $items=wp_get_nav_menu_items($menu_id,array('post_status'=>'any'));if(!$items){return;}
+    $retired=array('child-美股代币-交易指南','child-美股代币-出入金指南','child-美股-交易指南','child-美股-出入金指南','child-加密货币-出入金');
+    $removed=array();
+    foreach($items as $item){
+        if((int)get_post_meta($item->ID,'_cg_owned_navigation',true)!==(int)$menu_id){continue;}
+        $key=get_post_meta($item->ID,'_cg_nav_key',true);
+        if(in_array($key,$retired,true)){$removed[(int)$item->ID]=(int)$item->menu_item_parent;}
+    }
+    // Owner descendants survive removal of an obsolete generated entry.
+    foreach($items as $item){
+        if(isset($removed[(int)$item->menu_item_parent])&&!isset($removed[(int)$item->ID])){
+            $parent=(int)$item->menu_item_parent;while(isset($removed[$parent])){$parent=$removed[$parent];}
+            update_post_meta($item->ID,'_menu_item_menu_item_parent',$parent);
+        }
+    }
+    foreach(array_keys($removed) as $id){wp_delete_post($id,true);}
+    $ids=array_values(array_diff(array_map('absint',(array)get_option('cg_navigation_item_ids',array())),array_keys($removed)));
+    update_option('cg_navigation_item_ids',$ids);
+}
+function cg_upgrade_navigation_layout(){
+    $term_result=cg_ensure_stocks_topic_name();if(is_wp_error($term_result)){return $term_result;}
+    $menu_id=(int)get_option('cg_navigation_menu_id');
+    if($menu_id&&wp_get_nav_menu_object($menu_id)){
+        $items=wp_get_nav_menu_items($menu_id,array('post_status'=>'any'));
+        $page=get_page_by_path('tokenized-stocks');$root=cg_find_topic('tokenized-stocks');
+        $url=$page&&$page->post_status==='publish'?get_permalink($page):($root?get_term_link($root):'');
+        foreach((array)$items as $item){
+            if((int)get_post_meta($item->ID,'_cg_owned_navigation',true)!==$menu_id){continue;}
+            $key=get_post_meta($item->ID,'_cg_nav_key',true);
+            if(in_array($key,array('group-美股代币','group-美股'),true)||(!$key&&!(int)$item->menu_item_parent&&in_array($item->title,array('美股代币','美股'),true))){
+                $result=wp_update_nav_menu_item($menu_id,$item->ID,array('menu-item-title'=>'美股','menu-item-url'=>is_string($url)?$url:'','menu-item-type'=>'custom','menu-item-status'=>'publish','menu-item-position'=>$item->menu_order,'menu-item-parent-id'=>0));
+                if(is_wp_error($result)){return $result;}
+                update_post_meta($item->ID,'_cg_nav_key','group-美股');
+                if($page&&$page->post_status==='publish'){delete_post_meta($item->ID,'_cg_topic_id');}elseif($root){update_post_meta($item->ID,'_cg_topic_id',$root->term_id);}
+            }
+        }
+        cg_remove_retired_navigation_items($menu_id);
+    }
+    update_option('cg_navigation_layout_version','1.13.0',false);
+    do_action('litespeed_purge_all');
+    return true;
+}
+add_action('admin_init',function(){
+    if(current_user_can('manage_options')&&get_option('cg_navigation_layout_version')!=='1.13.0'){cg_upgrade_navigation_layout();}
 });

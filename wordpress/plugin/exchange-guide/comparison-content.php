@@ -38,7 +38,7 @@ function cg_comparison_cards($page=1,$limit=9,$pagination=false){
     if($pagination&&$query->max_num_pages>1){
         $base=get_permalink(get_queried_object_id());$compare=get_page_by_path('compare');
         if(!$base&&$compare){$base=get_permalink($compare);}
-        foreach(array('a','b') as $key){if(isset($_GET[$key])&&is_string($_GET[$key])){$slug=sanitize_title(wp_unslash($_GET[$key]));if(isset(cg_definitions()[$slug])){$base=add_query_arg($key,$slug,$base);}}}
+        foreach(array('a','b') as $key){if(isset($_GET[$key])&&is_string($_GET[$key])){$slug=sanitize_title(wp_unslash($_GET[$key]));if(isset(cg_comparison_platforms()[$slug])){$base=add_query_arg($key,$slug,$base);}}}
         $links=paginate_links(array('base'=>add_query_arg('cg_compare_page','%#%',$base).'#comparison-articles','format'=>'','current'=>max(1,absint($page)),'total'=>$query->max_num_pages,'prev_text'=>'上一页','next_text'=>'下一页'));
         $html.='<nav class="cg-pagination" aria-label="对比文章分页">'.wp_kses_post($links).'</nav>';
     }

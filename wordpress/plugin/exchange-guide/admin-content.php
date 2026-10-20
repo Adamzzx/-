@@ -2,7 +2,7 @@
 if(!defined('ABSPATH')){exit;}
 // Topic desks aggregate existing content without moving records or changing URLs.
 add_action('admin_menu',function(){
-    foreach(array('tokenized-stocks'=>array('美股代币','dashicons-chart-line',26),'crypto'=>array('加密货币','dashicons-shield',27)) as $slug=>$settings){
+    foreach(array('tokenized-stocks'=>array('美股','dashicons-chart-line',26),'crypto'=>array('加密货币','dashicons-shield',27)) as $slug=>$settings){
         add_menu_page($settings[0].' · 内容管理',$settings[0],'edit_posts','cg-content-'.$slug,function()use($slug){cg_content_desk($slug);},$settings[1],$settings[2]);
     }
     add_submenu_page('cg-setup','内容分类','内容分类','manage_categories','edit-tags.php?taxonomy=cg_topic&post_type=post');
