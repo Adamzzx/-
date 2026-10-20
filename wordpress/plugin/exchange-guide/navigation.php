@@ -2,8 +2,8 @@
 if (!defined('ABSPATH')) { exit; }
 function cg_topic_tree() {
     return array(
-        'tokenized-stocks' => array('美股', array()),
         'crypto' => array('加密货币', array('beginners'=>'新手入门','wallets-security'=>'钱包与资产安全','yield-products'=>'加密货币理财')),
+        'tokenized-stocks' => array('美股', array()),
     );
 }
 add_action('init', function () {
@@ -151,3 +151,30 @@ function cg_upgrade_navigation_layout(){
 add_action('admin_init',function(){
     if(current_user_can('manage_options')&&get_option('cg_navigation_layout_version')!=='1.13.0'){cg_upgrade_navigation_layout();}
 });
+
+// Reuse the three managed parent slots; all links and child relationships stay intact.
+function cg_upgrade_navigation_order(){
+    $menu_id=(int)get_option('cg_navigation_menu_id');
+    if(!$menu_id||!wp_get_nav_menu_object($menu_id)){return false;}
+    $keys=array('group-交易所','group-加密货币','group-美股');$parents=array();$positions=array();
+    foreach((array)wp_get_nav_menu_items($menu_id,array('post_status'=>'any','output'=>OBJECT)) as $item){
+        if($item->post_type!=='nav_menu_item'||(int)$item->menu_item_parent||(int)get_post_meta($item->ID,'_cg_owned_navigation',true)!==$menu_id){continue;}
+        $key=get_post_meta($item->ID,'_cg_nav_key',true);
+        if(!in_array($key,$keys,true)){continue;}
+        if(isset($parents[$key])){return false;}
+        $parents[$key]=$item->ID;$positions[]=(int)get_post_field('menu_order',$item->ID,'raw');
+    }
+    if(count($parents)!==3||count(array_unique($positions))!==3){return false;}
+    sort($positions,SORT_NUMERIC);
+    foreach($keys as $index=>$key){
+        if((int)get_post_field('menu_order',$parents[$key],'raw')===$positions[$index]){continue;}
+        $result=wp_update_post(array('ID'=>$parents[$key],'menu_order'=>$positions[$index]),true);
+        if(is_wp_error($result)){return $result;}
+    }
+    update_option('cg_navigation_order_version','1.13.2',false);
+    do_action('litespeed_purge_all');
+    return true;
+}
+add_action('admin_init',function(){
+    if(current_user_can('manage_options')&&get_option('cg_navigation_order_version')!=='1.13.2'){cg_upgrade_navigation_order();}
+},20);

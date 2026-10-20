@@ -2,7 +2,7 @@
 if (!defined('ABSPATH')) { exit; }
 require_once __DIR__.'/inc/article-feed.php';
 add_action('after_setup_theme', function () { add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('responsive-embeds'); add_theme_support('html5', array('search-form','comment-form','comment-list','gallery','caption','style','script')); register_nav_menus(array('primary'=>'主导航')); });
-add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.13.1'); wp_enqueue_style('cg-brand', get_template_directory_uri().'/assets/brand.css', array('cg-theme'), '1.11.1'); });
+add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-theme', get_stylesheet_uri(), array(), '1.13.2'); wp_enqueue_style('cg-brand', get_template_directory_uri().'/assets/brand.css', array('cg-theme'), '1.11.1'); });
 function cg_theme_brand() { return get_option('cg_brand', '加密资产投资与数字金融指南'); }
 function cg_theme_cards($type, $count = 6) {
     if (function_exists('cg_cards')) { echo cg_cards($type, $count); }
@@ -83,8 +83,8 @@ function cg_theme_navigation_groups(){
     foreach(array('Binance','OKX','Bitget','Bybit','交易所对比') as $label){$exchanges[]=array('title'=>$label,'url'=>'');}
     return array(
         array('title'=>'交易所','url'=>'','children'=>$exchanges),
-        array('title'=>'美股','url'=>home_url('/tokenized-stocks/'),'children'=>array()),
         array('title'=>'加密货币','url'=>home_url('/#crypto-investing'),'children'=>array(array('title'=>'新手入门','url'=>''),array('title'=>'钱包与资产安全','url'=>''),array('title'=>'加密货币理财','url'=>''))),
+        array('title'=>'美股','url'=>home_url('/tokenized-stocks/'),'children'=>array()),
     );
 }
 function cg_theme_registration_cards(){
