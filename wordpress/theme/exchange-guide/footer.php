@@ -19,9 +19,7 @@ if (function_exists('cg_launch_footer_links')) {
 }
 ?></main>
 <footer class="cg-footer"><div class="cg-wrap">
-<strong>先了解，再选择。</strong>
 <p>加密资产可能损失全部本金。请核实所在地与产品资格；本站不提供投资建议。</p>
-<p>部分入口可能为推荐链接，我们可能因此获得佣金。赞助内容单独标识，未核验资料不会作为评分依据。</p>
 <div class="cg-footer-links"><?php foreach ($cg_footer_links as $link) { ?><a href="<?php echo esc_url($link['url']); ?>"><?php echo esc_html($link['label']); ?></a><?php } ?></div>
 <p>© <?php echo esc_html(wp_date('Y')); ?> <?php echo esc_html(cg_theme_brand()); ?></p>
 </div></footer><?php wp_footer(); ?></body></html>
