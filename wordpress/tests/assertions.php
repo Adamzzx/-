@@ -3,7 +3,8 @@ function cg_assert($condition, $name) { if (!$condition) { throw new RuntimeExce
 $admin = get_user_by('login', 'smoke-admin'); wp_set_current_user($admin->ID);
 $binance = cg_exchange('binance');
 cg_assert((bool)$binance, 'seeded exchange exists');
-cg_assert(count(get_posts(array('post_type'=>'cg_exchange','numberposts'=>100))) === 6, 'six seeded identities');
+$seeded_before=count(get_posts(array('post_type'=>'cg_exchange','numberposts'=>100)));
+foreach(array('binance','okx','bitget','bybit') as $slug){cg_assert((bool)cg_exchange($slug),'confirmed seeded identity exists: '.$slug);}
 foreach (array('http://www.binance.com/', 'https://binance.com.evil.invalid/', 'https://u:p@www.binance.com/', 'https://www.binance.com:8443/', 'javascript:alert(1)', 'https://www.okx.com/') as $url) { cg_assert(!cg_safe_destination('binance',$url), 'blocked invalid destination '.$url); }
 cg_assert(cg_safe_destination('binance','https://www.binance.com/en/register?ref=smoke'), 'official HTTPS accepted');
 cg_assert(cg_expiry_timestamp('2026-02-31') === false, 'impossible date rejected');
@@ -13,7 +14,7 @@ $_POST = array('cg_meta_nonce'=>wp_create_nonce('cg_save_meta'),'cg_verified'=>'
 cg_save_meta($binance->ID); cg_assert(cg_active_offer($binance), 'authorized field save activates offer');
 $before=get_post_meta($binance->ID,'_cg_fees',true); cg_setup_pages(true); cg_setup_pages(true);
 cg_assert(get_post_meta($binance->ID,'_cg_fees',true)===$before, 'repeat initialization preserves edits');
-cg_assert(count(get_posts(array('post_type'=>'cg_exchange','numberposts'=>100)))===6, 'repeat initialization does not duplicate identities');
+cg_assert(count(get_posts(array('post_type'=>'cg_exchange','numberposts'=>100)))===$seeded_before, 'repeat initialization preserves existing identities without adding duplicates');
 $_POST['cg_destination']='https://evil.invalid/'; cg_save_meta($binance->ID); cg_assert(!cg_active_offer($binance), 'invalid destination disables offer');
 $_POST['cg_destination']='https://www.binance.com/en/register?ref=smoke';$_POST['cg_expiry']='2000-01-01';cg_save_meta($binance->ID);cg_assert(!cg_active_offer($binance),'expired offer disabled');
 $_POST['cg_expiry']='';cg_save_meta($binance->ID);

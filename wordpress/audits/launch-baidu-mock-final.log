@@ -1,0 +1,6 @@
+PASS blank/invalid configuration does not load a tracking script
+PASS asynchronous mock hm.js loads exactly once
+PASS promotion click platform/article/position fields, middle click, dynamic qualified link, no destination/query or fabricated registrations
+PASS same-ID script reused; different-ID script blocks our additional script and event listener
+PASS nonarticle page path strips query; no browser runtime errors
+MOCK ONLY: real Baidu visits/events receipt and mainland connectivity remain untested.

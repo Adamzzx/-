@@ -84,8 +84,11 @@ function cg_apply_navigation() {
     if(isset($locations['primary']) && $locations['primary']!==$menu_id){update_option('cg_previous_primary_menu',$locations['primary']);}
     $locations['primary']=$menu_id;set_theme_mod('nav_menu_locations',$locations);
     $brand=get_option('cg_brand','');
-    if(!$brand || $brand==='交易所指南'){update_option('cg_brand','加密资产投资与数字金融指南');if(get_option('blogname')==='交易所指南'){update_option('blogname','加密资产投资与数字金融指南');}}
-    update_option('cg_tagline','Crypto Investing & Digital Finance');
+    if(!$brand || in_array($brand,array('交易所指南','加密资产投资与数字金融指南'),true)){
+        update_option('cg_brand','DegenDeer 鹿研社');
+        if(in_array(get_option('blogname'),array('交易所指南','加密资产投资与数字金融指南'),true)){update_option('blogname','DegenDeer 鹿研社');}
+    }
+    if(!get_option('cg_tagline') || get_option('cg_tagline')==='Crypto Investing & Digital Finance'){update_option('cg_tagline','加密货币与美股入门、交易所评测与资产安全');}
     flush_rewrite_rules();return $menu_id;
 }
 add_action('admin_post_cg_navigation',function(){

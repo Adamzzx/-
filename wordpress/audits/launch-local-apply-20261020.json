@@ -1,0 +1,65 @@
+{
+  "environment": "local disposable actual ZIP installation, never production",
+  "widths": [
+    1440,
+    1024,
+    390,
+    320
+  ],
+  "rows": [
+    {
+      "path": "/exchanges/mexc/",
+      "action": "trash",
+      "result": "trashed"
+    },
+    {
+      "path": "/exchanges/gate/",
+      "action": "trash",
+      "result": "trashed"
+    },
+    {
+      "path": "/best/",
+      "action": "trash",
+      "result": "trashed"
+    },
+    {
+      "path": "/guides/",
+      "action": "trash",
+      "result": "trashed"
+    },
+    {
+      "path": "/home/",
+      "action": "keep",
+      "result": "kept"
+    },
+    {
+      "path": "/topics/tokenized-stocks/trading/",
+      "action": "delete_term",
+      "result": "deleted_empty_term"
+    },
+    {
+      "path": "/topics/tokenized-stocks/funding/",
+      "action": "delete_term",
+      "result": "deleted_empty_term"
+    },
+    {
+      "path": "/topics/crypto/deposits-withdrawals/",
+      "action": "delete_term",
+      "result": "deleted_empty_term"
+    },
+    {
+      "path": "/category/uncategorized/",
+      "action": "archive_404",
+      "result": "kept_category_data_archive_404"
+    }
+  ],
+  "helpers": {
+    "cg_launch_apply_identity": "completed",
+    "cg_launch_prepare_page_drafts": "completed",
+    "cg_launch_repair_editorial": "completed",
+    "cg_launch_invalidate_sitemaps": "completed"
+  },
+  "analytics": "disabled; no real code provided",
+  "mainlandAndBaiduReceipt": "not tested; requires real code and account",
+  "errors": []
+}

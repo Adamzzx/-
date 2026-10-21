@@ -19,8 +19,8 @@ const wp=(...a)=>execFileSync('docker',['compose','-f','wordpress/tests/compose.
     console.log('PASS Rank Math '+(configured?'frontend enabled':'wizard pending')+': exactly one correct homepage/page-2 canonical in '+mode+' front-page mode');
    }
    await page.goto('http://localhost:8088/?s=CGSeoCompatibility',{waitUntil:'load'});assert((await page.locator('meta[name="robots"]').getAttribute('content')).includes('noindex'));assert.equal(await page.locator('#search-articles .cg-feed-article').count(),9);
-   await page.goto('http://localhost:8088/topics/crypto/yield-products/',{waitUntil:'load'});assert((await page.locator('meta[name="robots"]').getAttribute('content')).includes('noindex'));
-   console.log('PASS search and empty-category noindex with Rank Math '+(configured?'frontend enabled':'wizard pending'));
+   await page.goto('http://localhost:8088/topics/crypto/yield-products/',{waitUntil:'load'});assert(!(await page.locator('meta[name="robots"]').getAttribute('content')).includes('noindex'));
+   console.log('PASS search noindex and formal empty-category index with Rank Math '+(configured?'frontend enabled':'wizard pending'));
   }
  }finally{
   if(browser)await browser.close();if(state){if(!state.active.includes('seo-by-rank-math/rank-math.php'))wp('plugin','deactivate','seo-by-rank-math');wp('option','update','blog_public',state.public);wp('option','update','show_on_front',state.front);wp('option','update','page_on_front',String(state.home));wp('eval',`$state=json_decode(base64_decode('${Buffer.from(JSON.stringify(state)).toString('base64')}'),true);if($state['skip']===null){delete_option('rank_math_registration_skip');}else{update_option('rank_math_registration_skip',$state['skip']);}foreach($state['ids'] as $id){wp_delete_post($id,true);}`);}

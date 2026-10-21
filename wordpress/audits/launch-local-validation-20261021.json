@@ -1,0 +1,39 @@
+{
+  "verified_date_Asia_Shanghai": "2026-10-21",
+  "release": "1.14.0",
+  "environment": "Local Docker WordPress installation of actual theme/plugin ZIPs; production was not changed",
+  "checks": {
+    "php_lint": "passed",
+    "identity_and_drafts_permissions": "passed",
+    "actual_rankmath_option_names_and_settings_api": "passed",
+    "precise_editorial_hrefs_and_6_hash_matched_image_alts": "passed",
+    "cleanup_dry_run_and_dependency_guards": "passed",
+    "actual_admin_post_nonce_backup_and_repeat_apply": "passed",
+    "rankmath_pending_and_configured_empty_directory_seo": "passed",
+    "real_rankmath_xml_dynamic_publication_and_withdrawal": "passed",
+    "baidu_php_permissions_default_disabled_and_admin_exclusion": "passed",
+    "baidu_async_and_outbound_event_browser_mock": "passed; no real analytics receipt claimed",
+    "responsive_widths": [
+      1440,
+      1024,
+      390,
+      320
+    ],
+    "database_rollback": "private complete local SQL backup restored; zero temporary launch users/posts/cleanup logs; Baidu disabled",
+    "zip_crc_contents_source_identity": "passed"
+  },
+  "production_pending": [
+    "Hostinger complete file and database backup",
+    "Upload both ZIPs and explicitly run reviewed cleanup",
+    "Review/publish explanation pages and purge all active cache layers",
+    "Provide real Baidu Tongji code and platform verification values",
+    "Mainland script loading and real Baidu visit/event receipt",
+    "Post-deployment unique sitemap URL/canonical/robots audit"
+  ],
+  "sha256sums": [
+    "cc103cb78f37e8631711c4b4676cd7db1422536540e2ba9ab66770ebbdc6af22  exchange-guide-theme.zip",
+    "cc103cb78f37e8631711c4b4676cd7db1422536540e2ba9ab66770ebbdc6af22  exchange-guide-theme-1.14.0.zip",
+    "dc5d34b3df65c50397d86cb3ffbb2b8c03512a7602763e413976ee330573200b  exchange-guide-plugin.zip",
+    "dc5d34b3df65c50397d86cb3ffbb2b8c03512a7602763e413976ee330573200b  exchange-guide-plugin-1.14.0.zip"
+  ]
+}

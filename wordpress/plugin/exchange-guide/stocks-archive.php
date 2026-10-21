@@ -58,10 +58,8 @@ add_filter('template_include',function($template){
     return $template;
 });
 function cg_stocks_empty_directory(){return cg_is_stocks_directory()&&!(int)cg_stocks_current_articles()->found_posts;}
-add_filter('wp_robots',function($robots){if(cg_stocks_empty_directory()){$robots['noindex']=true;unset($robots['index']);}return $robots;},99);
-foreach(array('rank_math/frontend/robots','wpseo_robots_array') as $hook){
-    add_filter($hook,function($robots){if(cg_stocks_empty_directory()&&is_array($robots)){$robots['index']='noindex';}return $robots;},99);
-}
+// A permanent editorial desk remains a normal indexable page before its first article.
+// launch-sitemap.php reconciles SEO-plugin robots without overriding site privacy.
 foreach(array('get_canonical_url','rank_math/frontend/canonical','wpseo_canonical') as $hook){
     add_filter($hook,function($url){return cg_is_stocks_directory()?cg_stocks_page_url(cg_stocks_page_number()):$url;},25);
 }

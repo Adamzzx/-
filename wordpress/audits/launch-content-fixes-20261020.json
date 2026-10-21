@@ -1,0 +1,183 @@
+{
+  "wallet_article": {
+    "slug": "crypto-wallet-security-guide-2026",
+    "url": "https://degendeer.com/crypto-wallet-security-guide-2026/",
+    "image_alt_edits": [
+      {
+        "attachment_id_hint": 155,
+        "src": "https://degendeer.com/wp-content/uploads/2026/10/wallet-security-01-custody.webp",
+        "file_basename": "wallet-security-01-custody.webp",
+        "sha256": "3d740a85e8f3e8f6c12e082f7d42f56369471c1ea1bd24ee7312d064edd1102a",
+        "old_alt": "",
+        "proposed_alt": "交易所托管、手机自托管与硬件钱包的密钥管理方式对比",
+        "visually_reviewed": true,
+        "local_read_only_image_path": "/tmp/degendeer-launch-wallet-01.webp"
+      },
+      {
+        "attachment_id_hint": 157,
+        "src": "https://degendeer.com/wp-content/uploads/2026/10/wallet-security-02-shared-backup.webp",
+        "file_basename": "wallet-security-02-shared-backup.webp",
+        "sha256": "ce22622e94cb3facc69ac7851bb7c6ae3b36b2ae52e290f87a668b94622490ce",
+        "old_alt": "",
+        "proposed_alt": "一组助记词关联三个派生账户的示意图",
+        "visually_reviewed": true,
+        "local_read_only_image_path": "/tmp/degendeer-launch-wallet-02.webp"
+      },
+      {
+        "attachment_id_hint": 158,
+        "src": "https://degendeer.com/wp-content/uploads/2026/10/wallet-security-03-okx-backup.webp",
+        "file_basename": "wallet-security-03-okx-backup.webp",
+        "sha256": "aa71de775611009da14fd986eb50889dbc8a09d6242388624bf4a9ec7016860d",
+        "old_alt": "",
+        "proposed_alt": "OKX Wallet 从九宫格进入钱包备份并选择钱包的三屏界面",
+        "visually_reviewed": true,
+        "local_read_only_image_path": "/tmp/degendeer-launch-wallet-03.webp"
+      },
+      {
+        "attachment_id_hint": 159,
+        "src": "https://degendeer.com/wp-content/uploads/2026/10/wallet-security-04-okx-receive-network.webp",
+        "file_basename": "wallet-security-04-okx-receive-network.webp",
+        "sha256": "ced953ec4e98f8e0786a7e368e925dafc980b612040664d33363d399d38172e6",
+        "old_alt": "",
+        "proposed_alt": "OKX Wallet 从首页打开不同网络的钱包地址列表",
+        "visually_reviewed": true,
+        "local_read_only_image_path": "/tmp/degendeer-launch-wallet-04.webp"
+      },
+      {
+        "attachment_id_hint": 160,
+        "src": "https://degendeer.com/wp-content/uploads/2026/10/wallet-security-05-okx-send-address.webp",
+        "file_basename": "wallet-security-05-okx-send-address.webp",
+        "sha256": "9e336503e73ce3e32c9f6d58d4212f33c1a82a97a3e0e8e7c2a84c0576ab99d8",
+        "old_alt": "",
+        "proposed_alt": "OKX Wallet 发送入口与接收地址确认页面",
+        "visually_reviewed": true,
+        "local_read_only_image_path": "/tmp/degendeer-launch-wallet-05.webp"
+      },
+      {
+        "attachment_id_hint": 161,
+        "src": "https://degendeer.com/wp-content/uploads/2026/10/wallet-security-06-approval-limits.webp",
+        "file_basename": "wallet-security-06-approval-limits.webp",
+        "sha256": "f8d09ad78d9723c292c91d87af8959109bf4db47748e8883d12410f282dd0dcf",
+        "old_alt": "",
+        "proposed_alt": "普通代币支出授权100与1,000 USDT的额度对比示意",
+        "visually_reviewed": true,
+        "local_read_only_image_path": "/tmp/degendeer-launch-wallet-06.webp"
+      }
+    ]
+  },
+  "internal_links": [
+    {
+      "target": "https://degendeer.com/%e5%b8%81%e5%ae%89-binance-%e4%bd%bf%e7%94%a8%e8%af%84%e6%b5%8b%ef%bc%882026%ef%bc%89%ef%bc%9a%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e5%87%ba%e5%85%a5%e9%87%91%e3%80%81%e7%90%86%e8%b4%a2%e4%b8%8e-2/",
+      "decoded_path": "/币安-binance-使用评测（2026）：手续费、出入金、理财与-2/",
+      "status": 200,
+      "final_url": "https://degendeer.com/binance-review-2026/",
+      "redirects": [
+        {
+          "from": "https://degendeer.com/%e5%b8%81%e5%ae%89-binance-%e4%bd%bf%e7%94%a8%e8%af%84%e6%b5%8b%ef%bc%882026%ef%bc%89%ef%bc%9a%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e5%87%ba%e5%85%a5%e9%87%91%e3%80%81%e7%90%86%e8%b4%a2%e4%b8%8e-2/",
+          "status": 301,
+          "location": "https://degendeer.com/binance-review-2026/"
+        }
+      ],
+      "references": [
+        {
+          "source": "https://degendeer.com/crypto-beginners-guide-2026/",
+          "text": "币安 Binance 使用评测（2026）",
+          "raw_href": "/%e5%b8%81%e5%ae%89-binance-%e4%bd%bf%e7%94%a8%e8%af%84%e6%b5%8b%ef%bc%882026%ef%bc%89%ef%bc%9a%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e5%87%ba%e5%85%a5%e9%87%91%e3%80%81%e7%90%86%e8%b4%a2%e4%b8%8e-2/",
+          "region": [
+            [
+              "main",
+              "cg-wrap",
+              "main"
+            ],
+            [
+              "article",
+              "cg-review cg-simple-article cg-page",
+              ""
+            ]
+          ]
+        },
+        {
+          "source": "https://degendeer.com/binance-vs-okx-2026/",
+          "text": "币安 Binance 使用评测",
+          "raw_href": "/%e5%b8%81%e5%ae%89-binance-%e4%bd%bf%e7%94%a8%e8%af%84%e6%b5%8b%ef%bc%882026%ef%bc%89%ef%bc%9a%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e5%87%ba%e5%85%a5%e9%87%91%e3%80%81%e7%90%86%e8%b4%a2%e4%b8%8e-2/",
+          "region": [
+            [
+              "main",
+              "cg-wrap",
+              "main"
+            ],
+            [
+              "article",
+              "cg-review cg-simple-article cg-page",
+              ""
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "target": "https://degendeer.com/%e5%b8%81%e5%ae%89-binance-vs-%e6%ac%a7%e6%98%93-okx%ef%bc%882026%ef%bc%89%ef%bc%9a%e5%ae%89%e5%85%a8%e6%80%a7%e3%80%81%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e7%be%8e%e8%82%a1%e4%b8%8e%e7%90%86%e8%b4%a2/",
+      "decoded_path": "/币安-binance-vs-欧易-okx（2026）：安全性、手续费、美股与理财/",
+      "status": 200,
+      "final_url": "https://degendeer.com/binance-vs-okx-2026/",
+      "redirects": [
+        {
+          "from": "https://degendeer.com/%e5%b8%81%e5%ae%89-binance-vs-%e6%ac%a7%e6%98%93-okx%ef%bc%882026%ef%bc%89%ef%bc%9a%e5%ae%89%e5%85%a8%e6%80%a7%e3%80%81%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e7%be%8e%e8%82%a1%e4%b8%8e%e7%90%86%e8%b4%a2/",
+          "status": 301,
+          "location": "https://degendeer.com/binance-vs-okx-2026/"
+        }
+      ],
+      "references": [
+        {
+          "source": "https://degendeer.com/crypto-beginners-guide-2026/",
+          "text": "币安 Binance vs 欧易 OKX（2026）",
+          "raw_href": "/%e5%b8%81%e5%ae%89-binance-vs-%e6%ac%a7%e6%98%93-okx%ef%bc%882026%ef%bc%89%ef%bc%9a%e5%ae%89%e5%85%a8%e6%80%a7%e3%80%81%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e7%be%8e%e8%82%a1%e4%b8%8e%e7%90%86%e8%b4%a2/",
+          "region": [
+            [
+              "main",
+              "cg-wrap",
+              "main"
+            ],
+            [
+              "article",
+              "cg-review cg-simple-article cg-page",
+              ""
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "target": "https://degendeer.com/%e5%b8%81%e5%ae%89-binance-%e4%bd%bf%e7%94%a8%e8%af%84%e6%b5%8b%ef%bc%882026%ef%bc%89%ef%bc%9a%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e5%87%ba%e5%85%a5%e9%87%91%e3%80%81%e7%90%86%e8%b4%a2%e4%b8%8e/",
+      "decoded_path": "/币安-binance-使用评测（2026）：手续费、出入金、理财与/",
+      "status": 404,
+      "final_url": "https://degendeer.com/%e5%b8%81%e5%ae%89-binance-%e4%bd%bf%e7%94%a8%e8%af%84%e6%b5%8b%ef%bc%882026%ef%bc%89%ef%bc%9a%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e5%87%ba%e5%85%a5%e9%87%91%e3%80%81%e7%90%86%e8%b4%a2%e4%b8%8e/",
+      "redirects": [],
+      "references": [
+        {
+          "source": "https://degendeer.com/okx-review-2026/",
+          "text": "币安 Binance 使用评测（2026）：手续费、出入金、理财与美股交易",
+          "raw_href": "https://degendeer.com/%e5%b8%81%e5%ae%89-binance-%e4%bd%bf%e7%94%a8%e8%af%84%e6%b5%8b%ef%bc%882026%ef%bc%89%ef%bc%9a%e6%89%8b%e7%bb%ad%e8%b4%b9%e3%80%81%e5%87%ba%e5%85%a5%e9%87%91%e3%80%81%e7%90%86%e8%b4%a2%e4%b8%8e/",
+          "region": [
+            [
+              "main",
+              "cg-wrap",
+              "main"
+            ],
+            [
+              "article",
+              "cg-review cg-simple-article cg-page",
+              ""
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Every proposed alt describes a downloaded and visually reviewed existing image. Image numbers/values from the original explanatory diagrams are not independently verified fee or yield data.",
+    "Attachment IDs are locator hints only; match the article slug, image filename/URL and actual media before applying.",
+    "No production content was edited.",
+    "The non-2 Binance path currently returns 404; the -2 Binance path and old comparison path already 301 correctly. Preserve correct redirects and rewrite article hrefs to the final English URLs."
+  ]
+}

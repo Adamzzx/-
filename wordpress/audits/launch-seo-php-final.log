@@ -1,0 +1,31 @@
+ Container exchange-guide-wp-test-db-1  Running
+ Container exchange-guide-wp-test-wordpress-1  Running
+PASS: four declared crypto desks are formal while the old Stocks root stays an alias
+PASS: formal topic is mapped independent of article count: 6
+PASS: formal topic is mapped independent of article count: 7
+PASS: formal topic is mapped independent of article count: 8
+PASS: formal topic is mapped independent of article count: 10
+PASS: 301 Stocks taxonomy alias stays out of sitemap
+PASS: an unrelated empty future category is not globally included
+PASS: draft and password-protected articles do not make a new topic public
+PASS: future topic joins the dynamic map when its first public article is published
+PASS: provider pagination covers dynamic topics once without a fixed URL limit
+PASS: provider never handles another type or fabricates an out-of-range page
+PASS: an explicit noindex on a nonformal future topic remains effective
+PASS: unpublishing the only public article removes a nonformal topic
+PASS: sections provider supplements one homepage, exchange directory and real Stocks page
+PASS: Stocks has one sitemap owner rather than duplicate page and sections entries
+PASS: normal future post stays eligible for the native Rank Math provider
+PASS: normal future page stays eligible for the native Rank Math provider
+PASS: normal future cg_exchange stays eligible for the native Rank Math provider
+PASS: formal topic corrects empty noindex while preserving unrelated robot directives
+PASS: formal empty topic has its own canonical through the SEO-plugin filter
+PASS: empty topic reuses visible introduction without overriding manual SEO description
+PASS: site-wide privacy remains noindex and empties both supplementary maps
+PASS: true 404 is not converted into an indexable formal directory
+PASS: published Stocks desk has index and self canonical
+PASS: empty permanent exchange directory remains indexable
+PASS: ordinary article noindex is never overridden by a directory exception
+PASS: sitemap integration preserves article permanent URL and full body
+PASS: Uncategorized is excluded without deleting mandatory category data
+PASS: existing external sitemap providers are preserved

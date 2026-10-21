@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.13.2
+ * Version: 1.14.0
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -24,15 +24,18 @@ require_once __DIR__ . '/stocks-archive.php';
 require_once __DIR__ . '/home-content.php';
 require_once __DIR__ . '/exchange-archive.php';
 require_once __DIR__ . '/comparison-metrics.php';
+require_once __DIR__ . '/launch-sitemap.php';
+require_once __DIR__ . '/launch-identity.php';
+require_once __DIR__ . '/baidu-analytics.php';
+require_once __DIR__ . '/launch-editorial.php';
+require_once __DIR__ . '/launch-cleanup.php';
 
 function cg_definitions() {
     return array(
         'binance' => array('name' => 'Binance', 'hosts' => array('binance.com', 'www.binance.com', 'accounts.binance.com')),
-        'bybit' => array('name' => 'Bybit', 'hosts' => array('bybit.com', 'www.bybit.com')),
         'okx' => array('name' => 'OKX', 'hosts' => array('okx.com', 'www.okx.com')),
         'bitget' => array('name' => 'Bitget', 'hosts' => array('bitget.com', 'www.bitget.com')),
-        'mexc' => array('name' => 'MEXC', 'hosts' => array('mexc.com', 'www.mexc.com')),
-        'gate' => array('name' => 'Gate', 'hosts' => array('gate.com', 'www.gate.com', 'gate.io', 'www.gate.io')),
+        'bybit' => array('name' => 'Bybit', 'hosts' => array('bybit.com', 'www.bybit.com')),
     );
 }
 function cg_safe_destination($slug, $url) {
@@ -103,8 +106,10 @@ function cg_redirect() {
     }
     global $wpdb;
     // Aggregate count only; do not record visitor identities or request parameters.
-    add_post_meta($post->ID, '_cg_clicks', '0', true);
-    $wpdb->query($wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = CAST(meta_value AS UNSIGNED) + 1 WHERE post_id = %d AND meta_key = %s", $post->ID, '_cg_clicks'));
+    if (!current_user_can('manage_options')) {
+        add_post_meta($post->ID, '_cg_clicks', '0', true);
+        $wpdb->query($wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = CAST(meta_value AS UNSIGNED) + 1 WHERE post_id = %d AND meta_key = %s", $post->ID, '_cg_clicks'));
+    }
     // The URL has already been checked against an exact exchange-specific host allowlist.
     wp_redirect(get_post_meta($post->ID, '_cg_destination', true), 302, 'Exchange Guide'); exit;
 }
@@ -251,14 +256,14 @@ function cg_setup_pages($set_home = false) {
         }
     }
     $pages = array(
-        'home' => array('首页', ''),
         'compare' => array('交易所比较', '[cg_compare]'),
-        'best' => array('推荐榜单', '[cg_content type="rankings"]'),
-        'guides' => array('实用指南', '[cg_content type="guides"]'),
         'tokenized-stocks' => array('代币化股票', '<p>专题内容尚在核验中。后续会分别说明发行主体、持有人权利、托管、赎回机制与地区条件，不把所有代币化产品视为相同的股票权益。</p>'),
         'disclosure' => array('推荐与商业披露', '<p>本站部分入口为推荐链接。通过这些入口注册，我们可能获得佣金。优惠与资格以交易所官方条款为准。赞助内容会明确标识，编辑结论不因推荐佣金自动改变。</p><p>本站不提供投资建议。加密资产可能损失全部本金。请核实所在地法律与拟使用产品的资格条件。</p>'),
         'methodology' => array('比较方法', '<p>我们从费用及其条件、地区资格、产品与使用流程出发比较交易所。未知资料显示待核验，核验信息附来源与日期。</p><p>当前未发布量化评分或排名。后续榜单应注明适用场景、候选范围、指标及方法版本。</p>'),
     );
+    // Only create a front-page record when the owner explicitly selects this option.
+    // Retired demo pages and platforms must not be recreated by initialization.
+    if ($set_home) { $pages = array('home' => array('首页', '')) + $pages; }
     foreach ($pages as $slug => $data) {
         $existing = get_page_by_path($slug);
         if ($existing && !get_post_meta($existing->ID, '_cg_created', true)) { $messages[] = '已保留已有页面 /' . $slug . '/，未覆盖。'; continue; }
@@ -272,13 +277,13 @@ function cg_setup_pages($set_home = false) {
 add_action('admin_menu', function () { add_menu_page('网站管理', '网站管理', 'manage_options', 'cg-setup', 'cg_admin_page', 'dashicons-admin-site-alt3', 3); });
 function cg_admin_page() {
     if (!current_user_can('manage_options')) { return; }
-    ?><div class="wrap"><h1>网站管理 · 初始化与导航</h1><p>管理综合数字金融网站的基础页面、平台资料和导航。初始化会创建六家平台记录，前台导航仅显示已确认的四家；重复运行不覆盖已有资料、文章或推荐链接。</p>
+    ?><div class="wrap"><h1>网站管理 · 初始化与导航</h1><p>管理综合数字金融网站的基础页面、平台资料和导航。初始化仅补齐 Binance、OKX、Bitget、Bybit 四家平台；重复运行不覆盖已有资料、文章或推荐链接，也不重建废弃演示页面。</p>
     <?php if (isset($_GET['cg_done'])) { ?><div class="notice notice-success"><p>初始化已完成。打开「交易所资料」填写信息，或访问网站查看结果。</p></div><?php } ?>
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>"><?php wp_nonce_field('cg_setup'); ?><input type="hidden" name="action" value="cg_setup">
-    <p><label>站点展示名称 <input name="cg_brand" value="<?php echo esc_attr(get_option('cg_brand', '交易所指南')); ?>" maxlength="40"></label></p>
+    <p><label>站点展示名称 <input name="cg_brand" value="<?php echo esc_attr(get_option('cg_brand', 'DegenDeer 鹿研社')); ?>" maxlength="40"></label></p>
     <p><label><input type="checkbox" name="cg_set_home" value="1"> 将新建的「首页」设为网站首页（仅对你当前这个网站生效）</label></p>
     <?php submit_button('创建基础页面并保存名称'); ?></form>
-    <h2>导航与内容分类</h2><p>创建三个一级导航和主题分类。交易所顺序为 Binance / OKX / Bitget / Bybit / 交易所对比。MEXC、Gate 数据与推荐配置保留。美股直接进入文章列表；加密货币下设新手入门、钱包与资产安全、加密货币理财。没有文章时显示简洁说明。</p><p>应用后会将本插件管理的新菜单指定为主导航，旧菜单保留；自定义品牌名称保留。重复应用只替换本功能创建的菜单项。</p>
+    <h2>导航与内容分类</h2><p>创建三个一级导航和主题分类，依次为交易所、加密货币、美股。交易所顺序为 Binance / OKX / Bitget / Bybit / 交易所对比。美股直接进入文章列表；加密货币下设新手入门、钱包与资产安全、加密货币理财。没有文章时显示简洁说明。废弃演示数据请到「上线整改」先查看检查结果。</p><p>应用后会将本插件管理的新菜单指定为主导航，旧菜单保留；自定义品牌名称保留。重复应用只替换本功能创建的菜单项。</p>
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>"><?php wp_nonce_field('cg_navigation'); ?><input type="hidden" name="action" value="cg_navigation"><?php submit_button('应用已确认的导航与定位'); ?></form>
     <?php if(isset($_GET['cg_navigation_done'])){ ?><p>导航配置已处理，请检查上方错误提示及「外观 → 菜单」。</p><?php } ?>
     <h2>接下来在哪里编辑</h2><ol><li>交易所管理 → 比较表数据：填写三项比较信息及来源、核验日期；平台资料保留其他说明与推荐链接。</li><li>交易所管理：维护评测、对比与榜单。美股、加密货币：按主题管理文章；专题与指南：维护已有指南。核验后再发布。</li><li>推荐按钮：在文章添加短代码块，输入 <code>[cg_affiliate exchange="binance"]</code>。</li></ol>
@@ -289,7 +294,7 @@ function cg_admin_page() {
 add_action('admin_post_cg_setup', function () {
     if (!current_user_can('manage_options')) { wp_die('没有权限。', '', array('response'=>403)); }
     check_admin_referer('cg_setup');
-    $brand = sanitize_text_field(wp_unslash($_POST['cg_brand'] ?? '交易所指南')); $brand = mb_substr($brand ?: '交易所指南', 0, 40); update_option('cg_brand', $brand); update_option('blogname', $brand);
+    $brand = sanitize_text_field(wp_unslash($_POST['cg_brand'] ?? 'DegenDeer 鹿研社')); $brand = mb_substr($brand ?: 'DegenDeer 鹿研社', 0, 40); update_option('cg_brand', $brand); update_option('blogname', $brand);
     $messages = cg_setup_pages(isset($_POST['cg_set_home']));
     if ($messages) { set_transient('cg_error_' . get_current_user_id(), implode(' ', $messages), 120); }
     wp_safe_redirect(admin_url('admin.php?page=cg-setup&cg_done=1')); exit;

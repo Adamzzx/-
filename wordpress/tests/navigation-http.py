@@ -18,7 +18,7 @@ assert 'aria-controls="cg-primary-nav"' in body and 'cg-submenu-toggle' in nav
 assert 'class="cg-brand dd-brand"' in body and 'DegenDeer' in body and '鹿研社' in body and '加密货币与美股入门、交易所评测与资产安全' in body
 s,h,body=request('/topics/crypto/wallets-security/')
 assert s==200 and 'cg-crypto-archive' in body,'Configured empty crypto archive remains accessible'
-assert 'noindex' in re.search(r'<meta name=[\'"]robots[\'"].*?>',body).group(0),'Empty crypto archive should not be indexed'
+assert 'noindex' not in re.search(r'<meta name=[\'"]robots[\'"].*?>',body).group(0),'Formal empty crypto archive should remain indexable'
 s,h,body=request('/topics/crypto/beginners/')
 assert s==200 and '导航分类测试' in body
 print('PASS: navigation setup action/nonce, confirmed order, removed links, responsive controls and populated/empty category routing')

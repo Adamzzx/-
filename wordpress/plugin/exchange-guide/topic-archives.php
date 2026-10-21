@@ -64,17 +64,8 @@ function cg_crypto_empty_archive(){
     global $wp_query;
     return is_tax('cg_topic')&&cg_is_crypto_topic()&&$wp_query&&!(int)$wp_query->found_posts;
 }
-add_filter('wp_robots',function($robots){
-    if(cg_crypto_empty_archive()){$robots['noindex']=true;unset($robots['index']);}
-    return $robots;
-});
-// Known SEO plugins may replace WordPress' robots output. Preserve their other rules.
-foreach(array('wpseo_robots_array','rank_math/frontend/robots') as $hook){
-    add_filter($hook,function($robots){
-        if(cg_crypto_empty_archive()&&is_array($robots)){$robots['index']='noindex';}
-        return $robots;
-    });
-}
+// Empty permanent sections are intentional editorial pages, not indexing errors.
+// launch-sitemap.php limits their SEO exception to the declared public topic tree.
 add_filter('document_title_parts',function($parts){
     if(is_tax('cg_topic')&&cg_is_crypto_topic()){$parts['title']=get_queried_object()->name;}
     return $parts;

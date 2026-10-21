@@ -77,10 +77,7 @@ function cg_exchange_directory_empty(){
     global $wp_query;
     return cg_is_exchange_directory()&&!(int)$wp_query->found_posts;
 }
-add_filter('wp_robots',function($robots){if(cg_exchange_directory_empty()){$robots['noindex']=true;unset($robots['index']);}return $robots;},99);
-foreach(array('rank_math/frontend/robots','wpseo_robots_array') as $hook){
-    add_filter($hook,function($robots){if(cg_exchange_directory_empty()&&is_array($robots)){$robots['index']='noindex';}return $robots;},99);
-}
+// This permanent directory does not become noindex merely because it has no articles.
 add_action('wp_head',function(){
     if(!cg_is_exchange_directory()||cg_review_external_seo()||!apply_filters('cg_exchange_directory_builtin_seo',true)){return;}
     global $wp_query;
