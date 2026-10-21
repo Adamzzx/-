@@ -1,0 +1,1180 @@
+{
+  "checked_at_utc": "2026-10-21T10:47:27.104222+00:00",
+  "base": "https://degendeer.com/",
+  "anonymous": true,
+  "only_get": true,
+  "cache_purged": false,
+  "production_mutated": false,
+  "sitemaps": [
+    {
+      "url": "https://degendeer.com/sitemap_index.xml",
+      "status": 200,
+      "headers": {
+        "date": "Wed, 21 Oct 2026 10:47:05 GMT",
+        "content-type": "text/xml; charset=UTF-8",
+        "vary": "Accept-Encoding",
+        "x-powered-by": "PHP/8.3.35",
+        "x-robots-tag": "noindex",
+        "pragma": "public",
+        "cache-control": "no-cache, no-store, must-revalidate, max-age=0",
+        "expires": "0",
+        "x-litespeed-cache-control": "no-cache",
+        "platform": "hostinger",
+        "panel": "hpanel",
+        "content-security-policy": "upgrade-insecure-requests",
+        "server": "envoy",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "x-hcdn-request-id": "eee910b810e48c4ed1f6cadf03c87aea-imm-edge8",
+        "x-hcdn-cache-status": "DYNAMIC",
+        "x-hcdn-upstream-rt": "2.475",
+        "x-envoy-upstream-service-time": "2583",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "error": null
+    },
+    {
+      "url": "https://degendeer.com/post-sitemap.xml",
+      "status": 200,
+      "headers": {
+        "date": "Wed, 21 Oct 2026 10:47:06 GMT",
+        "content-type": "text/xml; charset=UTF-8",
+        "vary": "Accept-Encoding",
+        "x-powered-by": "PHP/8.3.35",
+        "x-robots-tag": "noindex",
+        "pragma": "public",
+        "cache-control": "no-cache, no-store, must-revalidate, max-age=0",
+        "expires": "0",
+        "x-litespeed-cache-control": "no-cache",
+        "platform": "hostinger",
+        "panel": "hpanel",
+        "content-security-policy": "upgrade-insecure-requests",
+        "server": "envoy",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "x-hcdn-request-id": "7884d971ee1d2241fb8e95da63b9f081-imm-edge4",
+        "x-hcdn-cache-status": "DYNAMIC",
+        "x-hcdn-upstream-rt": "0.533",
+        "x-envoy-upstream-service-time": "640",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "error": null
+    },
+    {
+      "url": "https://degendeer.com/page-sitemap.xml",
+      "status": 200,
+      "headers": {
+        "date": "Wed, 21 Oct 2026 10:47:07 GMT",
+        "content-type": "text/xml; charset=UTF-8",
+        "vary": "Accept-Encoding",
+        "x-powered-by": "PHP/8.3.35",
+        "x-robots-tag": "noindex",
+        "pragma": "public",
+        "cache-control": "no-cache, no-store, must-revalidate, max-age=0",
+        "expires": "0",
+        "x-litespeed-cache-control": "no-cache",
+        "platform": "hostinger",
+        "panel": "hpanel",
+        "content-security-policy": "upgrade-insecure-requests",
+        "server": "envoy",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "x-hcdn-request-id": "14db1aecbb0ee70adcc98a3ecbc93f77-imm-edge5",
+        "x-hcdn-cache-status": "DYNAMIC",
+        "x-hcdn-upstream-rt": "0.488",
+        "x-envoy-upstream-service-time": "592",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "error": null
+    },
+    {
+      "url": "https://degendeer.com/cg_exchange-sitemap.xml",
+      "status": 200,
+      "headers": {
+        "date": "Wed, 21 Oct 2026 10:47:08 GMT",
+        "content-type": "text/xml; charset=UTF-8",
+        "vary": "Accept-Encoding",
+        "x-powered-by": "PHP/8.3.35",
+        "x-robots-tag": "noindex",
+        "pragma": "public",
+        "cache-control": "no-cache, no-store, must-revalidate, max-age=0",
+        "expires": "0",
+        "x-litespeed-cache-control": "no-cache",
+        "platform": "hostinger",
+        "panel": "hpanel",
+        "content-security-policy": "upgrade-insecure-requests",
+        "server": "envoy",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "x-hcdn-request-id": "39cb364bcbc7a2950dcad991f355c4a3-imm-edge8",
+        "x-hcdn-cache-status": "DYNAMIC",
+        "x-hcdn-upstream-rt": "0.479",
+        "x-envoy-upstream-service-time": "588",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "error": null
+    },
+    {
+      "url": "https://degendeer.com/cg_topic-sitemap.xml",
+      "status": 200,
+      "headers": {
+        "date": "Wed, 21 Oct 2026 10:47:09 GMT",
+        "content-type": "text/xml; charset=UTF-8",
+        "vary": "Accept-Encoding",
+        "x-powered-by": "PHP/8.3.35",
+        "x-robots-tag": "noindex",
+        "pragma": "public",
+        "cache-control": "no-cache, no-store, must-revalidate, max-age=0",
+        "expires": "0",
+        "x-litespeed-cache-control": "no-cache",
+        "platform": "hostinger",
+        "panel": "hpanel",
+        "content-security-policy": "upgrade-insecure-requests",
+        "server": "envoy",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "x-hcdn-request-id": "74c34980485ad76ded07108cb1a2fe1f-imm-edge8",
+        "x-hcdn-cache-status": "DYNAMIC",
+        "x-hcdn-upstream-rt": "0.531",
+        "x-envoy-upstream-service-time": "627",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "error": null
+    },
+    {
+      "url": "https://degendeer.com/cg_sections-sitemap.xml",
+      "status": 200,
+      "headers": {
+        "date": "Wed, 21 Oct 2026 10:47:10 GMT",
+        "content-type": "text/xml; charset=UTF-8",
+        "vary": "Accept-Encoding",
+        "x-powered-by": "PHP/8.3.35",
+        "x-robots-tag": "noindex",
+        "pragma": "public",
+        "cache-control": "no-cache, no-store, must-revalidate, max-age=0",
+        "expires": "0",
+        "x-litespeed-cache-control": "no-cache",
+        "platform": "hostinger",
+        "panel": "hpanel",
+        "content-security-policy": "upgrade-insecure-requests",
+        "server": "envoy",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "x-hcdn-request-id": "e3f377a3a412ba9c2e878788ab5f9656-imm-edge5",
+        "x-hcdn-cache-status": "DYNAMIC",
+        "x-hcdn-upstream-rt": "0.494",
+        "x-envoy-upstream-service-time": "604",
+        "connection": "close",
+        "transfer-encoding": "chunked"
+      },
+      "error": null
+    }
+  ],
+  "sitemap_entries": [
+    {
+      "url": "https://degendeer.com/binance-earn-rwusd-guide-2026/",
+      "sitemap": "https://degendeer.com/post-sitemap.xml",
+      "lastmod": "2026-10-21T08:31:02+00:00"
+    },
+    {
+      "url": "https://degendeer.com/binance-us-stocks-guide-2026/",
+      "sitemap": "https://degendeer.com/post-sitemap.xml",
+      "lastmod": "2026-10-21T06:57:20+00:00"
+    },
+    {
+      "url": "https://degendeer.com/okx-review-2026/",
+      "sitemap": "https://degendeer.com/post-sitemap.xml",
+      "lastmod": "2026-10-21T05:26:34+00:00"
+    },
+    {
+      "url": "https://degendeer.com/binance-vs-okx-2026/",
+      "sitemap": "https://degendeer.com/post-sitemap.xml",
+      "lastmod": "2026-10-21T05:26:33+00:00"
+    },
+    {
+      "url": "https://degendeer.com/crypto-beginners-guide-2026/",
+      "sitemap": "https://degendeer.com/post-sitemap.xml",
+      "lastmod": "2026-10-21T05:26:32+00:00"
+    },
+    {
+      "url": "https://degendeer.com/crypto-wallet-security-guide-2026/",
+      "sitemap": "https://degendeer.com/post-sitemap.xml",
+      "lastmod": "2026-10-21T05:26:31+00:00"
+    },
+    {
+      "url": "https://degendeer.com/bitget-review-2026/",
+      "sitemap": "https://degendeer.com/post-sitemap.xml",
+      "lastmod": "2026-10-20T08:26:44+00:00"
+    },
+    {
+      "url": "https://degendeer.com/binance-review-2026/",
+      "sitemap": "https://degendeer.com/post-sitemap.xml",
+      "lastmod": "2026-10-19T10:33:04+00:00"
+    },
+    {
+      "url": "https://degendeer.com/bybit-review-2026/",
+      "sitemap": "https://degendeer.com/post-sitemap.xml",
+      "lastmod": "2026-10-19T10:32:48+00:00"
+    },
+    {
+      "url": "https://degendeer.com/privacy-policy/",
+      "sitemap": "https://degendeer.com/page-sitemap.xml",
+      "lastmod": "2026-10-21T05:29:28+00:00"
+    },
+    {
+      "url": "https://degendeer.com/contact/",
+      "sitemap": "https://degendeer.com/page-sitemap.xml",
+      "lastmod": "2026-10-21T05:28:59+00:00"
+    },
+    {
+      "url": "https://degendeer.com/about/",
+      "sitemap": "https://degendeer.com/page-sitemap.xml",
+      "lastmod": "2026-10-21T05:28:21+00:00"
+    },
+    {
+      "url": "https://degendeer.com/home/",
+      "sitemap": "https://degendeer.com/page-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/compare/",
+      "sitemap": "https://degendeer.com/page-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/best/",
+      "sitemap": "https://degendeer.com/page-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/guides/",
+      "sitemap": "https://degendeer.com/page-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/disclosure/",
+      "sitemap": "https://degendeer.com/page-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/methodology/",
+      "sitemap": "https://degendeer.com/page-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/exchanges/binance/",
+      "sitemap": "https://degendeer.com/cg_exchange-sitemap.xml",
+      "lastmod": "2026-10-12T06:51:28+00:00"
+    },
+    {
+      "url": "https://degendeer.com/exchanges/bybit/",
+      "sitemap": "https://degendeer.com/cg_exchange-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/exchanges/okx/",
+      "sitemap": "https://degendeer.com/cg_exchange-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/exchanges/bitget/",
+      "sitemap": "https://degendeer.com/cg_exchange-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/exchanges/mexc/",
+      "sitemap": "https://degendeer.com/cg_exchange-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/exchanges/gate/",
+      "sitemap": "https://degendeer.com/cg_exchange-sitemap.xml",
+      "lastmod": "2026-10-12T04:47:25+00:00"
+    },
+    {
+      "url": "https://degendeer.com/topics/crypto/",
+      "sitemap": "https://degendeer.com/cg_topic-sitemap.xml",
+      "lastmod": "2026-10-21T08:31:02+00:00"
+    },
+    {
+      "url": "https://degendeer.com/topics/crypto/beginners/",
+      "sitemap": "https://degendeer.com/cg_topic-sitemap.xml",
+      "lastmod": "2026-10-21T05:26:32+00:00"
+    },
+    {
+      "url": "https://degendeer.com/topics/crypto/wallets-security/",
+      "sitemap": "https://degendeer.com/cg_topic-sitemap.xml",
+      "lastmod": "2026-10-21T05:26:31+00:00"
+    },
+    {
+      "url": "https://degendeer.com/topics/crypto/yield-products/",
+      "sitemap": "https://degendeer.com/cg_topic-sitemap.xml",
+      "lastmod": "2026-10-21T08:31:02+00:00"
+    },
+    {
+      "url": "https://degendeer.com/",
+      "sitemap": "https://degendeer.com/cg_sections-sitemap.xml",
+      "lastmod": "2026-10-21T08:31:02+00:00"
+    },
+    {
+      "url": "https://degendeer.com/exchanges/",
+      "sitemap": "https://degendeer.com/cg_sections-sitemap.xml",
+      "lastmod": "2026-10-21T05:26:34+00:00"
+    },
+    {
+      "url": "https://degendeer.com/tokenized-stocks/",
+      "sitemap": "https://degendeer.com/cg_sections-sitemap.xml",
+      "lastmod": "2026-10-21T06:57:20+00:00"
+    }
+  ],
+  "sitemap_unique_urls": [
+    "https://degendeer.com/",
+    "https://degendeer.com/about/",
+    "https://degendeer.com/best/",
+    "https://degendeer.com/binance-earn-rwusd-guide-2026/",
+    "https://degendeer.com/binance-review-2026/",
+    "https://degendeer.com/binance-us-stocks-guide-2026/",
+    "https://degendeer.com/binance-vs-okx-2026/",
+    "https://degendeer.com/bitget-review-2026/",
+    "https://degendeer.com/bybit-review-2026/",
+    "https://degendeer.com/compare/",
+    "https://degendeer.com/contact/",
+    "https://degendeer.com/crypto-beginners-guide-2026/",
+    "https://degendeer.com/crypto-wallet-security-guide-2026/",
+    "https://degendeer.com/disclosure/",
+    "https://degendeer.com/exchanges/",
+    "https://degendeer.com/exchanges/binance/",
+    "https://degendeer.com/exchanges/bitget/",
+    "https://degendeer.com/exchanges/bybit/",
+    "https://degendeer.com/exchanges/gate/",
+    "https://degendeer.com/exchanges/mexc/",
+    "https://degendeer.com/exchanges/okx/",
+    "https://degendeer.com/guides/",
+    "https://degendeer.com/home/",
+    "https://degendeer.com/methodology/",
+    "https://degendeer.com/okx-review-2026/",
+    "https://degendeer.com/privacy-policy/",
+    "https://degendeer.com/tokenized-stocks/",
+    "https://degendeer.com/topics/crypto/",
+    "https://degendeer.com/topics/crypto/beginners/",
+    "https://degendeer.com/topics/crypto/wallets-security/",
+    "https://degendeer.com/topics/crypto/yield-products/"
+  ],
+  "go_endpoints": [
+    {
+      "url": "https://degendeer.com/go/binance/",
+      "status": 302,
+      "location": "https://www.binance.com/en/register",
+      "x_robots_tag": "noindex, nofollow",
+      "cache_control": "no-cache, no-store, must-revalidate, max-age=0"
+    },
+    {
+      "url": "https://degendeer.com/go/okx/",
+      "status": 302,
+      "location": "https://www.okx.com/join",
+      "x_robots_tag": "noindex, nofollow",
+      "cache_control": "no-cache, no-store, must-revalidate, max-age=0"
+    },
+    {
+      "url": "https://degendeer.com/go/bitget/",
+      "status": 302,
+      "location": "https://www.bitget.com/register",
+      "x_robots_tag": "noindex, nofollow",
+      "cache_control": "no-cache, no-store, must-revalidate, max-age=0"
+    },
+    {
+      "url": "https://degendeer.com/go/bybit/",
+      "status": 302,
+      "location": "https://www.bybit.com/en/register",
+      "x_robots_tag": "noindex, nofollow",
+      "cache_control": "no-cache, no-store, must-revalidate, max-age=0"
+    }
+  ],
+  "requests_including_duplicates": 37,
+  "pages": [
+    {
+      "requested_url": "https://degendeer.com/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/",
+      "canonical": "https://degendeer.com/",
+      "robots_meta": [
+        "follow, index"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/BingSiteAuth.xml",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/BingSiteAuth.xml",
+      "canonical": null,
+      "robots_meta": [],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": false,
+      "in_sitemap": false,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": null,
+      "x_hcdn_cache_status": "DYNAMIC",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/about/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/about/",
+      "canonical": "https://degendeer.com/about/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/author/admin/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/author/admin/",
+      "canonical": null,
+      "robots_meta": [
+        "follow, noindex"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": false,
+      "canonical_matches": false,
+      "in_sitemap": false,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "HIT",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/best/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/best/",
+      "canonical": "https://degendeer.com/best/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "miss",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/binance-earn-rwusd-guide-2026/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/binance-earn-rwusd-guide-2026/",
+      "canonical": "https://degendeer.com/binance-earn-rwusd-guide-2026/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/binance-review-2026/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/binance-review-2026/",
+      "canonical": "https://degendeer.com/binance-review-2026/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "miss",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/binance-us-stocks-guide-2026/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/binance-us-stocks-guide-2026/",
+      "canonical": "https://degendeer.com/binance-us-stocks-guide-2026/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/binance-vs-okx-2026/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/binance-vs-okx-2026/",
+      "canonical": "https://degendeer.com/binance-vs-okx-2026/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/bitget-review-2026/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/bitget-review-2026/",
+      "canonical": "https://degendeer.com/bitget-review-2026/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/bybit-review-2026/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/bybit-review-2026/",
+      "canonical": "https://degendeer.com/bybit-review-2026/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/compare/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/compare/",
+      "canonical": "https://degendeer.com/compare/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/contact/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/contact/",
+      "canonical": "https://degendeer.com/contact/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "HIT",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/crypto-beginners-guide-2026/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/crypto-beginners-guide-2026/",
+      "canonical": "https://degendeer.com/crypto-beginners-guide-2026/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/crypto-wallet-security-guide-2026/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/crypto-wallet-security-guide-2026/",
+      "canonical": "https://degendeer.com/crypto-wallet-security-guide-2026/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "miss",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/disclosure/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/disclosure/",
+      "canonical": "https://degendeer.com/disclosure/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/exchanges/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/exchanges/",
+      "canonical": "https://degendeer.com/exchanges/",
+      "robots_meta": [
+        "follow, index"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/exchanges/binance/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/exchanges/binance/",
+      "canonical": "https://degendeer.com/exchanges/binance/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "HIT",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/exchanges/bitget/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/exchanges/bitget/",
+      "canonical": "https://degendeer.com/exchanges/bitget/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/exchanges/bybit/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/exchanges/bybit/",
+      "canonical": "https://degendeer.com/exchanges/bybit/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/exchanges/gate/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/exchanges/gate/",
+      "canonical": "https://degendeer.com/exchanges/gate/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/exchanges/mexc/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/exchanges/mexc/",
+      "canonical": "https://degendeer.com/exchanges/mexc/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "HIT",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/exchanges/okx/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/exchanges/okx/",
+      "canonical": "https://degendeer.com/exchanges/okx/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/guides/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/guides/",
+      "canonical": "https://degendeer.com/guides/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/home/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/home/",
+      "canonical": "https://degendeer.com/home/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "miss",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/methodology/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/methodology/",
+      "canonical": "https://degendeer.com/methodology/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/navigation/",
+      "initial_status": 404,
+      "location": null,
+      "final_status": 404,
+      "final_url": "https://degendeer.com/navigation/",
+      "canonical": null,
+      "robots_meta": [
+        "follow, noindex"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": false,
+      "canonical_matches": false,
+      "in_sitemap": false,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": "no-cache, must-revalidate, max-age=0, no-store, private",
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": null,
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/okx-review-2026/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/okx-review-2026/",
+      "canonical": "https://degendeer.com/okx-review-2026/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/privacy-policy/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/privacy-policy/",
+      "canonical": "https://degendeer.com/privacy-policy/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 13,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "HIT",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/robots.txt",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/robots.txt",
+      "canonical": null,
+      "robots_meta": [],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": false,
+      "in_sitemap": false,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "miss",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/tokenized-stocks/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/tokenized-stocks/",
+      "canonical": "https://degendeer.com/tokenized-stocks/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/topics/crypto/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/topics/crypto/",
+      "canonical": "https://degendeer.com/topics/crypto/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/topics/crypto/beginners/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/topics/crypto/beginners/",
+      "canonical": "https://degendeer.com/topics/crypto/beginners/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "miss",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/topics/crypto/wallets-security/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/topics/crypto/wallets-security/",
+      "canonical": "https://degendeer.com/topics/crypto/wallets-security/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "HIT",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/topics/crypto/yield-products/",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/topics/crypto/yield-products/",
+      "canonical": "https://degendeer.com/topics/crypto/yield-products/",
+      "robots_meta": [
+        "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": true,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "hit",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    },
+    {
+      "requested_url": "https://degendeer.com/?cg_home_page=2",
+      "initial_status": 200,
+      "location": null,
+      "final_status": 200,
+      "final_url": "https://degendeer.com/?cg_home_page=2",
+      "canonical": "https://degendeer.com/?cg_home_page=2",
+      "robots_meta": [
+        "follow, index"
+      ],
+      "x_robots_tag": null,
+      "index_allowed": true,
+      "canonical_matches": true,
+      "in_sitemap": false,
+      "suggested_text_occurrences": 0,
+      "error": null,
+      "cache_control": null,
+      "x_litespeed_cache": "miss",
+      "x_hcdn_cache_status": "MISS",
+      "server": "envoy"
+    }
+  ],
+  "legacy_inbound_links": [
+    {
+      "source": "https://degendeer.com/best/",
+      "target": "https://degendeer.com/best/#main",
+      "text": "跳到正文",
+      "context": "html body.wp-singular.page-template-default.page.page-id-24.wp-embed-responsive.wp-theme-exchange-guide"
+    },
+    {
+      "source": "https://degendeer.com/exchanges/gate/",
+      "target": "https://degendeer.com/exchanges/gate/#main",
+      "text": "跳到正文",
+      "context": "html body.wp-singular.cg_exchange-template-default.single.single-cg_exchange.postid-21.wp-embed-responsive.wp-theme-exchange-guide"
+    },
+    {
+      "source": "https://degendeer.com/exchanges/mexc/",
+      "target": "https://degendeer.com/exchanges/mexc/#main",
+      "text": "跳到正文",
+      "context": "html body.wp-singular.cg_exchange-template-default.single.single-cg_exchange.postid-20.wp-embed-responsive.wp-theme-exchange-guide"
+    },
+    {
+      "source": "https://degendeer.com/guides/",
+      "target": "https://degendeer.com/guides/#main",
+      "text": "跳到正文",
+      "context": "html body.wp-singular.page-template-default.page.page-id-25.wp-embed-responsive.wp-theme-exchange-guide"
+    },
+    {
+      "source": "https://degendeer.com/home/",
+      "target": "https://degendeer.com/home/#main",
+      "text": "跳到正文",
+      "context": "html body.wp-singular.page-template-default.page.page-id-22.wp-embed-responsive.wp-theme-exchange-guide"
+    }
+  ],
+  "backend_access": "No authenticated production WordPress/Hostinger/SSH connection; private settings, MU code and cron not inspected"
+}

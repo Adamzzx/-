@@ -10,7 +10,15 @@ function cg_launch_formal_topic_ids(){
         if(!($slug==='tokenized-stocks'&&cg_stocks_page())){$ids[]=(int)$root->term_id;}
         foreach($definition[1] as $child_slug=>$label){$child=cg_find_topic($child_slug,$root->term_id);if($child){$ids[]=(int)$child->term_id;}}
     }
+    // Explicit editorial designation, rather than a global include-empty switch.
+    $extra=get_terms(array('taxonomy'=>'cg_topic','hide_empty'=>false,'meta_key'=>'_cg_formal_directory','meta_value'=>'1'));
+    if(!is_wp_error($extra)){foreach($extra as $term){if(!cg_launch_retired_topic($term)){$ids[]=(int)$term->term_id;}}}
     return array_values(array_unique($ids));
+}
+function cg_launch_retired_topic($term){
+    if(!$term instanceof WP_Term||$term->taxonomy!=='cg_topic'||!$term->parent){return false;}
+    $parent=get_term($term->parent,'cg_topic');
+    return $parent instanceof WP_Term&&(($parent->slug==='tokenized-stocks'&&in_array($term->slug,array('trading','funding'),true))||($parent->slug==='crypto'&&$term->slug==='deposits-withdrawals'));
 }
 function cg_launch_is_formal_directory(){
     if(is_admin()||is_404()||is_preview()||is_feed()){return false;}
@@ -67,8 +75,8 @@ function cg_launch_sitemap_home_alias_id(){
     // Match only the generated internal object whose extra URL cleanup redirects.
     // A stale option must not remove an owner's page or the real posts directory;
     // adding real content to a non-front internal page also ends its alias status.
-    if(!$post||$post->post_type!=='page'||$post->post_name!=='home'||$post->post_status!=='publish'||get_post_meta($id,'_cg_created',true)!=='1'||(int)get_option('page_for_posts')===$id){return 0;}
-    return (int)get_option('page_on_front')===$id||(function_exists('cg_launch_cleanup_body')&&cg_launch_cleanup_body($post->post_content)==='')?$id:0;
+    if(!$post||$post->post_type!=='page'||$post->post_name!=='home'||$post->post_status!=='publish'||(int)get_option('page_for_posts')===$id){return 0;}
+    return get_option('show_on_front')==='page'&&(int)get_option('page_on_front')===$id?$id:0;
 }
 function cg_launch_public_lastmod($term_id=0){
     $args=array('post_type'=>array('post','cg_review','cg_compare','cg_ranking','cg_guide'),'post_status'=>'publish','has_password'=>false,'numberposts'=>1,'orderby'=>'modified','order'=>'DESC');
@@ -81,6 +89,7 @@ function cg_launch_sitemap_topics(){
     if(is_wp_error($terms)){return array();}
     $formal=cg_launch_formal_topic_ids();$entries=array();
     foreach($terms as $term){
+        if(cg_launch_retired_topic($term)){continue;}
         if(cg_stocks_page()&&cg_stocks_root($term)){continue;}
         $is_formal=in_array((int)$term->term_id,$formal,true);
         if(!$is_formal){
@@ -220,5 +229,22 @@ foreach(array('added_post_meta','updated_post_meta','deleted_post_meta') as $hoo
     add_action($hook,function($meta_id,$id,$key){if(in_array($key,array('_cg_related_exchanges','_cg_comparison','rank_math_robots','rank_math_canonical_url'),true)){cg_launch_invalidate_sitemaps();cg_launch_invalidate_native_post_sitemap($id);}},30,3);
 }
 foreach(array('added_term_meta','updated_term_meta','deleted_term_meta') as $hook){
-    add_action($hook,function($meta_id,$id,$key){if(in_array($key,array('rank_math_robots','rank_math_canonical_url'),true)){cg_launch_invalidate_sitemaps();}},30,3);
+    add_action($hook,function($meta_id,$id,$key){if(in_array($key,array('rank_math_robots','rank_math_canonical_url','_cg_formal_directory'),true)){cg_launch_invalidate_sitemaps();}},30,3);
+}
+
+function cg_launch_formal_topic_field($term=null){
+    if($term instanceof WP_Term&&cg_launch_retired_topic($term)){echo '<p>此主题为已废弃入口，不通过“包含空主题”重新开放。</p>';return;}
+    $selected=$term instanceof WP_Term&&get_term_meta($term->term_id,'_cg_formal_directory',true)==='1';
+    wp_nonce_field('cg_formal_topic','cg_formal_topic_nonce');
+    echo '<label><input type="checkbox" name="cg_formal_directory" value="1" '.checked($selected,true,false).'> 正式常设主题：无文章时也公开、允许索引并进入地图</label><p class="description">现有正式导航主题自动保留。此项用于未来正式主题，不会自动更改导航或复活废弃入口。</p>';
+}
+add_action('cg_topic_add_form_fields',function(){echo '<div class="form-field">';cg_launch_formal_topic_field();echo '</div>';});
+add_action('cg_topic_edit_form_fields',function($term){echo '<tr class="form-field"><th>常设主题</th><td>';cg_launch_formal_topic_field($term);echo '</td></tr>';});
+foreach(array('created_cg_topic','edited_cg_topic') as $hook){
+    add_action($hook,function($id){
+        $nonce=$_POST['cg_formal_topic_nonce']??'';$taxonomy=get_taxonomy('cg_topic');
+        if(!is_string($nonce)||!wp_verify_nonce(wp_unslash($nonce),'cg_formal_topic')||!$taxonomy||!current_user_can($taxonomy->cap->manage_terms)){return;}
+        if(cg_launch_retired_topic(get_term($id,'cg_topic'))){return;}
+        if(($_POST['cg_formal_directory']??'')==='1'){update_term_meta($id,'_cg_formal_directory','1');}else{delete_term_meta($id,'_cg_formal_directory');}
+    });
 }

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.14.0
+ * Version: 1.14.2
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -29,6 +29,7 @@ require_once __DIR__ . '/launch-identity.php';
 require_once __DIR__ . '/baidu-analytics.php';
 require_once __DIR__ . '/launch-editorial.php';
 require_once __DIR__ . '/launch-cleanup.php';
+require_once __DIR__ . '/cleanup-remediation.php';
 
 function cg_definitions() {
     return array(
@@ -248,6 +249,9 @@ add_action('wp_enqueue_scripts', function () { wp_enqueue_style('cg-components',
 
 function cg_setup_pages($set_home = false) {
     $messages = array();
+    if ($set_home && isset(((array)get_option('cg_cleanup_retired_paths',array()))['/home/'])) {
+        $set_home=false;$messages[]='已确认清理的闲置 /home/ 不会被初始化重新创建；保留当前根首页配置。';
+    }
     foreach (cg_definitions() as $slug => $definition) {
         if (!get_page_by_path($slug, OBJECT, 'cg_exchange')) {
             $id = wp_insert_post(array('post_type'=>'cg_exchange','post_status'=>'publish','post_name'=>$slug,'post_title'=>$definition['name'],'post_excerpt'=>'','post_content'=>''), true);

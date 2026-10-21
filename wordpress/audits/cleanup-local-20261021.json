@@ -1,0 +1,150 @@
+{
+  "environment": "disposable local WordPress; NOT production",
+  "backupVerified": true,
+  "adminNonceAndPermissionGuards": true,
+  "backupFailureStopsCleanup": true,
+  "realTrash": true,
+  "statuses": [
+    {
+      "path": "/exchanges/mexc/",
+      "status": 404,
+      "location": null
+    },
+    {
+      "path": "/exchanges/gate/",
+      "status": 404,
+      "location": null
+    },
+    {
+      "path": "/best/",
+      "status": 404,
+      "location": null
+    },
+    {
+      "path": "/guides/",
+      "status": 404,
+      "location": null
+    },
+    {
+      "path": "/home/",
+      "status": 404,
+      "location": null
+    }
+  ],
+  "privacyReplacedInDatabase": true,
+  "seoAndAllFormalArticlesPreserved": {
+    "equal": true,
+    "count": 21
+  },
+  "rollbackVerified": true,
+  "rollbackConflictStopsOverwrite": true,
+  "staticFrontAlias": {
+    "status": 301,
+    "location": "http://localhost:8088/"
+  },
+  "futurePermanentEmptyTopic": true,
+  "retiredTopicExcluded": true,
+  "go": [
+    {
+      "slug": "binance",
+      "status": 302,
+      "location": "https://www.binance.com/en/register?ref=smoke"
+    },
+    {
+      "slug": "okx",
+      "status": 302,
+      "location": "https://www.okx.com/join"
+    },
+    {
+      "slug": "bitget",
+      "status": 302,
+      "location": "https://www.bitget.com/register"
+    },
+    {
+      "slug": "bybit",
+      "status": 302,
+      "location": "https://www.bybit.com/en/register"
+    }
+  ],
+  "widths": [
+    1440,
+    1024,
+    390,
+    320
+  ],
+  "beforeSitemapUrls": [
+    "http://localhost:8088/hello-world/",
+    "http://localhost:8088/binance-review-2026/",
+    "http://localhost:8088/okx-review-2026/",
+    "http://localhost:8088/bitget-review-2026/",
+    "http://localhost:8088/bybit-review-2026/",
+    "http://localhost:8088/binance-vs-okx-2026/",
+    "http://localhost:8088/crypto-beginners-guide-2026/",
+    "http://localhost:8088/crypto-wallet-security-guide-2026/",
+    "http://localhost:8088/binance-us-stocks-guide-2026/",
+    "http://localhost:8088/binance-earn-rwusd-guide-2026/",
+    "http://localhost:8088/privacy-policy/",
+    "http://localhost:8088/home/",
+    "http://localhost:8088/best/",
+    "http://localhost:8088/guides/",
+    "http://localhost:8088/compare/",
+    "http://localhost:8088/disclosure/",
+    "http://localhost:8088/methodology/",
+    "http://localhost:8088/sample-page/",
+    "http://localhost:8088/exchanges/mexc/",
+    "http://localhost:8088/exchanges/gate/",
+    "http://localhost:8088/exchanges/binance/",
+    "http://localhost:8088/exchanges/bybit/",
+    "http://localhost:8088/exchanges/okx/",
+    "http://localhost:8088/exchanges/bitget/",
+    "http://localhost:8088/reviews/",
+    "http://localhost:8088/reviews/smoke-published-review/",
+    "http://localhost:8088/guides/navigation-topic-smoke/",
+    "http://localhost:8088/topics/crypto/",
+    "http://localhost:8088/topics/crypto/beginners/",
+    "http://localhost:8088/topics/crypto/wallets-security/",
+    "http://localhost:8088/topics/crypto/yield-products/",
+    "http://localhost:8088/",
+    "http://localhost:8088/exchanges/",
+    "http://localhost:8088/tokenized-stocks/"
+  ],
+  "afterSitemapUrls": [
+    "http://localhost:8088/hello-world/",
+    "http://localhost:8088/binance-review-2026/",
+    "http://localhost:8088/okx-review-2026/",
+    "http://localhost:8088/bitget-review-2026/",
+    "http://localhost:8088/bybit-review-2026/",
+    "http://localhost:8088/binance-vs-okx-2026/",
+    "http://localhost:8088/crypto-beginners-guide-2026/",
+    "http://localhost:8088/crypto-wallet-security-guide-2026/",
+    "http://localhost:8088/binance-us-stocks-guide-2026/",
+    "http://localhost:8088/binance-earn-rwusd-guide-2026/",
+    "http://localhost:8088/privacy-policy/",
+    "http://localhost:8088/compare/",
+    "http://localhost:8088/disclosure/",
+    "http://localhost:8088/methodology/",
+    "http://localhost:8088/sample-page/",
+    "http://localhost:8088/exchanges/binance/",
+    "http://localhost:8088/exchanges/bybit/",
+    "http://localhost:8088/exchanges/okx/",
+    "http://localhost:8088/exchanges/bitget/",
+    "http://localhost:8088/reviews/",
+    "http://localhost:8088/reviews/smoke-published-review/",
+    "http://localhost:8088/guides/navigation-topic-smoke/",
+    "http://localhost:8088/topics/crypto/",
+    "http://localhost:8088/topics/crypto/beginners/",
+    "http://localhost:8088/topics/crypto/wallets-security/",
+    "http://localhost:8088/topics/crypto/yield-products/",
+    "http://localhost:8088/",
+    "http://localhost:8088/exchanges/",
+    "http://localhost:8088/tokenized-stocks/"
+  ],
+  "full_test_environment_restore": {
+    "verified": true,
+    "home": "http://localhost:8088",
+    "published_posts_restored": 1,
+    "plugin_restored": "1.14.0",
+    "new_cleanup_function_absent_after_restore": true,
+    "production_backup": false
+  }
+}

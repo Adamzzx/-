@@ -65,7 +65,7 @@ function cg_launch_cleanup_post_dependencies($post, $inventory) {
     $dependencies = array();
     foreach(get_posts(array('post_type'=>'attachment','post_parent'=>$post->ID,'post_status'=>array('inherit','private','publish'),'posts_per_page'=>-1)) as $attachment){$dependencies[]=array('kind'=>'attachment','id'=>(int)$attachment->ID,'label'=>'已上传附件 #'.$attachment->ID.'「'.$attachment->post_title.'」仍绑定此对象');}
     foreach (array('page_on_front'=>'根首页','page_for_posts'=>'文章列表页','wp_page_for_privacy_policy'=>'隐私政策页') as $option=>$label) {
-        if ((int)get_option($option)===(int)$post->ID) { $dependencies[] = array('kind'=>$option,'id'=>$post->ID,'label'=>$label.'正在使用此对象'); }
+        if ((int)get_option($option)===(int)$post->ID && ($option!=='page_on_front' || get_option('show_on_front')==='page')) { $dependencies[] = array('kind'=>$option,'id'=>$post->ID,'label'=>$label.'正在使用此对象'); }
     }
     $target = cg_launch_cleanup_path(home_url(($post->post_type==='cg_exchange'?'/exchanges/':'/').$post->post_name.'/'));
     foreach ($inventory as $entry) {
@@ -96,7 +96,9 @@ function cg_launch_cleanup_post_row($spec, $inventory) {
     $body = cg_launch_cleanup_body($post->post_content);
     if ($body!=='' && $body!==$spec['placeholder']) { $row['reasons'][]='存在真实正文或未知占位内容'; }
     if (trim((string)$post->post_excerpt)!=='') { $row['reasons'][]='存在人工摘要'; }
-    $ignored = array('_cg_created','_edit_lock','_edit_last','_wp_old_slug','_wp_trash_meta_status','_wp_trash_meta_time','_cg_clicks');
+    // WordPress date history and Rank Math's processing marker are technical data,
+    // not owner-written platform information. Preserve them in trash/backups.
+    $ignored = array('_cg_created','_edit_lock','_edit_last','_wp_old_slug','_wp_old_date','_wp_trash_meta_status','_wp_trash_meta_time','_cg_clicks','rank_math_internal_links_processed');
     foreach ((array)get_post_meta($post->ID) as $key=>$values) {
         if (in_array($key,$ignored,true)) { continue; }
         $value = get_post_meta($post->ID,$key,true);
@@ -235,6 +237,7 @@ function cg_launch_cleanup_render_drafts($helpers) {
 }
 function cg_launch_cleanup_admin() {
     if (!current_user_can('manage_options')) { return; }
+    if (function_exists('cg_cleanup_admin')) { cg_cleanup_admin(); return; }
     echo '<div class="wrap"><h1>上线整改</h1><p>下表为当前真实数据的只读核查。打开此页、启用插件或刷新页面均不会删除内容。只有明确提交后才执行可安全匹配的清理项；草稿、真实正文、人工字段和非受管菜单依赖会保留并说明理由。</p>';
     cg_launch_cleanup_render_rows(cg_launch_cleanup_plan());
     if (function_exists('cg_launch_editorial_plan')) { echo '<h2>文章链接与图片核查（只读）</h2><pre style="white-space:pre-wrap;max-height:320px;overflow:auto">'.esc_html(wp_json_encode(cg_launch_editorial_plan(),JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT)).'</pre>'; }
@@ -251,7 +254,7 @@ add_action('admin_menu',function(){add_submenu_page('cg-setup','上线整改','�
 add_action('admin_post_cg_launch_cleanup',function(){
     if (!current_user_can('manage_options')) { wp_die('没有权限。','',array('response'=>403)); }
     check_admin_referer('cg_launch_cleanup','cg_launch_cleanup_nonce');
-    $result=cg_launch_apply_cleanup(($_POST['cg_launch_backup_confirmed']??'')==='1');
+    $result=function_exists('cg_cleanup_apply') ? cg_cleanup_apply(($_POST['cg_launch_backup_confirmed']??'')==='1') : cg_launch_apply_cleanup(($_POST['cg_launch_backup_confirmed']??'')==='1');
     if (is_wp_error($result)) { wp_die(esc_html($result->get_error_message()),'上线整改未执行',array('response'=>400)); }
     wp_safe_redirect(admin_url('admin.php?page=cg-launch-cleanup'));exit;
 });
@@ -270,8 +273,8 @@ add_action('template_redirect',function(){
     if (is_admin() || (defined('REST_REQUEST')&&REST_REQUEST)) { return; }
     if (cg_launch_cleanup_uncategorized_request()) { global $wp_query;$GLOBALS['cg_launch_uncategorized_404']=true;$wp_query->set_404();status_header(404);nocache_headers();header('X-Robots-Tag: noindex, follow',true); }
     $id=(int)get_option('cg_launch_home_alias_id');$post=$id?get_post($id):null;
-    if ($post && $post->post_type==='page' && $post->post_name==='home' && $post->post_status==='publish' && get_post_meta($id,'_cg_created',true)==='1' && (int)get_option('page_for_posts')!==$id && cg_launch_cleanup_path(wp_unslash($_SERVER['REQUEST_URI']??''))===cg_launch_cleanup_path(home_url('/home/')) && is_page($id)) {
-        if ((int)get_option('page_on_front')===$id || cg_launch_cleanup_body($post->post_content)==='') { wp_safe_redirect(home_url('/'),301,'DegenDeer');exit; }
+    if ($post && $post->post_type==='page' && $post->post_name==='home' && $post->post_status==='publish' && (int)get_option('page_for_posts')!==$id && cg_launch_cleanup_path(wp_unslash($_SERVER['REQUEST_URI']??''),true)===cg_launch_cleanup_path(home_url('/home/')) && is_page($id)) {
+        if (get_option('show_on_front')==='page' && (int)get_option('page_on_front')===$id) { wp_safe_redirect(home_url('/'),301,'DegenDeer');exit; }
     }
 },0);
 add_filter('redirect_canonical',function($redirect){return cg_launch_cleanup_uncategorized_request()?false:$redirect;});

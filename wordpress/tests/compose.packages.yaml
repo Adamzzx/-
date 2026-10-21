@@ -20,6 +20,7 @@ services:
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - wp:/var/www/html
+      - backup:/var/www/private-cleanup
     depends_on:
       - db
   cli:
@@ -32,8 +33,10 @@ services:
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - wp:/var/www/html
+      - backup:/var/www/private-cleanup
     depends_on:
       - wordpress
 volumes:
   wp:
   db:
+  backup:

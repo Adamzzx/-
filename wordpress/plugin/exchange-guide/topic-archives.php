@@ -10,6 +10,8 @@ function cg_is_crypto_topic($term=null){
 }
 function cg_topic_is_open($term){
     if(is_numeric($term)){$term=get_term(absint($term),'cg_topic');}
+    if($term instanceof WP_Term&&function_exists('cg_launch_retired_topic')&&cg_launch_retired_topic($term)){return false;}
+    if($term instanceof WP_Term&&get_term_meta($term->term_id,'_cg_formal_directory',true)==='1'){return true;}
     return $term instanceof WP_Term&&(cg_is_crypto_topic($term)||($term->slug==='tokenized-stocks'&&!(int)$term->parent)||cg_topic_has_content($term->term_id));
 }
 function cg_crypto_sections(){

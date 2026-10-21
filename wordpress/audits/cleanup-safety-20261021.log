@@ -1,0 +1,24 @@
+PASS: missing full-backup confirmation blocks before any cleanup/helper
+PASS: unauthorized apply rejected even with backup checkbox
+PASS: rejected apply does not create execution log
+PASS: dependencies normalize suffix but route tests remain exact
+PASS: external same-path URL does not become an internal dependency
+PASS: empty unmarked owner platform is preserved
+PASS: exact marked empty fixture is eligible
+PASS: dry-run does not trash eligible content
+PASS: real body protects generated object
+PASS: nonempty real fee field protects object
+PASS: serialized string platform ID in draft blocks cleanup
+PASS: review platform slug in draft blocks cleanup
+PASS: draft body link with fragment blocks cleanup
+PASS: active owner menu with query is a visible blocker
+PASS: known managed leaf link can accompany safe cleanup
+PASS: owner descendants prevent deleting managed parent link
+PASS: exact empty retired-topic fixture is eligible
+PASS: draft association blocks term removal despite public count zero
+PASS: unassigned draft link with query and fragment protects old term
+PASS: explicit primary-topic metadata protects term
+PASS: active front object retained as internal while alias may be normalized
+PASS: active posts page never loses its required public address
+PASS: direct Uncategorized lookup remains available after public list exclusion
+PASS: ordinary public category lists exclude redundant archive only
