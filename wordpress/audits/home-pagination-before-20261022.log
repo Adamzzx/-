@@ -1,0 +1,14 @@
+AssertionError [ERR_ASSERTION]: current pagination number reflects the visible list page
+
+'1' !== '2'
+
+    at assertCurrent (/workspace/-/wordpress/tests/home-browser.cjs:17:204)
+    at async assertHomeRoundTrip (/workspace/-/wordpress/tests/home-browser.cjs:22:162)
+    at async /workspace/-/wordpress/tests/home-browser.cjs:37:36 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '1',
+  expected: '2',
+  operator: 'strictEqual',
+  diff: 'simple'
+}

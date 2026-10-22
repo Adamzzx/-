@@ -1,0 +1,6 @@
+PASS Rank Math wizard pending: correct canonical, active page 2, clickable page 1 and exact numeric/previous round trips in page front-page mode
+PASS Rank Math wizard pending: correct canonical, active page 2, clickable page 1 and exact numeric/previous round trips in posts front-page mode
+PASS search noindex/current-state/return links and formal empty-category index with Rank Math wizard pending
+PASS Rank Math frontend enabled: correct canonical, active page 2, clickable page 1 and exact numeric/previous round trips in page front-page mode
+PASS Rank Math frontend enabled: correct canonical, active page 2, clickable page 1 and exact numeric/previous round trips in posts front-page mode
+PASS search noindex/current-state/return links and formal empty-category index with Rank Math frontend enabled

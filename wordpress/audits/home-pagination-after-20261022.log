@@ -1,0 +1,12 @@
+PASS page front page renders summaries only, retains all four registration banners, and supports exact 1→2→1 numeric/previous-link pagination
+PASS posts front page renders summaries only, retains all four registration banners, and supports exact 1→2→1 numeric/previous-link pagination
+PASS homepage pagination and malformed page parameters
+PASS native ordering form saves/reloads numeric priorities, clearing restores newest order, and CSRF/invalid values are rejected
+PASS logged-in CGHomeSearch2026 keyword search, privacy, noindex and current-state/numeric/previous-link pagination
+PASS logged-in 钱包检索验证 keyword search, privacy, noindex and current-state/numeric/previous-link pagination
+PASS quoted body search, no-result feedback and escaped special-character search input
+PASS anonymous search exposes only public articles and low-privilege account cannot reorder homepage
+PASS editor menu, both ordering routes, nonce save and post-save redirect work without administrator privileges
+PASS homepage/search responsive layout, search visibility and navigation at 1400px
+PASS homepage/search responsive layout, search visibility and navigation at 768px
+PASS homepage/search responsive layout, search visibility and navigation at 390px

@@ -1,7 +1,8 @@
 <?php
 if(!defined('ABSPATH')){exit;}
 global $wp_query;
-$page=max(1,absint(get_query_var('paged')));
+// Keep the results page separate from WordPress' global content-page counter.
+$cg_search_current_page=max(1,absint(get_query_var('paged')));
 $keyword=get_search_query(false);
 get_header();
 ?>
@@ -15,7 +16,7 @@ get_header();
             <?php } ?>
             <?php if($wp_query->max_num_pages>1){ ?>
                 <nav class="cg-pagination cg-feed-pagination" aria-label="搜索结果分页"><?php echo wp_kses_post(paginate_links(array(
-                    'current'=>$page,'total'=>$wp_query->max_num_pages,'prev_text'=>'上一页','next_text'=>'下一页',
+                    'current'=>$cg_search_current_page,'total'=>$wp_query->max_num_pages,'prev_text'=>'上一页','next_text'=>'下一页',
                     'before_page_number'=>'<span class="screen-reader-text">第 </span>',
                     'after_page_number'=>'<span class="screen-reader-text"> 页</span>',
                     'add_fragment'=>'#search-articles',
