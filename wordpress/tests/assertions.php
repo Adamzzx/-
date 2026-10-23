@@ -15,7 +15,9 @@ cg_save_meta($binance->ID); cg_assert(cg_active_offer($binance), 'authorized fie
 $before=get_post_meta($binance->ID,'_cg_fees',true); cg_setup_pages(true); cg_setup_pages(true);
 cg_assert(get_post_meta($binance->ID,'_cg_fees',true)===$before, 'repeat initialization preserves edits');
 cg_assert(count(get_posts(array('post_type'=>'cg_exchange','numberposts'=>100)))===$seeded_before, 'repeat initialization preserves existing identities without adding duplicates');
-$_POST['cg_destination']='https://evil.invalid/'; cg_save_meta($binance->ID); cg_assert(!cg_active_offer($binance), 'invalid destination disables offer');
+$previous_destination=get_post_meta($binance->ID,'_cg_destination',true);
+$_POST['cg_destination']='https://evil.invalid/'; cg_save_meta($binance->ID);
+cg_assert(cg_active_offer($binance)&&get_post_meta($binance->ID,'_cg_destination',true)===$previous_destination&&!empty(get_post_meta($binance->ID,'_cg_referral_last_save',true)['error']), 'invalid destination reports an error and preserves the existing valid recommendation');
 $_POST['cg_destination']='https://www.binance.com/en/register?ref=smoke';$_POST['cg_expiry']='2000-01-01';cg_save_meta($binance->ID);cg_assert(!cg_active_offer($binance),'expired offer disabled');
 $_POST['cg_expiry']='';cg_save_meta($binance->ID);
 $subscriber=wp_insert_user(array('user_login'=>'smoke-subscriber','user_pass'=>wp_generate_password(24),'user_email'=>'subscriber@example.invalid','role'=>'subscriber'));

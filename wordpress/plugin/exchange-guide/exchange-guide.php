@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.14.2
+ * Version: 1.14.3
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -30,6 +30,7 @@ require_once __DIR__ . '/baidu-analytics.php';
 require_once __DIR__ . '/launch-editorial.php';
 require_once __DIR__ . '/launch-cleanup.php';
 require_once __DIR__ . '/cleanup-remediation.php';
+require_once __DIR__ . '/referral-settings.php';
 
 function cg_definitions() {
     return array(
@@ -85,8 +86,8 @@ function cg_expiry_timestamp($date) {
     return $parsed && $parsed->format('Y-m-d') === $date ? $parsed->getTimestamp() : false;
 }
 function cg_active_offer($post) {
-    if (!$post || !get_post_meta($post->ID, '_cg_enabled', true)) { return false; }
-    if (!cg_safe_destination($post->post_name, get_post_meta($post->ID, '_cg_destination', true))) { return false; }
+    if (!$post instanceof WP_Post || $post->post_type !== 'cg_exchange' || !isset(cg_definitions()[$post->post_name]) || !get_post_meta($post->ID, '_cg_enabled', true)) { return false; }
+    if (!cg_referral_destination_allowed($post, get_post_meta($post->ID, '_cg_destination', true))) { return false; }
     $end = get_post_meta($post->ID, '_cg_expiry', true);
     // Expiry is an exclusive boundary at 00:00 UTC on the selected date.
     return !$end || (cg_expiry_timestamp($end) !== false && cg_expiry_timestamp($end) > time());
@@ -111,7 +112,7 @@ function cg_redirect() {
         add_post_meta($post->ID, '_cg_clicks', '0', true);
         $wpdb->query($wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = CAST(meta_value AS UNSIGNED) + 1 WHERE post_id = %d AND meta_key = %s", $post->ID, '_cg_clicks'));
     }
-    // The URL has already been checked against an exact exchange-specific host allowlist.
+    // The destination is official or its exact host was verified for this platform by an administrator.
     wp_redirect(get_post_meta($post->ID, '_cg_destination', true), 302, 'Exchange Guide'); exit;
 }
 add_action('template_redirect', 'cg_redirect', 1);
@@ -139,14 +140,15 @@ function cg_meta_box($post) {
     cg_input($post->ID, 'source', '官方资料来源', 'url');
     cg_input($post->ID, 'fees', '费用与适用条件', 'textarea');
     cg_input($post->ID, 'regions', '地区与产品资格', 'textarea');
-    cg_input($post->ID, 'destination', '注册或推荐链接（选填）', 'url', '留空、未启用或过期时，四家首页平台默认使用官方注册链接。以后填写自己的推荐链接并勾选启用，即可统一替换横幅跳转。仅允许对应平台的 HTTPS 官方域名。');
+    cg_input($post->ID, 'destination', '注册或推荐链接（选填）', 'url', '支持交易所官方后台提供的专用推广域名。管理员核实来源后，勾选下方“推荐链接已核实并启用”再保存；仅授权当前交易所、当前链接的完整域名。链接须为 HTTPS。留空、未启用或到期时使用官方注册入口。');
+    cg_referral_status_markup($post);
     cg_input($post->ID, 'terms', '推荐活动条款', 'textarea');
     $banner=(int)get_post_meta($post->ID,'_cg_banner_attachment',true);
     echo '<p><strong>注册横幅图片（选填）</strong><br>只上传自己制作或有权使用的图片，建议宽高比约 4:1。留空使用主题的独立文字卡片。</p><input type="hidden" name="cg_banner_attachment" id="cg_banner_attachment" value="'.absint($banner).'">';
     echo '<img id="cg-banner-preview" alt="横幅预览" style="max-width:100%;width:360px;'.($banner?'':'display:none;').'" src="'.esc_url($banner?wp_get_attachment_image_url($banner,'medium_large'):'').'">';
     echo '<p><button type="button" class="button" id="cg-banner-select">选择横幅图片</button> <button type="button" class="button" id="cg-banner-clear">使用默认文字卡片</button></p>';
     cg_input($post->ID, 'expiry', '入口停用日期（UTC）', 'date', '到所选日期 00:00 UTC 即失效；没有期限可留空。');
-    cg_input($post->ID, 'enabled', '推荐链接已核实并启用', 'checkbox');
+    cg_input($post->ID, 'enabled', '推荐链接已核实并启用', 'checkbox', '勾选表示你已从该交易所官方邀请或合作后台核实这条链接；更换链接后请重新核实并保存。');
     $officials=cg_official_registration_urls();if(isset($officials[$post->post_name])){echo '<p>默认官方注册链接：<a href="'.esc_url($officials[$post->post_name]).'" target="_blank" rel="noopener noreferrer">'.esc_html($officials[$post->post_name]).'</a></p>';}
     echo '<p>累计推荐点击：<strong>' . absint(get_post_meta($post->ID, '_cg_clicks', true)) . '</strong>（不代表注册转化）</p>';
 }
@@ -192,18 +194,20 @@ function cg_save_meta($id) {
     foreach (array('fees','regions','terms') as $key) { update_post_meta($id, '_cg_' . $key, sanitize_textarea_field(wp_unslash($_POST['cg_' . $key] ?? ''))); }
     update_post_meta($id, '_cg_verified', isset($_POST['cg_verified']) ? '1' : '');
     if(isset($_POST['cg_banner_attachment'])){$banner=absint($_POST['cg_banner_attachment']);if(!$banner||in_array(get_post_mime_type($banner),array('image/jpeg','image/png','image/webp','image/avif'),true)){update_post_meta($id,'_cg_banner_attachment',$banner);}}
-    $url = trim(wp_unslash($_POST['cg_destination'] ?? ''));
-    $slug = get_post_field('post_name', $id);
-    if ($url && !cg_safe_destination($slug, $url)) {
-        update_post_meta($id, '_cg_enabled', '');
-        set_transient('cg_error_' . get_current_user_id(), '推荐链接未保存：域名或协议不符合允许名单，已停用入口。请检查链接。', 120);
-        return;
+    $url = isset($_POST['cg_destination']) && is_string($_POST['cg_destination']) ? wp_unslash($_POST['cg_destination']) : '';
+    if (isset($_POST['cg_destination']) && !is_string($_POST['cg_destination'])) { $url = null; }
+    $expiry = isset($_POST['cg_expiry']) && is_string($_POST['cg_expiry']) ? wp_unslash($_POST['cg_expiry']) : '';
+    if (isset($_POST['cg_expiry']) && !is_string($_POST['cg_expiry'])) { $expiry = null; }
+    $result = cg_save_referral_settings(get_post($id), $url, isset($_POST['cg_enabled']) && $_POST['cg_enabled'] === '1', $expiry);
+    $attempt = isset($_POST['cg_referral_attempt']) && is_string($_POST['cg_referral_attempt']) ? wp_unslash($_POST['cg_referral_attempt']) : '';
+    if (!preg_match('/^[a-zA-Z0-9-]{8,80}$/D', $attempt)) { $attempt = ''; }
+    $error = is_wp_error($result) ? '推荐设置未保存：'.$result->get_error_message().' 原有推荐配置保持不变。' : '';
+    update_post_meta($id, '_cg_referral_last_save', array('user'=>get_current_user_id(), 'attempt'=>$attempt, 'error'=>$error));
+    if ($error) { set_transient('cg_error_' . get_current_user_id(), $error, 120); }
+    else {
+        $notice_key = 'cg_error_' . get_current_user_id(); $previous_error = get_transient($notice_key);
+        if (is_string($previous_error) && str_starts_with($previous_error, '推荐设置未保存：')) { delete_transient($notice_key); }
     }
-    update_post_meta($id, '_cg_destination', esc_url_raw($url, array('https')));
-    $expiry = sanitize_text_field(wp_unslash($_POST['cg_expiry'] ?? ''));
-    if ($expiry && cg_expiry_timestamp($expiry) === false) { $expiry = '1970-01-01'; }
-    update_post_meta($id, '_cg_expiry', $expiry);
-    update_post_meta($id, '_cg_enabled', $url && isset($_POST['cg_enabled']) ? '1' : '');
     do_action('litespeed_purge_post', $id);
 }
 add_action('save_post', 'cg_save_meta');
