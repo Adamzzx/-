@@ -1,0 +1,8 @@
+PASS initial homepage, five reloads, platform hub and script-generated clicks leave both counters unchanged
+PASS real native click counts once, repeated same-Event callbacks do not resend, original POST replay is a duplicate and legacy total stays 45
+PASS outbound/back/new activation, two independent contexts and native middle-click each add the intended count
+PASS raw GET/prefetch/HEAD/crawler and signed GET remain zero, while genuine signed-review CTA activation contributes one confirmed click
+PASS logged-in administrator, separate editor preview and explicit HeadlessChrome test activations navigate without reporting or counting
+PASS administrator-only recent log shows separate legacy/new totals, source paths and both entry types without private URL details; 1440/390px layouts retain four banners without overflow
+PASS official fallback, invalid proof, external destination, preview source, cross-origin and missing-header events cannot inflate the new counter
+PASS restored every original exchange metadata value and removed only the temporary articles, editor and this run event records; Bybit was never changed

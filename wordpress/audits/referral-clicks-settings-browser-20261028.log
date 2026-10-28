@@ -1,0 +1,5 @@
+PASS native Gutenberg URL+enabled save, exact host/platform trust, 302 without external navigation, frozen legacy count and administrator exclusion
+PASS homepage/topic sidebars share sponsored central entry and disclosure; native article retains regional confirmation and uses the same destination
+PASS invalid HTTP/userinfo editor saves show persistent 未保存 feedback, preserve the previous working URL, and a later valid save clears the error
+PASS invalid/missing nonce and anonymous status AJAX are denied without leaking destination or mutating configuration
+PASS restored all original OKX post/meta, removed local article/new revisions and restored previous administrator error transient

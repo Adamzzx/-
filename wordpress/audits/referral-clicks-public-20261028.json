@@ -1,0 +1,607 @@
+{
+  "site": "https://degendeer.com/",
+  "html_fetched_at_utc": "2026-10-28T07:54:47.650901+00:00",
+  "saved_html_analysis_at_utc": "2026-10-28T08:08:46.242650+00:00",
+  "expected_baidu_site_id": "e4fc08611102f7f7be27a45829d061b7",
+  "method": "Anonymous own-site HTML GET only. Speculation-rule analysis reuses saved HTML; Node URLPattern tests use synthetic URLs offline. No production browser run, CTA requests or analytics requests.",
+  "production_changed": false,
+  "baidu_or_indexnow_requests_sent": false,
+  "promotion_or_signed_redirects_requested": false,
+  "scope_limits": [
+    "Static markup confirms one loader tag and configuration per sampled page, not actual browser loading or delivery.",
+    "No production administrator access, server logs, or Baidu account receipts; cannot attribute October28 click totals or individual requests.",
+    "Browser speculative requests were not generated or observed. Rule matching alone does not prove runtime browser eligibility or a fetch.",
+    "Private signed URL parameter values, full HTML, visitor IPs and infrastructure request IDs are intentionally omitted."
+  ],
+  "speculation_summary": {
+    "all_eight_rules_equal": true,
+    "mode": "prefetch",
+    "prerender_present": false,
+    "eagerness": "conservative",
+    "go_path_explicitly_excluded": false,
+    "register_path_explicitly_excluded": false,
+    "observed_exclusions": [
+      "WordPress login/admin and content asset paths",
+      "All URLs containing a query string with pretty permalinks",
+      "rel=nofollow links",
+      ".no-prefetch links or ancestors"
+    ],
+    "homepage_ctas_not_excluded_by_observed_rule": 4,
+    "sample_article_ctas_excluded_by_nofollow": 5,
+    "offline_urlpattern_checks": [
+      {
+        "kind": "plain same-site /go/ URL",
+        "matches_include": true,
+        "matches_path_exclusion": false
+      },
+      {
+        "kind": "same-site signed /go/review/ URL with a synthetic redacted query",
+        "matches_include": true,
+        "matches_query_exclusion": true
+      },
+      {
+        "kind": "plain same-site /register/ URL",
+        "matches_include": true,
+        "matches_path_exclusion": false
+      }
+    ],
+    "possible_old_counter_effect_conditions": [
+      "A supported browser elects to prefetch a link not excluded by the document rule; conservative eagerness does not imply every link is fetched on page load.",
+      "The speculative request reaches old cg_redirect PHP with an active valid referral offer and a requester without manage_options; old code increments _cg_clicks for every such request, without testing method, prefetch headers, crawler identity or click activation.",
+      "Prefetch itself does not execute the destination document JavaScript or dispatch the source-page click event, so a server counter increment can occur without a matching Baidu exchange_outbound click.",
+      "Old redirects call nocache_headers, but cache controls do not undo request-side counter increments already executed. Whether a later activation produces an additional request requires browser/server evidence and was not tested."
+    ],
+    "historical_attribution": "Plausible source-code mechanism only; no claim any specific production October28 request or count was caused by prefetch.",
+    "suggested_narrow_defense": "Use wp_speculation_rules_href_exclude_paths to exclude /go/* and /register/*; use no-prefetch CTA opt-out classes if useful. This is defense in depth, not a substitute for removing request-side click increments."
+  },
+  "source_evidence": {
+    "old_plugin_baseline_commit": "82c6593601b409abc56e7636dada729f82e3d703",
+    "old_plugin_function": "wordpress/plugin/exchange-guide/exchange-guide.php::cg_redirect at baseline commit; do not confuse with current uncommitted remediation",
+    "local_wordpress_core_read_only_copy": "wp-includes/speculative-loading.php, Docker local test instance; no production source access",
+    "core_default_configuration": "prefetch / conservative; normally anonymous pretty-permalink sites",
+    "core_path_exclusion_filter": "wp_speculation_rules_href_exclude_paths (paths relative to site; core handles subdirectory prefixes)",
+    "core_omits_script_execution_for_prefetch": "The observed mode is prefetch, not prerender; actual network behavior not exercised in this audit"
+  },
+  "privacy_public_text": {
+    "already_discloses_enabled_baidu_analytics": true,
+    "already_discloses_cookies_and_admin_exclusion": true,
+    "custom_click_exchange_article_position_fields_explicitly_described": false,
+    "click_not_registration_success_explicitly_described": false
+  },
+  "pages": [
+    {
+      "url": "https://degendeer.com/",
+      "http_status": 200,
+      "expected_baidu_id_occurrences": 1,
+      "localized_baidu_config_count": 1,
+      "analytics_loader_tag_count": 1,
+      "expected_site_id_configured": true,
+      "csp_response_headers": {
+        "content-security-policy": "upgrade-insecure-requests"
+      },
+      "csp_meta": [],
+      "analytics_loader_delay_markers_observed": false,
+      "speculationrules_script_count": 1,
+      "speculation_rules": [
+        {
+          "prefetch": [
+            {
+              "source": "document",
+              "where": {
+                "and": [
+                  {
+                    "href_matches": "/*"
+                  },
+                  {
+                    "not": {
+                      "href_matches": [
+                        "/wp-*.php",
+                        "/wp-admin/*",
+                        "/wp-content/uploads/*",
+                        "/wp-content/*",
+                        "/wp-content/plugins/*",
+                        "/wp-content/themes/exchange-guide/*",
+                        "/*\\?(.+)"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": "a[rel~=\"nofollow\"]"
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": ".no-prefetch, .no-prefetch a"
+                    }
+                  }
+                ]
+              },
+              "eagerness": "conservative"
+            }
+          ]
+        }
+      ],
+      "cta_rule_static_evaluation": [
+        {
+          "path": "/go/binance/",
+          "has_query": false,
+          "rel_nofollow": false,
+          "no_prefetch_ancestor": false,
+          "document_rule_exclusions": [],
+          "not_excluded_by_observed_document_rule": true,
+          "runtime_browser_eligibility_or_request_observed": false
+        },
+        {
+          "path": "/go/okx/",
+          "has_query": false,
+          "rel_nofollow": false,
+          "no_prefetch_ancestor": false,
+          "document_rule_exclusions": [],
+          "not_excluded_by_observed_document_rule": true,
+          "runtime_browser_eligibility_or_request_observed": false
+        },
+        {
+          "path": "/go/bitget/",
+          "has_query": false,
+          "rel_nofollow": false,
+          "no_prefetch_ancestor": false,
+          "document_rule_exclusions": [],
+          "not_excluded_by_observed_document_rule": true,
+          "runtime_browser_eligibility_or_request_observed": false
+        },
+        {
+          "path": "/go/bybit/",
+          "has_query": false,
+          "rel_nofollow": false,
+          "no_prefetch_ancestor": false,
+          "document_rule_exclusions": [],
+          "not_excluded_by_observed_document_rule": true,
+          "runtime_browser_eligibility_or_request_observed": false
+        }
+      ]
+    },
+    {
+      "url": "https://degendeer.com/exchanges/binance/",
+      "http_status": 200,
+      "expected_baidu_id_occurrences": 1,
+      "localized_baidu_config_count": 1,
+      "analytics_loader_tag_count": 1,
+      "expected_site_id_configured": true,
+      "csp_response_headers": {
+        "content-security-policy": "upgrade-insecure-requests"
+      },
+      "csp_meta": [],
+      "analytics_loader_delay_markers_observed": false,
+      "speculationrules_script_count": 1,
+      "speculation_rules": [
+        {
+          "prefetch": [
+            {
+              "source": "document",
+              "where": {
+                "and": [
+                  {
+                    "href_matches": "/*"
+                  },
+                  {
+                    "not": {
+                      "href_matches": [
+                        "/wp-*.php",
+                        "/wp-admin/*",
+                        "/wp-content/uploads/*",
+                        "/wp-content/*",
+                        "/wp-content/plugins/*",
+                        "/wp-content/themes/exchange-guide/*",
+                        "/*\\?(.+)"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": "a[rel~=\"nofollow\"]"
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": ".no-prefetch, .no-prefetch a"
+                    }
+                  }
+                ]
+              },
+              "eagerness": "conservative"
+            }
+          ]
+        }
+      ],
+      "cta_rule_static_evaluation": []
+    },
+    {
+      "url": "https://degendeer.com/exchanges/okx/",
+      "http_status": 200,
+      "expected_baidu_id_occurrences": 1,
+      "localized_baidu_config_count": 1,
+      "analytics_loader_tag_count": 1,
+      "expected_site_id_configured": true,
+      "csp_response_headers": {
+        "content-security-policy": "upgrade-insecure-requests"
+      },
+      "csp_meta": [],
+      "analytics_loader_delay_markers_observed": false,
+      "speculationrules_script_count": 1,
+      "speculation_rules": [
+        {
+          "prefetch": [
+            {
+              "source": "document",
+              "where": {
+                "and": [
+                  {
+                    "href_matches": "/*"
+                  },
+                  {
+                    "not": {
+                      "href_matches": [
+                        "/wp-*.php",
+                        "/wp-admin/*",
+                        "/wp-content/uploads/*",
+                        "/wp-content/*",
+                        "/wp-content/plugins/*",
+                        "/wp-content/themes/exchange-guide/*",
+                        "/*\\?(.+)"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": "a[rel~=\"nofollow\"]"
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": ".no-prefetch, .no-prefetch a"
+                    }
+                  }
+                ]
+              },
+              "eagerness": "conservative"
+            }
+          ]
+        }
+      ],
+      "cta_rule_static_evaluation": []
+    },
+    {
+      "url": "https://degendeer.com/exchanges/bitget/",
+      "http_status": 200,
+      "expected_baidu_id_occurrences": 1,
+      "localized_baidu_config_count": 1,
+      "analytics_loader_tag_count": 1,
+      "expected_site_id_configured": true,
+      "csp_response_headers": {
+        "content-security-policy": "upgrade-insecure-requests"
+      },
+      "csp_meta": [],
+      "analytics_loader_delay_markers_observed": false,
+      "speculationrules_script_count": 1,
+      "speculation_rules": [
+        {
+          "prefetch": [
+            {
+              "source": "document",
+              "where": {
+                "and": [
+                  {
+                    "href_matches": "/*"
+                  },
+                  {
+                    "not": {
+                      "href_matches": [
+                        "/wp-*.php",
+                        "/wp-admin/*",
+                        "/wp-content/uploads/*",
+                        "/wp-content/*",
+                        "/wp-content/plugins/*",
+                        "/wp-content/themes/exchange-guide/*",
+                        "/*\\?(.+)"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": "a[rel~=\"nofollow\"]"
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": ".no-prefetch, .no-prefetch a"
+                    }
+                  }
+                ]
+              },
+              "eagerness": "conservative"
+            }
+          ]
+        }
+      ],
+      "cta_rule_static_evaluation": []
+    },
+    {
+      "url": "https://degendeer.com/compare/",
+      "http_status": 200,
+      "expected_baidu_id_occurrences": 1,
+      "localized_baidu_config_count": 1,
+      "analytics_loader_tag_count": 1,
+      "expected_site_id_configured": true,
+      "csp_response_headers": {
+        "content-security-policy": "upgrade-insecure-requests"
+      },
+      "csp_meta": [],
+      "analytics_loader_delay_markers_observed": false,
+      "speculationrules_script_count": 1,
+      "speculation_rules": [
+        {
+          "prefetch": [
+            {
+              "source": "document",
+              "where": {
+                "and": [
+                  {
+                    "href_matches": "/*"
+                  },
+                  {
+                    "not": {
+                      "href_matches": [
+                        "/wp-*.php",
+                        "/wp-admin/*",
+                        "/wp-content/uploads/*",
+                        "/wp-content/*",
+                        "/wp-content/plugins/*",
+                        "/wp-content/themes/exchange-guide/*",
+                        "/*\\?(.+)"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": "a[rel~=\"nofollow\"]"
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": ".no-prefetch, .no-prefetch a"
+                    }
+                  }
+                ]
+              },
+              "eagerness": "conservative"
+            }
+          ]
+        }
+      ],
+      "cta_rule_static_evaluation": []
+    },
+    {
+      "url": "https://degendeer.com/privacy-policy/",
+      "http_status": 200,
+      "expected_baidu_id_occurrences": 1,
+      "localized_baidu_config_count": 1,
+      "analytics_loader_tag_count": 1,
+      "expected_site_id_configured": true,
+      "csp_response_headers": {
+        "content-security-policy": "upgrade-insecure-requests"
+      },
+      "csp_meta": [],
+      "analytics_loader_delay_markers_observed": false,
+      "speculationrules_script_count": 1,
+      "speculation_rules": [
+        {
+          "prefetch": [
+            {
+              "source": "document",
+              "where": {
+                "and": [
+                  {
+                    "href_matches": "/*"
+                  },
+                  {
+                    "not": {
+                      "href_matches": [
+                        "/wp-*.php",
+                        "/wp-admin/*",
+                        "/wp-content/uploads/*",
+                        "/wp-content/*",
+                        "/wp-content/plugins/*",
+                        "/wp-content/themes/exchange-guide/*",
+                        "/*\\?(.+)"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": "a[rel~=\"nofollow\"]"
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": ".no-prefetch, .no-prefetch a"
+                    }
+                  }
+                ]
+              },
+              "eagerness": "conservative"
+            }
+          ]
+        }
+      ],
+      "cta_rule_static_evaluation": []
+    },
+    {
+      "url": "https://degendeer.com/tokenized-us-stocks-exchanges/",
+      "http_status": 200,
+      "expected_baidu_id_occurrences": 1,
+      "localized_baidu_config_count": 1,
+      "analytics_loader_tag_count": 1,
+      "expected_site_id_configured": true,
+      "csp_response_headers": {
+        "content-security-policy": "upgrade-insecure-requests"
+      },
+      "csp_meta": [],
+      "analytics_loader_delay_markers_observed": false,
+      "speculationrules_script_count": 1,
+      "speculation_rules": [
+        {
+          "prefetch": [
+            {
+              "source": "document",
+              "where": {
+                "and": [
+                  {
+                    "href_matches": "/*"
+                  },
+                  {
+                    "not": {
+                      "href_matches": [
+                        "/wp-*.php",
+                        "/wp-admin/*",
+                        "/wp-content/uploads/*",
+                        "/wp-content/*",
+                        "/wp-content/plugins/*",
+                        "/wp-content/themes/exchange-guide/*",
+                        "/*\\?(.+)"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": "a[rel~=\"nofollow\"]"
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": ".no-prefetch, .no-prefetch a"
+                    }
+                  }
+                ]
+              },
+              "eagerness": "conservative"
+            }
+          ]
+        }
+      ],
+      "cta_rule_static_evaluation": [
+        {
+          "path": "/go/binance/",
+          "has_query": false,
+          "rel_nofollow": true,
+          "no_prefetch_ancestor": false,
+          "document_rule_exclusions": [
+            "rel_nofollow_excluded"
+          ],
+          "not_excluded_by_observed_document_rule": false,
+          "runtime_browser_eligibility_or_request_observed": false
+        },
+        {
+          "path": "/go/okx/",
+          "has_query": false,
+          "rel_nofollow": true,
+          "no_prefetch_ancestor": false,
+          "document_rule_exclusions": [
+            "rel_nofollow_excluded"
+          ],
+          "not_excluded_by_observed_document_rule": false,
+          "runtime_browser_eligibility_or_request_observed": false
+        },
+        {
+          "path": "/go/bitget/",
+          "has_query": false,
+          "rel_nofollow": true,
+          "no_prefetch_ancestor": false,
+          "document_rule_exclusions": [
+            "rel_nofollow_excluded"
+          ],
+          "not_excluded_by_observed_document_rule": false,
+          "runtime_browser_eligibility_or_request_observed": false
+        }
+      ]
+    },
+    {
+      "url": "https://degendeer.com/binance-vs-bitget-us-stocks/",
+      "http_status": 200,
+      "expected_baidu_id_occurrences": 1,
+      "localized_baidu_config_count": 1,
+      "analytics_loader_tag_count": 1,
+      "expected_site_id_configured": true,
+      "csp_response_headers": {
+        "content-security-policy": "upgrade-insecure-requests"
+      },
+      "csp_meta": [],
+      "analytics_loader_delay_markers_observed": false,
+      "speculationrules_script_count": 1,
+      "speculation_rules": [
+        {
+          "prefetch": [
+            {
+              "source": "document",
+              "where": {
+                "and": [
+                  {
+                    "href_matches": "/*"
+                  },
+                  {
+                    "not": {
+                      "href_matches": [
+                        "/wp-*.php",
+                        "/wp-admin/*",
+                        "/wp-content/uploads/*",
+                        "/wp-content/*",
+                        "/wp-content/plugins/*",
+                        "/wp-content/themes/exchange-guide/*",
+                        "/*\\?(.+)"
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": "a[rel~=\"nofollow\"]"
+                    }
+                  },
+                  {
+                    "not": {
+                      "selector_matches": ".no-prefetch, .no-prefetch a"
+                    }
+                  }
+                ]
+              },
+              "eagerness": "conservative"
+            }
+          ]
+        }
+      ],
+      "cta_rule_static_evaluation": [
+        {
+          "path": "/go/binance/",
+          "has_query": false,
+          "rel_nofollow": true,
+          "no_prefetch_ancestor": false,
+          "document_rule_exclusions": [
+            "rel_nofollow_excluded"
+          ],
+          "not_excluded_by_observed_document_rule": false,
+          "runtime_browser_eligibility_or_request_observed": false
+        },
+        {
+          "path": "/go/bitget/",
+          "has_query": false,
+          "rel_nofollow": true,
+          "no_prefetch_ancestor": false,
+          "document_rule_exclusions": [
+            "rel_nofollow_excluded"
+          ],
+          "not_excluded_by_observed_document_rule": false,
+          "runtime_browser_eligibility_or_request_observed": false
+        }
+      ]
+    }
+  ]
+}

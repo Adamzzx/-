@@ -1,0 +1,141 @@
+ Container exchange-guide-click-test-db-1  Running
+ Container exchange-guide-click-test-wordpress-1  Running
+PASS: host normalization preserves an exact lowercase host with explicit HTTPS port 443
+PASS: invalid URL, protocol, authority, IP or local host is rejected #0
+PASS: invalid URL, protocol, authority, IP or local host is rejected #1
+PASS: invalid URL, protocol, authority, IP or local host is rejected #2
+PASS: invalid URL, protocol, authority, IP or local host is rejected #3
+PASS: invalid URL, protocol, authority, IP or local host is rejected #4
+PASS: invalid URL, protocol, authority, IP or local host is rejected #5
+PASS: invalid URL, protocol, authority, IP or local host is rejected #6
+PASS: invalid URL, protocol, authority, IP or local host is rejected #7
+PASS: invalid URL, protocol, authority, IP or local host is rejected #8
+PASS: invalid URL, protocol, authority, IP or local host is rejected #9
+PASS: invalid URL, protocol, authority, IP or local host is rejected #10
+PASS: invalid URL, protocol, authority, IP or local host is rejected #11
+PASS: invalid URL, protocol, authority, IP or local host is rejected #12
+PASS: invalid URL, protocol, authority, IP or local host is rejected #13
+PASS: invalid URL, protocol, authority, IP or local host is rejected #14
+PASS: invalid URL, protocol, authority, IP or local host is rejected #15
+PASS: invalid URL, protocol, authority, IP or local host is rejected #16
+PASS: invalid URL, protocol, authority, IP or local host is rejected #17
+PASS: invalid URL, protocol, authority, IP or local host is rejected #18
+PASS: invalid URL, protocol, authority, IP or local host is rejected #19
+PASS: invalid URL, protocol, authority, IP or local host is rejected #20
+PASS: invalid URL, protocol, authority, IP or local host is rejected #21
+PASS: invalid URL, protocol, authority, IP or local host is rejected #22
+PASS: invalid URL, protocol, authority, IP or local host is rejected #23
+PASS: invalid URL, protocol, authority, IP or local host is rejected #24
+PASS: invalid URL, protocol, authority, IP or local host is rejected #25
+PASS: invalid URL, protocol, authority, IP or local host is rejected #26
+PASS: official registration remains on the original allowlist: binance
+PASS: the official-terms allowlist is not expanded to the custom referral host: binance
+PASS: a syntactically valid custom host is not trusted before administrator confirmation: binance
+PASS: administrator may save a custom URL as an inactive draft: binance
+PASS: an unchecked draft neither enables nor trusts its host: binance
+PASS: an inactive draft uses the official un-sponsored fallback: binance
+PASS: administrator confirmation binds the exact host to this platform slug: binance
+PASS: the verified custom URL becomes the centralized destination: binance
+PASS: an enabled custom referral is disclosed as sponsored: binance
+PASS: custom referral approval still does not authorize it as official policy/terms: binance
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: binance
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: binance
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: binance
+PASS: official registration remains on the original allowlist: okx
+PASS: the official-terms allowlist is not expanded to the custom referral host: okx
+PASS: a syntactically valid custom host is not trusted before administrator confirmation: okx
+PASS: administrator may save a custom URL as an inactive draft: okx
+PASS: an unchecked draft neither enables nor trusts its host: okx
+PASS: an inactive draft uses the official un-sponsored fallback: okx
+PASS: administrator confirmation binds the exact host to this platform slug: okx
+PASS: the verified custom URL becomes the centralized destination: okx
+PASS: an enabled custom referral is disclosed as sponsored: okx
+PASS: custom referral approval still does not authorize it as official policy/terms: okx
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: okx
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: okx
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: okx
+PASS: official registration remains on the original allowlist: bitget
+PASS: the official-terms allowlist is not expanded to the custom referral host: bitget
+PASS: a syntactically valid custom host is not trusted before administrator confirmation: bitget
+PASS: administrator may save a custom URL as an inactive draft: bitget
+PASS: an unchecked draft neither enables nor trusts its host: bitget
+PASS: an inactive draft uses the official un-sponsored fallback: bitget
+PASS: administrator confirmation binds the exact host to this platform slug: bitget
+PASS: the verified custom URL becomes the centralized destination: bitget
+PASS: an enabled custom referral is disclosed as sponsored: bitget
+PASS: custom referral approval still does not authorize it as official policy/terms: bitget
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: bitget
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: bitget
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: bitget
+PASS: official registration remains on the original allowlist: bybit
+PASS: the official-terms allowlist is not expanded to the custom referral host: bybit
+PASS: a syntactically valid custom host is not trusted before administrator confirmation: bybit
+PASS: administrator may save a custom URL as an inactive draft: bybit
+PASS: an unchecked draft neither enables nor trusts its host: bybit
+PASS: an inactive draft uses the official un-sponsored fallback: bybit
+PASS: administrator confirmation binds the exact host to this platform slug: bybit
+PASS: the verified custom URL becomes the centralized destination: bybit
+PASS: an enabled custom referral is disclosed as sponsored: bybit
+PASS: custom referral approval still does not authorize it as official policy/terms: bybit
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: bybit
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: bybit
+PASS: trusted referral hosts are exact, not suffix/prefix or subdomain matches: bybit
+PASS: another platform approval cannot authorize okx for binance
+PASS: another platform approval cannot authorize bitget for binance
+PASS: another platform approval cannot authorize bybit for binance
+PASS: another platform official host is not accepted for binance
+PASS: another platform official host is not accepted for binance
+PASS: another platform official host is not accepted for binance
+PASS: another platform approval cannot authorize binance for okx
+PASS: another platform approval cannot authorize bitget for okx
+PASS: another platform approval cannot authorize bybit for okx
+PASS: another platform official host is not accepted for okx
+PASS: another platform official host is not accepted for okx
+PASS: another platform official host is not accepted for okx
+PASS: another platform approval cannot authorize binance for bitget
+PASS: another platform approval cannot authorize okx for bitget
+PASS: another platform approval cannot authorize bybit for bitget
+PASS: another platform official host is not accepted for bitget
+PASS: another platform official host is not accepted for bitget
+PASS: another platform official host is not accepted for bitget
+PASS: another platform approval cannot authorize binance for bybit
+PASS: another platform approval cannot authorize okx for bybit
+PASS: another platform approval cannot authorize bitget for bybit
+PASS: another platform official host is not accepted for bybit
+PASS: another platform official host is not accepted for bybit
+PASS: another platform official host is not accepted for bybit
+PASS: copying another platform exact host and approval metadata cannot transfer its trust
+PASS: a platform slug change cannot inherit a custom approval bound to the previous slug
+PASS: invalid referral update preserves the existing working configuration #0
+PASS: invalid referral update preserves the existing working configuration #1
+PASS: invalid referral update preserves the existing working configuration #2
+PASS: invalid referral update preserves the existing working configuration #3
+PASS: invalid referral update preserves the existing working configuration #4
+PASS: invalid referral update preserves the existing working configuration #5
+PASS: invalid expiry cannot silently replace or disable a valid recommendation
+PASS: expired recommendation falls back to the official registration URL
+PASS: expired recommendations do not retain sponsored-banner state
+PASS: a future expiry keeps an otherwise verified custom referral active
+PASS: unchecking a previously approved custom referral clears host/slug trust and activation
+PASS: editor cannot trust a new host via the settings helper
+PASS: editor cannot change referral configuration via the native meta-box save
+PASS: subscriber cannot trust a new host via the settings helper
+PASS: subscriber cannot change referral configuration via the native meta-box save
+PASS: anonymous callers cannot change referral trust
+PASS: missing/invalid native save nonce cannot trust a new host #0
+PASS: missing/invalid native save nonce cannot trust a new host #1
+PASS: missing/invalid native save nonce cannot trust a new host #2
+PASS: administrator with valid native save nonce can replace the approved host
+PASS: replacing the approved host revokes the previous custom host
+PASS: invalid native form update also preserves the last valid referral configuration
+PASS: a successful native save clears both persistent and pending recommendation errors without requiring a reload
+PASS: official-domain referral URLs continue to work with the same settings flow
+PASS: returning to an official host removes obsolete custom host/slug approval
+PASS: clearing the URL removes the recommendation and uses the official fallback
+PASS: clearing the URL does not leave trusted custom host/slug metadata behind
+PASS: settings validation never records a visitor click: binance
+PASS: settings validation never records a visitor click: okx
+PASS: settings validation never records a visitor click: bitget
+PASS: settings validation never records a visitor click: bybit
+PASS: a missing platform cannot authorize a referral destination
+PASS: unknown platforms have no centralized destination

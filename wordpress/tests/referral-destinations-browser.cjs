@@ -57,7 +57,10 @@ const denied=async response=>{
    }
    const scope=await metaScope(),field=scope.locator('#cg_destination');
    if(!await field.isVisible()){
-    const area=page.getByRole('button',{name:/^(Meta Boxes|元框)$/i});if(await area.count()){await area.focus();await area.press('Enter');}
+    const area=page.getByRole('button',{name:/^(Meta Boxes|元框)$/i});
+    // The legacy fields exist before Gutenberg mounts the drawer control.
+    await area.waitFor({state:'visible'});
+    if(await area.getAttribute('aria-expanded')==='false'){await area.focus();await area.press('Enter');}
     const toggle=scope.locator('#cg-data .handlediv');if(await toggle.isVisible()&&await toggle.getAttribute('aria-expanded')==='false')await toggle.click();
    }
    await field.waitFor({state:'visible'});return scope;
@@ -92,9 +95,9 @@ const denied=async response=>{
   assert.deepEqual(readConfig(state.id),{url:ownerUrl,host:'okx-invite.example.com',exchange:'okx',enabled:'1',expiry:''},'Native Gutenberg save stores the exact URL, platform-specific host and exchange binding');
   const initialClicks=clickCount(state.id);
   const redirect=await anon.request.get(state.goUrl,{maxRedirects:0});assert.equal(redirect.status(),302);assert.equal(redirect.headers().location,ownerUrl);assert((redirect.headers()['x-robots-tag']||'').includes('noindex'));assert(/no-cache|no-store/.test(redirect.headers()['cache-control']||''));
-  assert.equal(clickCount(state.id),initialClicks+1,'Anonymous central redirect increments aggregate count once');
-  const administratorRedirect=await admin.request.get(state.goUrl,{maxRedirects:0});assert.equal(administratorRedirect.status(),302);assert.equal(administratorRedirect.headers().location,ownerUrl);assert.equal(clickCount(state.id),initialClicks+1,'Administrator preview is excluded from aggregate click count');
-  console.log('PASS native Gutenberg URL+enabled save, exact host/platform trust, 302 without external navigation, anonymous count and administrator exclusion');
+  assert.equal(clickCount(state.id),initialClicks,'Raw redirect requests preserve the frozen legacy request count');
+  const administratorRedirect=await admin.request.get(state.goUrl,{maxRedirects:0});assert.equal(administratorRedirect.status(),302);assert.equal(administratorRedirect.headers().location,ownerUrl);assert.equal(clickCount(state.id),initialClicks,'Administrator preview preserves the frozen legacy request count');
+  console.log('PASS native Gutenberg URL+enabled save, exact host/platform trust, 302 without external navigation, frozen legacy count and administrator exclusion');
 
   for(const [url,selector] of [[base,'.cg-feed-sidebar'],[state.sidebarUrl,'.cg-registration-sidebar']]){
    assert.equal((await publicPage.goto(url,{waitUntil:'load'})).status(),200);

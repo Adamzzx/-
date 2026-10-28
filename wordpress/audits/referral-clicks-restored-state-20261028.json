@@ -1,0 +1,26 @@
+{
+  "platforms": {
+    "binance": {
+      "legacy": "45",
+      "new": [],
+      "first": []
+    },
+    "okx": {
+      "legacy": "45",
+      "new": [],
+      "first": []
+    },
+    "bitget": {
+      "legacy": "45",
+      "new": [],
+      "first": []
+    },
+    "bybit": {
+      "legacy": "45",
+      "new": [],
+      "first": []
+    }
+  },
+  "event_receipts": 0,
+  "timezone": "Asia/Shanghai"
+}

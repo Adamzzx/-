@@ -1,0 +1,27 @@
+PASS: same-origin token endpoint issues a fresh, noncached proof without counting
+PASS: one accepted event and repeated HTTP replays increment exactly once
+PASS: ten concurrent POST requests with the same UUID produce one accepted event
+PASS: two independent rapid clicks by the same client count twice without coarse visitor filtering
+PASS: malformed UUID or proof rejected #0
+PASS: malformed UUID or proof rejected #1
+PASS: malformed UUID or proof rejected #2
+PASS: malformed UUID or proof rejected #3
+PASS: expired but correctly signed proof rejected
+PASS: foreign Origin rejected
+PASS: missing Origin and Referer rejected
+PASS: missing activation header rejected
+PASS: crawler user agent rejected
+PASS: Purpose prefetch rejected
+PASS: Sec-Purpose prefetch rejected
+PASS: foreign click target rejected
+PASS: foreign source rejected
+PASS: GET cannot record an event
+PASS: HEAD cannot record an event
+PASS: GET/HEAD redirect requests preserve all counters and are never followed externally
+PASS: counter failure rolls back its event claim; replaying the same UUID after repair counts exactly once
+PASS: local backend UNIT (synthetic, not a visitor click): warmed metadata reads the increment immediately in the same PHP process
+PASS: administrator cookie excluded without an X-WP-Nonce
+PASS: inactive referral offer does not count
+PASS: event receipts keep a source path without query strings or fragments
+PASS: seven-day event receipt cleanup does not reset accumulated click counters
+PASS: restored only this run's new-counter metadata, activation flag, event receipts and administrator session; original 45 remained read-only

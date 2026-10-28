@@ -1,0 +1,10 @@
+{"scenario": "homepage view and five reloads", "delta": 0, "status": [200, 200, 200, 200, 200, 200]}
+{"scenario": "platform page view", "delta": 0, "status": [200]}
+{"scenario": "ordinary anonymous redirect request", "delta": 1, "status": [302]}
+{"scenario": "HEAD link check", "delta": 1, "status": [302]}
+{"scenario": "prefetch", "delta": 1, "status": [302]}
+{"scenario": "crawler link check", "delta": 1, "status": [302]}
+{"scenario": "repeated same redirect request", "delta": 2, "status": [302, 302]}
+{"scenario": "eligible signed article redirect", "delta": 0, "status": [302]}
+BASELINE CONFIRMED: requests count, HEAD/prefetch/bot/replays included, signed article not counted; cannot attribute production Oct28.
+RESTORED original local legacy counter; never requested production or external destination.

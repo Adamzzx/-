@@ -2,7 +2,7 @@
 /**
  * Plugin Name: 数字金融指南 · 内容与推荐管理
  * Description: 加密资产与数字金融内容、交易所资料和集中推荐入口。启用后请打开「网站管理」完成初始化。
- * Version: 1.14.3
+ * Version: 1.14.4
  * Requires at least: 6.6
  * Requires PHP: 8.1
  * Author: Exchange Guide
@@ -31,6 +31,7 @@ require_once __DIR__ . '/launch-editorial.php';
 require_once __DIR__ . '/launch-cleanup.php';
 require_once __DIR__ . '/cleanup-remediation.php';
 require_once __DIR__ . '/referral-settings.php';
+require_once __DIR__ . '/referral-clicks.php';
 
 function cg_definitions() {
     return array(
@@ -106,16 +107,19 @@ function cg_redirect() {
         if($post){wp_safe_redirect(get_permalink($post),302,'Exchange Guide');exit;}
         status_header(404);wp_die('注册入口尚未配置。','入口不存在',array('response'=>404));
     }
-    global $wpdb;
-    // Aggregate count only; do not record visitor identities or request parameters.
-    if (!current_user_can('manage_options')) {
-        add_post_meta($post->ID, '_cg_clicks', '0', true);
-        $wpdb->query($wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = CAST(meta_value AS UNSIGNED) + 1 WHERE post_id = %d AND meta_key = %s", $post->ID, '_cg_clicks'));
-    }
+    // Navigation is not proof of a click: HEAD, crawlers and prefetches must never change counters.
+    // Explicit browser activation events are recorded separately and idempotently.
     // The destination is official or its exact host was verified for this platform by an administrator.
     wp_redirect(get_post_meta($post->ID, '_cg_destination', true), 302, 'Exchange Guide'); exit;
 }
 add_action('template_redirect', 'cg_redirect', 1);
+
+// Never speculate through an outbound registration route; keep other WordPress prefetches intact.
+add_filter('wp_speculation_rules_href_exclude_paths', function ($paths) {
+    $paths[] = '/go/*';
+    $paths[] = '/register/*';
+    return array_values(array_unique($paths));
+});
 
 function cg_meta_boxes() {
     if (current_user_can('manage_options')) { add_meta_box('cg-data', '资料核验与推荐链接（管理员）', 'cg_meta_box', 'cg_exchange', 'normal', 'high'); }
@@ -150,7 +154,7 @@ function cg_meta_box($post) {
     cg_input($post->ID, 'expiry', '入口停用日期（UTC）', 'date', '到所选日期 00:00 UTC 即失效；没有期限可留空。');
     cg_input($post->ID, 'enabled', '推荐链接已核实并启用', 'checkbox', '勾选表示你已从该交易所官方邀请或合作后台核实这条链接；更换链接后请重新核实并保存。');
     $officials=cg_official_registration_urls();if(isset($officials[$post->post_name])){echo '<p>默认官方注册链接：<a href="'.esc_url($officials[$post->post_name]).'" target="_blank" rel="noopener noreferrer">'.esc_html($officials[$post->post_name]).'</a></p>';}
-    echo '<p>累计推荐点击：<strong>' . absint(get_post_meta($post->ID, '_cg_clicks', true)) . '</strong>（不代表注册转化）</p>';
+    cg_clicks_markup($post);
 }
 function cg_editorial_box($post) {
     wp_nonce_field('cg_save_meta', 'cg_meta_nonce');
@@ -295,7 +299,7 @@ function cg_admin_page() {
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>"><?php wp_nonce_field('cg_navigation'); ?><input type="hidden" name="action" value="cg_navigation"><?php submit_button('应用已确认的导航与定位'); ?></form>
     <?php if(isset($_GET['cg_navigation_done'])){ ?><p>导航配置已处理，请检查上方错误提示及「外观 → 菜单」。</p><?php } ?>
     <h2>接下来在哪里编辑</h2><ol><li>交易所管理 → 比较表数据：填写三项比较信息及来源、核验日期；平台资料保留其他说明与推荐链接。</li><li>交易所管理：维护评测、对比与榜单。美股、加密货币：按主题管理文章；专题与指南：维护已有指南。核验后再发布。</li><li>推荐按钮：在文章添加短代码块，输入 <code>[cg_affiliate exchange="binance"]</code>。</li></ol>
-    <p>LiteSpeed Cache 或其他缓存插件请排除 <code>/go/</code> 与比较页。测试活动时清除旧缓存。当前插件只记录累计推荐点击，不代表注册量。</p>
+    <p>LiteSpeed Cache 或其他缓存插件请排除 <code>/go/</code>、比较页与推荐点击统计接口。测试活动时清除旧缓存。旧版入口请求累计保留，新版按浏览器触发的推荐点击事件去重统计；均不代表注册量。</p>
     <p>正式上线前，请填写真实资料、设置正式域名，完善隐私与联系页面，再关闭 WordPress 的「建议搜索引擎不索引本站」。不要公开未核实的费用或优惠。</p>
     <p>停用不会删除你的内容；不要删除数据库或进行一键重置。</p></div><?php
 }
